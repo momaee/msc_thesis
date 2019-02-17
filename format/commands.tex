@@ -24,7 +24,7 @@
 \usepackage{algorithmic}
 \usepackage{subfigure}
 \usepackage[subfigure]{tocloft}
-
+\usepackage{afterpage}
 
 % بسته‌ای برای ظاهر شدن «مراجع» و «نمایه» در فهرست مطالب
 \usepackage[nottoc]{tocbibind}
@@ -138,3 +138,12 @@
    \sloppy
    \sfcode`\.=1000\relax}}
 \makeatother
+
+
+\newcommand\blankpage{%
+   \afterpage{
+      \null
+      \thispagestyle{empty}%
+      \addtocounter{page}{-1}%
+      \newpage}
+   }

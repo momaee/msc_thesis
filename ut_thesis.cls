@@ -23,7 +23,6 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions
 \LoadClass[a4paper,12pt]{book}
-\def\university#1{\gdef\@university{#1}}
 \def\department#1{\gdef\@department{#1}}
 \def\degree#1{\gdef\@degree{#1}}
 \def\thesisdate#1{\gdef\@thesisdate{#1}}
@@ -45,7 +44,7 @@
 \def\latintitle#1{\gdef\@latintitle{#1}}
 \def\latinauthor#1{\gdef\@latinauthor{#1}}
 \def\latindegree#1{\gdef\@latindegree{#1}}
-\def\latinfaculty#1{\gdef\@latinfaculty{#1}}
+\def\latindepartment#1{\gdef\@latindepartment{#1}}
 \def\latinthesisdate#1{\gdef\@latinthesisdate{#1}}
 \def\latinsubject#1{\gdef\@latinsubject{#1}}
 \def\latinfield#1{\gdef\@latinfield{#1}}
@@ -57,7 +56,6 @@
 \def\latinsurname#1{\gdef\@latinsurname{#1}}
 \def\en-abstract#1{\gdef\@en-abstract{#1}}
 \def\latinkeywords#1{\gdef\@latinkeywords{#1}}
-\def\latinuniversity#1{\gdef\@latinuniversity{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newif\if@bscthesis
 \@bscthesisfalse
@@ -94,35 +92,26 @@
 \newcommand{\firstPage}{\begin{titlepage}
 %\topmargin=-30pt
 \vspace{-10mm}
-\centerline{{\includegraphics[width=5cm]{format/logo}}}
+{\flushright{\includegraphics[width=4cm]{format/ut_logo}}}
+\hfill
+{\includegraphics[width=5cm]{format/faculty_logo}}
 \par
+{\Large\bfseries دانشگاه تهران}\par
 \vspace{-5mm}
-{\large\bfseries\@faculty}
+{\large\bfseries\@faculty}\par
+\vspace{-5mm}
+{\large\bfseries\@department}\par
 \vskip 1.5cm
 {\huge\titlefont \@title}\par
-\vskip 5mm
-\if@bscthesis
-	{\large\bfseries{پروژه کارشناسی \@subject}
-	\ifx\@field\undefined%
-		\relax
-	\else
-		گرایش \@field
-	\fi
-	}
-\else
-	{\large\bfseries \@projectLabel\ \ \writtenfor
-	\@degree{}
-	}
-	{\large\bfseries{در رشته \@subject}}
-	\vskip .2cm
-	\centerline{\large \bfseries%
-		گرایش \@field}
-\fi
-\vskip 1cm
-\par
-{\Large\bfseries{\large\bfseries   \@name\ \ \@surname}}
-\par
 \vskip 15mm
+\large
+\large
+{
+نگارش\par
+\bfseries{\large\bfseries   \@name\ \ \@surname}
+}
+\par
+\vskip 7mm
 \large
 {
 \ifx\@firstsupervisor\undefined%
@@ -157,6 +146,27 @@
 {\Large\bfseries\@firstadvisor{} و \@secondadvisor}
 \fi\fi}
 
+\par
+
+\vskip 12mm
+\if@bscthesis
+	{\large\bfseries{پروژه کارشناسی \@subject}
+	\ifx\@field\undefined%
+		\relax
+	\else
+		گرایش \@field
+	\fi
+	}
+\else
+	{\large\bfseries \@projectLabel\ \ \writtenfor
+	\@degree{}
+	}
+	{\large\bfseries{در رشته \@subject}}
+	\vskip .2cm
+	\centerline{\large \bfseries%
+		گرایش \@field}
+\fi
+\vskip 1cm
 \par
 \vskip 6mm
 %\vfill
@@ -373,38 +383,22 @@ $\Box$ بهره‌برداری از این پایان‌نامه تا تاریخ
 
 \begin{titlepage}
 \vspace{-10mm}
-{\includegraphics[height=4.5cm]{format/logo-en}}
-\centerline{\bf \@latinuniversity}
-\large\bfseries
-\@latinfaculty\space
-\vskip 1cm
+{\flushright{{\includegraphics[width=5cm]{format/faculty_logo}}
+\hfill
+\includegraphics[width=4cm]{format/ut_logo}}
+}
+\centerline{{\Large\bfseries University of Tehran}}\par
+{\large\bfseries\@latindepartment}\par
+\vskip 1.5cm
 {%\latintitlefont
-\Huge
+\Huge\bfseries
 \@latintitle}
 %\baselineskip=.750cm \par
 \vskip 15mm
-{
-\large
-\if@bscthesis
-    Bachelor of Science Thesis
-	in  \@latinsubject
-\else
-	A Thesis Submitted in Partial Fulfillment of the Requirement for the Degree of
-	 \if@mscthesis
-	Master of Science
-	\else
-	 Doctor of Philosophy
-	\fi
-	in  \@latinsubject
-	%\baselineskip=.750cm
-	%\addtolength{\baselineskip}{-5mm}
-\fi
-}
-\vskip 15mm
 {\bfseries\latinby}\par
-{\large %\supervisorfont
-\rm\@latinname \; \@latinsurname}\par
-
+{\Large\bfseries{
+\@latinname \; \@latinsurname}\par
+}
 \vskip 15mm
 
 \large
@@ -443,7 +437,24 @@ Advisors:
 
 \par
 \vskip 1cm
-
+{
+\large
+\if@bscthesis
+    Bachelor of Science Thesis
+	in  \@latinsubject
+\else
+	A Thesis Submitted in Partial Fulfillment of the Requirement for the Degree of
+	 \if@mscthesis
+	Master of Science
+	\else
+	 Doctor of Philosophy
+	\fi
+	in  \@latinsubject
+	%\baselineskip=.750cm
+	%\addtolength{\baselineskip}{-5mm}
+\fi
+}
+\vskip 15mm
 {\@latinthesisdate}
 \par
 \vskip 1cm
