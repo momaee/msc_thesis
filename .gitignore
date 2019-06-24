@@ -1,3 +1,4 @@
+main.pdf
 *.aux
 *.glo
 *.idx
@@ -20,7 +21,6 @@
 *.maf
 *.mtc
 *.fls
-*.pdf
 *.mtc1
 *.out
 *.xdv
