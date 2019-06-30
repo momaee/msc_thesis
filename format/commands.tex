@@ -20,8 +20,9 @@
 \usepackage{fancyhdr}
 %
 \usepackage{setspace}
+\usepackage{algpseudocode}
 \usepackage{algorithm}
-\usepackage{algorithmic}
+%\usepackage{algorithmic}
 \usepackage{subfigure}
 \usepackage[subfigure]{tocloft}
 \usepackage{afterpage}
@@ -52,7 +53,7 @@
 % دستوری برای حذف کلمه «abstract»
 %\renewcommand{\latinabstract}{}
 % دستوری برای تغییر نام کلمه «اثبات» به «برهان»
-\renewcommand\proofname{\textbf{برهان}}
+%\renewcommand\proofname{\textbf{برهان}}
 % دستوری برای تغییر نام کلمه «کتاب‌نامه» به «مراجع»
 \renewcommand{\bibname}{مراجع}
 % دستوری برای تعریف واژه‌نامه انگلیسی به فارسی
@@ -147,3 +148,16 @@
       \addtocounter{page}{-1}%
       \newpage}
    }
+
+\usepackage{xecolor}
+\usepackage{cleveref}
+\crefformat{algorithm}{الگوریتم~(#2#1#3)}
+\crefformat{equation}{رابطه~(#2#1#3)}
+\crefmultiformat{equation}{روابط~(#2#1#3)}{~و~(#2#1#3)}{،~(#2#1#3)}{~و~(#2#1#3)}
+\crefrangeformat{equation}{روابط~(#3#1#4)~تا~(#5#2#6)}
+
+\newcommand{\argmax}[1]{\underset{#1}{\operatorname{arg}\,\operatorname{max}}\;}
+\makeatletter
+\newcommand{\algmargin}{\the\ALG@thistlm}
+\makeatother
+\algnewcommand{\parState}[1]{\State \parbox[t]{\dimexpr\linewidth-\algmargin}{\strut\hangindent=\algorithmicindent \hangafter=1 #1\strut}}
