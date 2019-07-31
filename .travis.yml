@@ -3,7 +3,7 @@ language: generic
 services: docker
 
 script:
-  - docker run --rm -v $(pwd):/tex aergus/latex /bin/sh -c "cd /tex; latexmk -pdf main.tex"
+  - docker run --rm -v $(pwd):/tex aergus/latex /bin/sh -c "cd /tex; latexmk -f -pdf main.tex"
   - mkdir -p ../public/
   - cp ./main.pdf ../public/ali_sorouramini.pdf
 
