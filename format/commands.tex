@@ -172,3 +172,10 @@
 
 \fancyhead[RE,RO]{\leftmark}
 \fancyhead[LO,LE]{\thesection}
+\usepackage{zref-perpage}
+
+\usepackage{remreset}
+\makeatletter
+\@removefromreset{footnote}{chapter}
+\makeatother
+\zmakeperpage{footnote}
