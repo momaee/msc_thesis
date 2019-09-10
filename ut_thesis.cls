@@ -90,6 +90,7 @@
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\firstPage}{\begin{titlepage}
+\newpage
 %\topmargin=-30pt
 \vspace{-10mm}
 {\flushright{\includegraphics[width=4cm]{format/ut_logo}}}
@@ -180,7 +181,6 @@
 \newpage
 %\pagestyle{empty}\noindent\\
 %% بسم الله الرحمن الرحیم
-\newpage
 \thispagestyle{empty}
 %\hfill
 \begin{center}
@@ -192,7 +192,7 @@
 \newcommand{\davaranPage}{
 \newpage
 \setcounter{page}{1}
-%\thispagestyle{empty}
+\thispagestyle{empty}
 
 \begin{center}
 {\Large \titlefont
@@ -359,8 +359,8 @@ $\Box$ بهره‌برداری از این پایان‌نامه تا تاریخ
 %\font\latintitlefont=cmssbx10 scaled 2300 %cmssbx10 scaled 2300
 \font\supervisorfont=cmbxti10
 
-\newcommand{\latinfirstPage}{%
-\newpage\clearpage
+\newcommand{\latinabstractPage}{
+\newpage
 \thispagestyle{empty}
 \vskip 15mm
 {\noindent\bfseries Abstract:}
@@ -373,7 +373,9 @@ $\Box$ بهره‌برداری از این پایان‌نامه تا تاریخ
 \noindent
 \textbf{Keywords:}
 \@latinkeywords
-
+}
+\newcommand{\latinfirstPage}{%
+\newpage
 \begin{titlepage}
 \vspace{-10mm}
 {\flushright{{\includegraphics[width=5cm]{format/faculty_logo}}

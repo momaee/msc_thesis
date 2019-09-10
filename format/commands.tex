@@ -4,7 +4,7 @@
 % در ورژن جدید زی‌پرشین برای تایپ متن‌های ریاضی، این سه بسته، حتماً باید فراخوانی شود
 \usepackage{amsthm,amssymb,amsmath}
 % بسته‌ای برای تنطیم حاشیه‌های بالا، پایین، چپ و راست صفحه
-\usepackage[top=40mm, bottom=40mm, left=25mm, right=35mm]{geometry}
+\usepackage[top=40mm, bottom=40mm, left=35mm, right=25mm]{geometry}
 % بسته‌‌ای برای ظاهر شدن شکل‌ها و تصاویر متن
 \usepackage{graphicx}
 % بسته‌ای برای رسم کادر
@@ -144,10 +144,36 @@
 \newcommand\blankpage{%
    \afterpage{
       \null
-      \thispagestyle{empty}%
-      \addtocounter{page}{-1}%
-      \newpage}
+      \thispagestyle{empty}
+      \newpage
    }
+   \clearpage
+}
+
+\newcommand\cleartorightpage{
+   \afterpage{
+      \null
+      \thispagestyle{empty}
+      \ifodd\value{page}
+         \clearpage \null
+      \fi
+      \newpage
+   }
+   \clearpage
+}
+
+\newcommand\cleartoleftpage{
+   \afterpage{
+      \null
+      \thispagestyle{empty}
+      \ifodd\value{page}
+      \else
+         \clearpage \null
+      \fi
+      \newpage
+   }
+   \clearpage
+}
 
 \usepackage{xecolor}
 \usepackage{cleveref}
