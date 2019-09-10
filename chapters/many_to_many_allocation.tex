@@ -108,13 +108,13 @@
     با توجه به آنچه که تا این جا گفته شد،‌ می‌توان مسئله بهینه سازی را به صورت زیر نوشت
     \begin{subequations}\label{eqn:optimization2}
       \begin{align}
-        \underset{r_{i,s}, u_{i,s}, \delta_{i,s}}{\text{maximize}} \qquad & \sum_{s=1}^N \alpha_s \left (\omega_s f_r(r_s, R_s) + (1-\omega_s) f_d(d_{i,s}^\text{max}) \right ) \\
+        \underset{r_{i,s}, u_{i,s}, \delta_{i,s}}{\text{maximize}} \qquad & \sum_{s=1}^N \alpha_s \left (\omega_s f_r(r_s, R_s) + (1-\omega_s) f_d(d_s^\text{max}) \right ) \\
         \text{\lr{subject  to}} \qquad & \nonumber \\
         & r_s = \sum_{i \in S_i} r_{i,s}, \forall s \in S \\
         & 0 \le r_{i,s}, \forall s \in S, i \in C_s \label{eqn:rate_positiveness2} \\
         & r_{i,s} \le \eta \zeta_{i,s} u_{i,s}, \forall s \in S, i \in C_s \label{eqn:rate_saturation2} \\
         & u_{i,s} \le \delta_{i,s}, \forall s \in S, i \in C_s \label{eqn:u_le_delta} \\
-        & d_{i,s} \le d_{i,s}^\text{max}, \forall s \in S, i \in C_s, \delta_{i,s}=1 \\
+        & d_{i,s} \le d_s^\text{max}, \forall s \in S, i \in C_s, \delta_{i,s}=1 \\
         &- \log \left((\zeta_{i,s} u_{i,s} - r_{i,s}) (d_{i,s} - d_{i,s}^\text{net}) \right ) \le 0, \forall s \in S, i\in C_s, \delta_{i,s}=1 \\
         & \sum_{s \in S_i} u_{i,s} \le 1, \forall i \in C \label{eqn:sum_of_utiliztion} \\
         & \sum_{s \in S_i} \delta_{i,s} \le Q_i, \forall i \in C \label{eqn:computation_quota} \\
