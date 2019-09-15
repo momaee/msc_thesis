@@ -168,7 +168,7 @@
     \subsection{مروری بر روش مزایده}
       اگر $\iota_s$ منبعی باشد که بیشترین سود را برای سرویس $s$ فراهم کند، در این صورت رابطه زیر برای سرویس $s$ و منابع پردازشی برقرار خواهد بود:
       \begin{align}\label{eqn:maximal_net_value}
-        U_{\iota_s,s} - p_i \ge \max_i \{U_{i,s} - p_i\}.
+        U_{\iota_s,s}^* - p_{\iota_s} \ge \max_i \{U_{i,s}^* - p_i\}.
       \end{align}
       اگر \cref{eqn:maximal_net_value} برای همه سرویس‌ها برقرار باشد، به آن تعادل اقتصادی\LTRfootnote{Economic Equilibrium} می‌گویند\cite{auction_algorithms_bertsekas}.
       در این نوع تعادل، تمام طرف‌های درگیر، از منابع اختصاص یافته راضی هستند چرا که هیچکدام نمی‌توانند سود خود را افزایش دهند.
@@ -183,7 +183,7 @@
       در یک تعادل تقریبی، تفاوت بین سود هریک از سرویس‌ها از بهینه بودن،باید حداکثر به اندازه‌ی $\epsilon$ باشد.
       در نتیجه در یک تعادل تقریبی رابطه زیر برای همه سرویس‌ها برقرار است
       \begin{equation}\label{eqn:almost_equilibrium}
-        U_{\iota_s,s} - p_i \ge \max_i \{U_{i,s} - p_i\} - \epsilon.
+        U_{\iota_s,s}^* - p_{\iota_s} \ge \max_i \{U_{i,s}^* - p_i\} - \epsilon.
       \end{equation}
       این رابطه برای هر سرویسی که برقرار باشد آن سرویس تقریبا راضی\LTRfootnote{Almost Happy} است.
       در واقع آن سرویس با تغییر منبعی که انتخاب کرده نمی‌تواند سود خود را بیشتر از $\epsilon$ افزایش دهد.
@@ -194,7 +194,7 @@
       همان طور که قبلا هم بیان شد، $\iota_s$ بهترین منبع پردازشی را برای سرویس $s$ مشخص می‌کند.
       بنابراین رابطه زیر برای $\iota_s$ برقرار است:
       \begin{equation}\label{eqn:argmax_benefit}
-        \iota_s = \argmax{i}\{U_{i,s} - p_i\}.
+        \iota_s = \argmax{i}\{U_{i,s}^* - p_i\}.
       \end{equation}
       سپس پیشنهاد دهنده (در این جا سرویس $s$) مبلغ پیشنهادی را برای منبع پردازشی $\iota_s$ به اندازه $\gamma_s$ بالا می‌برد
       \begin{equation}\label{eqn:bid_increase_1}
@@ -202,11 +202,11 @@
       \end{equation}
       به طوری که $v_s$ بیشترین سودی است که سرویس $s$ می‌تواند بدست آورد
       \begin{equation}\label{eqn:bid_increase_2}
-        v_s = \max_i\{U_{i,s} - p_i\},
+        v_s = \max_i\{U_{i,s}^* - p_i\},
       \end{equation}
       و $w_s$ بیشترین سودی است که سرویس $s$ بدست می‌آورد وقتی که $\iota_s$ از لیست منابع پردازشی حذف شود
       \begin{equation}\label{eqn:bid_increase_3}
-        w_s = \max_{i \ne \iota_s}\{U_{i,s} - p_i\}.
+        w_s = \max_{i \ne \iota_s}\{U_{i,s}^* - p_i\}.
       \end{equation}
       باید توجه کرد که $\gamma_s$ بیشترین مقداری است که قیمت منبع پردازشی $\iota_s$ می‌تواند افزایش پیدا کند به طوری که با اختصاص منبع پردازشی $\iota_s$ به سرویس $s$، آن سرویس تقریبا راضی باشد.
       بنابراین قیمت پیشنهادی جدید از رابطه زیر بدست می‌آید:
@@ -327,51 +327,51 @@
       در \cite{distributed_auction_algorithms_zavlanos} نویسندگان ثابت کرده‌اند که نتیجه این الگوریتم حداکثر در فاصله $N\epsilon$ از مقدار بهینه قرار دارد.
       اگر $\alpha$ نشان دهنده نگاشت بین سرویس‌ها و گره‌های پردازشی باشد به طوری که $\alpha: \{1, \hdots, N\} \rightarrow \{1, \hdots, M\}$ , $\alpha(i) = \alpha_i$ آنگاه رابطه زیر برقرار است:
       \begin{equation}\label{eqn:auction_optimality_1}
-        \sum_{i=1}^N U_{i,\alpha(i)} - \sum_{j=1}^M p_j \le \sum_{i=1}^N U_{i,\alpha(i)} - p_{\alpha(i)}.
+        \sum_{i=1}^N U_{i,\alpha(i)}^* - \sum_{j=1}^M p_j \le \sum_{i=1}^N U_{i,\alpha(i)}^* - p_{\alpha(i)}.
       \end{equation}
       هم‌چنین واضح است که رابطه زیر برقرار است:
       \begin{equation}\label{eqn:auction_optimality_2}
-        \sum_{i=1}^N U_{i,\alpha(i)} - p_{\alpha(i)} \le \sum_{i=1}^N \max_j\{U_{i,j} - p_j\}.
+        \sum_{i=1}^N U_{i,\alpha(i)}^* - p_{\alpha(i)} \le \sum_{i=1}^N \max_j\{U_{i,j}^* - p_j\}.
       \end{equation}
       با استفاده از \cref{eqn:auction_optimality_1,eqn:auction_optimality_2} می‌توان به رابطه زیر رسید:
       \begin{equation}\label{eqn:auction_optimality_3}
-        \sum_{i=1}^N U_{i,\alpha(i)} \le \sum_{j=1}^M p_j + \sum_{i=1}^N \max_j\{U_{i,j} - p_j\}.
+        \sum_{i=1}^N U_{i,\alpha(i)}^* \le \sum_{j=1}^M p_j + \sum_{i=1}^N \max_j\{U_{i,j}^* - p_j\}.
       \end{equation}
       تاکید می‌شود که \cref{eqn:auction_optimality_3} برای همه‌ی $\alpha \in \{1,\hdots,M\}$ و همه‌ی مجموعه قیمت‌های $\{p_j\}_{j=1}^M$ برقرار است.
       اگر مجموع ارزش حاصل از تخصیص منابع بهینه را $A^*$ بنامیم، برای $A^*$ رابطه زیر برقرار است:
       \begin{equation}\label{eqn:auction_optimality_A_defenition}
-        A^* \triangleq \max_{\alpha(i),~i=1, \hdots, N} \sum_{i=1}^N U_{i\alpha(i)}.
+        A^* \triangleq \max_{\alpha(i),~i=1, \hdots, N} \sum_{i=1}^N U_{i, \alpha(i)}^*.
       \end{equation}
       اگر $D^*$ را به صورت زیر تعریف ‌کنیم:
       \begin{equation}\label{eqn:auction_optimality_D_defenition}
-        D^* \triangleq \min_{p_j,~j=\{1, \hdots, m\}} \sum_{j=1}^M p_j + \sum_{i=1}^N \max_j\{U_{i,j} - p_j\}،
+        D^* \triangleq \min_{p_j,~j=\{1, \hdots, m\}} \sum_{j=1}^M p_j + \sum_{i=1}^N \max_j\{U_{i,j}^* - p_j\}،
       \end{equation}
       آن‌گاه با توجه به \cref{eqn:auction_optimality_3} می‌توان نتیجه گرفت که $A^*<D^*$ است.
       
       همان‌طور که گفته شد در هنگامی که الگوریتم مزایده به پایان می‌رسد، تخصیص منابع و قیمت‌های حاصل شده از الگوریتم، در تعادل تقریبی قرار دارند.
       اگر $\hat \alpha$ را تخصیص منابع حاصل از الگوریتم در نظر بگیریم، \cref{eqn:almost_equilibrium} را می‌توان به صورت زیر باز‌نویسی کرد:
       \begin{equation}\label{eqn:auction_almost_equilibrium2}
-        U_{i \hat \alpha(i)} - p_{\hat \alpha(i)} \ge \max_j \{U_{i,j}-p_j\}-\epsilon.
+        U_{i, \hat \alpha(i)}^* - p_{\hat \alpha(i)} \ge \max_j \{U_{i,j}^*-p_j\}-\epsilon.
       \end{equation}
       از این رو می‌توان نتیجه گرفت که
       \begin{align}
-        D^* & \le \sum_{i=1}^N \left(p_{\hat \alpha (i)}+\max_j\{U_{i,j}-p_j\}\right) \\
-            & \le \sum_{i=1}^N U_{i \hat \alpha (i)} + N \epsilon \label{eqn:auction_D_upper_bound}.
+        D^* & \le \sum_{i=1}^N \left(p_{\hat \alpha (i)}+\max_j\{U_{i,j}^*-p_j\}\right) \\
+            & \le \sum_{i=1}^N U_{i, \hat \alpha (i)}^* + N \epsilon \label{eqn:auction_D_upper_bound}.
       \end{align}
 
       از این که $A^* \le D^*$ و \cref{eqn:auction_D_upper_bound} می‌توان نتیجه گرفت که
       \begin{equation}
-        A^* - N \epsilon \le \sum_{i=1}^N U_{i \hat \alpha (i)}.
+        A^* - N \epsilon \le \sum_{i=1}^N U_{i, \hat \alpha (i)}^*.
       \end{equation}
       این رابطه بیان کننده یک حد پایین برای مجموع ارزش منابع اختصاص یافته توسط اگوریتم مزایده می‌باشد.
       درواقع این رابطه بیان می‌کند که نتیجه حداکثر در فاصله $N \epsilon$ مقدار بیشینه قرار دارد.
     \subsection{بررسی پیچیدگی الگوریتم}
       نویسندگان در \cite{distributed_auction_algorithms_zavlanos} پیچیدگی الگوریتم مزایده را بررسی کرده‌اند.
       برای بررسی پیچیدگی الگوریتم مزایده، بدترین حالت را در نظر می‌گیریم که در آن تمام سرویس‌ها قیمت پیشنهادی را در هر مرحله به اندازه $\epsilon > 0$ افزایش می‌دهند (تا جایی که منبع پردازشی برایشان جذاب نباشد).
-      برای این منظور، فرض کنید $\delta > 0$ و $T_j>0$ و رابطه زیر برای $U_{i,j}, j=1,\hdots,M$ برقرار باشد
+      برای این منظور، فرض کنید $\delta > 0$ و $T_j>0$ و رابطه زیر برای $U_{i,j}^*, j=1,\hdots,M$ برقرار باشد
       \begin{gather}
-        \max_i U_{i,j} - \min_i U_{i,j} < \delta \\
-        \min_i U_{i,j} - \max_i U_{i(j-1)} = T_j
+        \max_i U_{i,j}^* - \min_i U_{i,j}^* < \delta \\
+        \min_i U_{i,j}^* - \max_i U_{i,(j-1)}^* = T_j
       \end{gather}
       فرض کنید منبع پردازشی $N$ در ابتدا جذاب‌ترین منبع برای همه‌ی سرویس‌ها باشد.
       اگر $\delta$ به اندازه‌ی کافی کوچک باشد، قیمت آن باید حداقل به اندازه‌ی $T_N$ افزایش پیدا کند تا دیگر تنها منبع پردازشی جذاب نباشد.
@@ -382,7 +382,7 @@
       به همین ترتیب می‌توان نتیجه گرفت که منبع پردازشی $N-k+1$ نیاز به $kN \lceil T_{N-k+1} / \epsilon \rceil$ تکرار الگوریتم دارد.
       با توجه به این که الگوریتم زمانی پایان خواهد یافت که حداقل $N$ منبع پردازشی پیشنهاد دریافت کنند، رابطه زیر را برای تعداد تکرار‌های الگوریتم می‌توان نوشت
       \begin{equation}
-        N\sum_{k=1}^N k \left \lceil \frac{T_{N+k-1}}{\epsilon} \right\rceil < N ^ 2 \left \lceil \frac{\max_{i,j} \{U_{i,j}\} - \min_{i,j} \{U_{i,j}\}}{\epsilon} \right\rceil.
+        N\sum_{k=1}^N k \left \lceil \frac{T_{N+k-1}}{\epsilon} \right\rceil < N ^ 2 \left \lceil \frac{\max_{i,j} \{U_{i,j}^*\} - \min_{i,j} \{U_{i,j}^*\}}{\epsilon} \right\rceil.
       \end{equation}
   \section{نتایج شبیه‌سازی}
     در این قسمت نتایج شبیه‌سازی را بیان می‌کنیم.
