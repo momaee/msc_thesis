@@ -6,6 +6,7 @@
 % بسته‌ای برای تنطیم حاشیه‌های بالا، پایین، چپ و راست صفحه
 \usepackage[top=40mm, bottom=40mm, left=35mm, right=25mm]{geometry}
 % بسته‌‌ای برای ظاهر شدن شکل‌ها و تصاویر متن
+\usepackage{pdfpages}
 \usepackage{graphicx}
 % بسته‌ای برای رسم کادر
 \usepackage{framed} 
@@ -26,7 +27,6 @@
 \usepackage{subfigure}
 \usepackage[subfigure]{tocloft}
 \usepackage{afterpage}
-
 % بسته‌ای برای ظاهر شدن «مراجع» و «نمایه» در فهرست مطالب
 \usepackage[nottoc]{tocbibind}
 % دستورات مربوط به ایجاد نمایه
@@ -207,7 +207,3 @@
 \@removefromreset{footnote}{chapter}
 \makeatother
 \zmakeperpage{footnote}
-\newcommand{\color}[1]
-{
-  \xecolor{#1}
-}
