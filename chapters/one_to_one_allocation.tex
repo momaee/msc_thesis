@@ -1,21 +1,249 @@
-\chapter{اختصاص منابع پردازشی در شبکه اینترنت اشیاء به صورت یک منبع پردازشی به یک سرویس}\label{chap:one_to_one_allocation}
+\chapter{اختصاص منابع پردازشی در شبکه اینترنت اشیاء}\label{chap:system_model}
   \thispagestyle{empty}
   \section{مقدمه}
-    در این فصل ابتدا مدل ریاضی مربوط به تخصیص منابع پردازشی به صورت یک به یک در شبکه‌ی اینترنت اشیاء را شرح می‌دهیم. 
-    در این نوع تخصیص منابع، تعدادی سرویس و منبع پردازشی داریم که سرویس‌ها باید برای پردازش داده‌های جمع‌آوری شده توسط حسگر‌های خود از منابع پردازشی موجود در شبکه استفاده کنند.
-    یک به یک بودن در این نوع تخصیص منابع به این معنی است که هر سرویس حداکثر می‌تواند از یک منبع پردازشی استفاده کند و هر منبع پردازشی می‌تواند تنها پردازش لازم برای یک سرویس را انجام دهد.
-    دستگاه‌هایی که دارای توان پردازشی بزرگی هستند، با استفاده از تکنولوژی کانتینر‌، توان پردازشی خود را به چند منبع پردازشی تقسیم می‌کنند و آن‌ها را به صورت جداگانه به اشتراک می‌گذارند.
-    باید توجه کرد که، با توجه به توضیحات \cref{chap:literature_review} سربار پردازشی تقسیم قدرت پردازشی دستگاه‌ها، قابل نادیده گرفتن است.
+    در این فصل ابتدا مدل ریاضی مربوط به تخصیص منابع پردازشی در شبکه‌ی اینترنت اشیاء را شرح می‌دهیم. 
+    در این نوع تخصیص منابع، تعدادی وظیفه و منبع پردازشی داریم که وظیفه‌ها باید برای پردازش داده‌های جمع‌آوری شده توسط حسگر‌های خود از منابع پردازشی موجود در شبکه استفاده کنند.
+
     پس از معرفی و فرمول بندی مسئله، چالش‌ها و دلایل پیچیدگی حل این مسئله را بررسی می‌کنیم.
-    سپس به معرفی راه‌حل مبتنی بر مزایده برای این مسئله می‌پردازیم.
   \section{مدل سیستم}
     \begin{figure}[h]
       \centerline{\includegraphics[width=12cm]{graphics/one_to_one/system_model}}
-      \caption{دید کلی از مدل سیستم \cref{chap:one_to_one_allocation}}
-      \label{fig:ono_to_one_system_model}
+      \caption{دید کلی از مدل سیستم \cref{chap:system_model}}
+      \label{fig:system_model}
     \end{figure}
 
-    \cref{fig:ono_to_one_system_model} مثالی از مدل سیستم این فصل را برای یک سرویس که دارای دو حسگر می‌باشد نشان می‌دهد.
+    \cref{fig:system_model} مثالی از مدل سیستم این فصل را برای یک سرویس که دارای دو حسگر می‌باشد نشان می‌دهد.
+    مجموعه‌ی گره‌های لایه‌ی ابری، مه، لبه و حسگری را به ترتیب با  $E$، $F$، $C$ و $S$ نمایش می‌دهیم. همچنین مجموعه منابع موجود در هر گره پردازشی را با $R$ نمایش می‌دهیم. 
+    \begin{subequations}
+    	\begin{align}
+    	C = \{v_1^c, v_2^c, ..., v_{|C|}^c\} , c \in C\\
+    	F = \{v_1^f, v_2^f, ..., v_{|F|}^f\} , f \in F\\
+    	E = \{v_1^e, v_2^e, ..., v_{|E|}^e\} , e \in E\\
+    	S = \{v_1^s, v_2^s, ..., v_{|S|}^s\} , s \in S\\
+    	R = \{CPU, RAM, Storage\} , r \in R
+    	\end{align}
+    \end{subequations}
+    در مورد منابع پردازشی موجود در هر گره به عنوان مثال می‌توان گفت که $\sigma_c^r$ برابر است با مجموع ظرفیت پردازشی از منبع $r \in R$ در گره $c \in C$. مجموعه‌ی وظیفه‌های موجود در شبکه را با $T$ نشان می‌دهیم. 
+    \begin{equation}
+    	T = \{t_1, t_2, ..., t_{|T|}\}
+    \end{equation}
+	که در آن هر وظیفه به صورت زیر بیان می‌شود.
+	\begin{equation}
+	t \in T => t = (w_t, \delta_t, N_t, f_t^r(\lambda_t))
+	\end{equation}
+	در عبارت فوق $w_t$، $N_t$ و $\delta_t$ به ترتیب میزان پردازش مورد نیاز، بیشترین تعداد از وظیفه‌های مشابه و همچنین حداقل زمان مورد نیاز پردازشی برای وظیفه $t \in T$ را نشان می‌دهد.
+	
+	در مورد هزینه‌های پردازشی نیز به صورت زیر عمل می‌شود که $\pi_c$ میزان واحد هزینه پردازشی در گره $c \in C$ نشان می‌دهد. 
+	
+	همانطور که در قسمت مقدمه گفته شد در مورد تاخیرها، تاخیر انتقال را صرفا در نظر می‌گیریم که به عنوان مثال $\tau_{s,c}^{tr}$ برابر است با میزان تاخیر انتقال از گره حسگری $s \in S$ تا گره پردازشی $c \in C$. 
+	
+	متغیرهای مربوط به مسئله
+	در مورد محل پردازش وظیفه ها، سه متغیر دودویی به صورت زیر تعریف می‌شود:
+	    \begin{subequations}
+		\begin{align}
+		x_{t,c} =
+		\begin{cases}
+		1 & \text{وظیفه $t \in T$ در گره $c \in C$ پردازش می‌شود } \\
+		0 & \text{در غیر این‌صورت}
+		\end{cases}
+		\end{align}
+		
+		\begin{align}
+		x_{t,f} =
+		\begin{cases}
+		1 & \text{وظیفه $t \in T$ در گره $f \in F$ پردازش می‌شود } \\
+		0 & \text{در غیر این‌صورت}
+		\end{cases}
+		\end{align}
+		
+		\begin{align}
+		x_{t,e} =
+		\begin{cases}
+		1 & \text{وظیفه $t \in T$ در گره $e \in E$ پردازش می‌شود } \\
+		0 & \text{در غیر این‌صورت}
+		\end{cases}
+		\end{align}
+	\end{subequations}
+	همچنین در مورد ورودی‌های مسئله داریم:
+	\begin{equation}\label{eqn:input_poission_rate}
+		\lambda_{t,s} = \text{میزان نرخ پوآسون تولید وظیفه $t \in T$ در گره $s \in S$}
+	\end{equation}
+درواقع متغیر \cref{eqn:input_poission_rate} به عنوان ورودی مسئله تعریف می‌شود و در جریان حل مسئله مقدارش تعیین نمی‌شود. 
+	\begin{subequations}\label{eqn:request_flow_size}
+		\begin{align}
+		0 \le \beta_{t,s,c} \le \lambda_{t,s}  \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \\
+		0 \le \beta_{t,s,f} \le \lambda_{t,s}  \quad \forall{t \in T}, \forall{s \in S}, \forall{f \in F} \\
+		0 \le \beta_{t,s,e} \le \lambda_{t,s}  \quad \forall{t \in T}, \forall{s \in S}, \forall{e \in E}
+		\end{align}
+	\end{subequations}
+	دسته دوم متغیر که با $\beta$ نشان داده می‌شود متغیر پیوسته مسئله است که در \cref{eqn:request_flow_size} معرفی شد و مربوط است به حجم ارسالی جریان وظیفه‌ها بین گره ها، به عنوان مثال $\beta_{t,s,c}$ برابر است با میزان جریان ارسالی از نوع وظیفه‌ی $t \in T$، از گره حسگری $s \in S$ به گره پردازشی $c \in C$. 
+	
+	در ادامه قیدهای موجود در مدل‌سازی بررسی می‌شود. 
+    \subsection{قیدها}
+    اولین قید مورد بررسی به عنوان یک متغیر میانی معرفی می‌شود به این صورت که مجموع جریان‌های ورودی به یک گره پردازشی به عنوان یک متغیر میانی که در \cref{eqn:load_conservation} نشان داده شده است نمایش داده می‌شود.
+    
+    \begin{subequations}\label{eqn:load_conservation}
+    	\begin{align}
+    	\lambda_{t,c} = \sum_{s\in S}\beta_{t,s,c} \quad \forall{t \in T}, \forall{c \in C} \\
+    	\lambda_{t,f} = \sum_{s\in S}\beta_{t,s,f} \quad \forall{t \in T}, \forall{f \in F} \\
+    	\lambda_{t,e} = \sum_{s\in S}\beta_{t,s,e} \quad \forall{t \in T}, \forall{e \in E}
+    	\end{align}
+    \end{subequations}
+	قید \cref{eqn:request_flow_existence} به این صورت است که رابطه‌ی بین متغیرهای پیوسته و گسسته(دودویی) مسئله را مشخص می‌کند. بدین صورت که اگر سمت راست نامساوی صفر باشد آنگاه سمت چپ نیز ناچارا لازم است که صفر باشد و این یعنی جریانی وجود ندارد، همچنین اگر سمت چپ غیرصفر باشد آنگاه متغیر دودویی سمت راست به ناچار باید مقدارش 1 باشد. 
+	\begin{subequations}\label{eqn:request_flow_existence}
+		\begin{align}
+		\frac{\lambda_{t,c}}{\sum_{s\in S}\lambda_{t,s}} \le x_{t,c} \quad \forall{t \in T}, \forall{c \in C} \\
+		\frac{\lambda_{t,f}}{\sum_{s\in S}\lambda_{t,s}} \le x_{t,f} \quad \forall{t \in T}, \forall{f \in F} \\
+		\frac{\lambda_{t,e}}{\sum_{s\in S}\lambda_{t,s}} \le x_{t,e} \quad \forall{t \in T}, \forall{e \in E}
+		\end{align}
+	\end{subequations}
+	قید بعدی که مورد بررسی قرار می‌گیرد مربوط به وجود تعادل بین جریان ورودی وظیفه‌ها و جریان خروجی وظیفه‌هاست. این قید در \cref{eqn:load_conservation2} آورده شده‌است.
+	\begin{subequations}\label{eqn:load_conservation2}
+		\begin{align}
+		\lambda_{t,s} = \sum_{e \in E} \beta_{t,s,e} + \sum_{f 	\in F} \beta_{t,s,f}
+		+\sum_{c \in C}\beta_{t,s,c} \quad \forall{t \in T}, \forall{s \in S}
+		\end{align}
+		\begin{align}
+		\lambda_{t,s} \le \sum_{e \in E} \beta_{t,s,e} + \sum_{f \in F} \beta_{t,s,f}
+		+\sum_{c \in C}\beta_{t,s,c} \le \lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S}
+		\end{align}
+	\end{subequations}
+	قید \cref{eqn:load_managing} مربوط به مدیریت منابع است به این‌ صورت که مجموع منابع استفاده شده در هر گره پردازشی لازم است از کل منابع موجود در آن گره کم‌تر باشد. در این قسمت یک تابع تحت عنوان $f_t^r(\lambda)$ تعریف می‌شود که این تابع یک تابع خطی از ورودی‌اش می‌باشد و نشان می‌دهد که وظیفه $t$ چه میزان منبع پردازشی از نوع $r$ لازم دارد. که مقدار خروجی این تابع وابسته به نوع وظیفه،نوع گره و میزان جریان ورودی به گره است. 
+	\begin{subequations}\label{eqn:load_managing}
+		\begin{align}
+		&\sum_{t \in T}x_{t,c}f_t^r(\lambda_{t,c}) \le \sigma_c^r \quad \forall{r \in R}, \forall{c \in C} \\
+		&x_{t,c}f_t^r(\lambda_{t,c}) = k_1^rx_{t,c}\lambda_{t,c} + k_2^rx_{t,c} \label{eqn:psi_appear} \\
+		&\psi_{t,c} \triangleq x_{t,c}\lambda_{t,c} \Rightarrow 0 \leq \psi_{t,c} \leq \lambda_{t,c} \label{eqn:psi_def} \\
+		&Q(x_{t,c}-1)+\lambda_{t,c} \leq \psi_{t,c} \leq x_{t,c}Q \\
+		&\notag Q = \max_{{t \in T},{c \in C}} \lambda_{t,c} \\
+		&\notag =\max_{{t \in T},{c \in C}} \sum_{s \in S}\beta_{t,s,c} \\
+		&\notag =\sum_{s\in S} \max_{{t \in T},{c \in C}} \beta_{t,s,c} \\
+		&=\sum_{s \in S}\lambda_{t,s}
+		\end{align}
+	\end{subequations}
+	همانطور که در \cref{eqn:psi_appear} دیده می‌شود دو متغیر مسئله یعنی $x$ و $\lambda$ به صورت حاصلضرب درآمده‌اند که این فرآیند مسئله را از حالت خطی خارج می‌کند. جهت خطی سازی مسئله یک متغیر میانی در \cref{eqn:psi_def} تعریف شده است.
+	قیدهای مربوط به این متغیر جدید در \cref{eqn:psi_constraint} دیده می‌شود. 
+	\begin{subequations}\label{eqn:psi_constraint}
+		\begin{align}
+		&0 \leq \psi_{t,c} \leq \lambda_{t,c} \\
+		&Q(x_{t,c}-1)+\lambda_{t,c} \leq \psi_{t,c} \leq x_{t,c}Q \quad \forall{t\in T}, \forall{c \in C} \\
+		&0 \leq \psi_{t,f} \leq \lambda_{t,f} \\
+		&Q(x_{t,f}-1)+\lambda_{t,f} \leq \psi_{t,f} \leq x_{t,f}Q \quad \forall{t \in T}, \forall{f \in F} \\
+		&0 \leq \psi_{t,e} \leq \lambda_{t,e} \\
+		&Q(x_{t,e}-1)+\lambda_{t,e} \leq \psi_{t,e} \leq x_{t,e}Q \quad \forall{t \in T}, \forall{e \in E}
+		\end{align}
+	\end{subequations}
+	حال با تعریف متغیر \cref{eqn:psi_def} می‌توان قید موجود در \cref{eqn:load_managing} را به صورت \cref{eqn:load_managing_new} دوباره نویسی کرد. 
+	\begin{subequations}\label{eqn:load_managing_new}
+		\begin{align}
+		\sum_{t \in T}k_1^r\psi_{t,c}+k_2^rx_{t,c} \le \sigma_c^r \quad \forall{r \in R}, \forall{c \in C} \\
+		\sum_{t \in T}k_1^r\psi_{t,f}+k_2^rx_{t,f} \le \sigma_f^r \quad \forall{r \in R}, \forall{f \in F} \\
+		\sum_{t \in T}k_1^r\psi_{t,e}+k_2^rx_{t,e} \le \sigma_e^r \quad \forall{r \in R}, \forall{e \in E}
+		\end{align}
+	\end{subequations}
+	قید بعدی که مورد بررسی قرار می‌گیرد قید مربوط به تاخیرهاست. ابتدا تاخیر موجود در شبکه از زمانی که وظیفه ارسال می‌شود تا لحظه‌ای که وظیفه پردازش می‌شود به صورت \cref{eqn:delay_def} تعریف می‌شود که همانطور که دیده می‌شود این تعریف از دو بخش تاخیر انتقال و تاخیر صف تشکیل شده است. 
+همانطور که در قسمت مقدمه گفته شد برای محاسبه‌ی تاخیر صف در یک سیستم نوع اول دو متغیر نرخ ورود بسته‌ها $\lambda$ و نرخ پردازش آن‌ها $\mu$ لازم است. در مدل ما نرخ ورود وظیفه‌ها در هر گره به صورت یک متغیر میانی تغریف شده است اما در مورد نرخ پردازش بسته‌ها به توجه به نوع بسته و همچنین میزان قدرت پردازشی گره رابطه‌ی \cref{eqn:mu_def} در نظر گرفته شده‌است. 
+	در نهایت قید مربوط به تاخیر در \cref{eqn:delay_constraint} آورده شده است که با ساده سازی به صورت \cref{eqn:delay_constraint_modified} نمایش داده می‌شود. 
+	\begin{subequations}\label{eqn:delay_def}
+		\begin{align}
+		&\tau_{t,c} = \tau_{t,s,c}^{tr} + \frac{1}{\mu_{t,c}-\lambda_{t,c}} \\
+		&\frac{1}{\mu_{t,c}} = \frac{w_t}{f_t^{cpu}(\lambda_{t,c})} \label{eqn:mu_def}\\
+		&f_t^{cpu}(\lambda_{t,c}) = k_1^{cpu}\lambda_{t,c}+k_2^{cpu} \\
+		&\notag\Rightarrow x_{t,c} \tau_{t,c} = x_{t,c} (\tau_{t,s,c}^{tr} + \frac{w_t}{(k_1^{cpu}-w_t)\lambda_{t,c} + k_2^{cpu}}) \\
+		&\le \delta_t \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \label{eqn:delay_constraint}
+		\end{align}
+		\begin{align}\label{eqn:delay_constraint_modified}
+		&\notag x_{t,c}\lambda_{t,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + \\ 
+		&\notag x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C}
+		\end{align}
+	\end{subequations}
+	در صورت استفاده از متغیر میانی \cref{eqn:psi_def} در قید \cref{eqn:delay_constraint_modified} می‌توان این قید را به صورت \cref{eqn:delay_constraint_last} به صورت نهایی نمایش داد. 
+	\begin{subequations}\label{eqn:delay_constraint_last}
+		\begin{align}
+		&\notag\psi_{t,s,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + \\ &\notag x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0
+		\end{align}
+		\begin{align}
+		&\notag\psi_{t,s,f}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,f} + \\ &\notag x_{t,f}k_2^{cpu}\tau_{t,s,f}^{tr}+w_t x_{t,f}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,f} \le 0
+		\end{align}
+		\begin{align}
+		&\notag\psi_{t,s,e}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,e} + \\ &\notag x_{t,e}k_2^{cpu}\tau_{t,s,e}^{tr}+w_t x_{t,e}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,e} \le 0
+		\end{align}
+	\end{subequations}
+	یکی از قیدهای لازم در این مسئله مربوط به شرط لازم برای پردازش همه‌ی وظیفه‌هاست بدین صورت که هر وظیفه حداقل باید در یکی از گره‌های پردازشی موجود در شبکه پردازش شود. در این پایان‌نامه فرض خوبی که در نظر گرفته شده‌است این است که یک وظیفه می‌تواند در چندین گره پردازشی نیز پردازش شود این فرض این قابلیت را به مسئله اضافه می‌کند که وظیفه‌ها به صورت افقی مقیاس‌پذیر\LTRfootnote{Scalable} باشند به این معنی که تعداد وظیفه‌های از جنس یک سرویس می‌تواند افزایش یابد. برای این کار یک متغیر تحت عنوان $N_t$ در نظر گرفته می‌شود که هرچقدر این عدد بزرگتر باشد مقیاس‌پذیری سیستم بیشتر است. قید مربوطه در \cref{eqn:scalable_constraint} آورده شده‌است. 
+	\begin{subequations}\label{eqn:scalable_constraint}
+		\begin{align}
+		1 \le \sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c} \le N_t \quad \forall{t \in T}
+		\end{align}
+	\end{subequations}
+	قید آخری که مورد بررسی قرار می‌گیرد قید مربوط به پایداری صف در گره‌هاست که در مورد آن در مقدمه توضیح داده شد. در مدل ما این قید به صورت \cref{eqn:queue_stability} آورده شده‌است. نکته‌ی قابل تامل این است که به ساده سازی مسئله کمک می‌کند معادله‌ی \cref{eqn:lambda_eqn} است که دلیل آن این است که زمانیکه چریانی از یک وظیفه به سمت یک گره وجود دارد می‌توان با حتمیت گفت که متغیر دودویی مربوط به آن وظیفه و گره مقدارش 1 است و بالعکس. 
+	\begin{subequations}\label{eqn:queue_stability}
+		\begin{align}
+		&x_{t,c}(\lambda_{t,c} < \mu_{t,c}) => x_{t,c}(\lambda_{t,c} + \epsilon \le \mu_{t,c}) \\
+		&x_{t,c}\lambda_{t,c} = \lambda_{t,c} \label{eqn:lambda_eqn}\\
+		&=> \epsilon x_{t,c} - k_1^{cpu}\lambda_{t,c} - k_2^{cpu} + w_t\lambda_{t,c} \le 0 \quad \forall{t \in T}, \forall{c \in C} \\
+		&\epsilon x_{t,f} - k_1^{cpu}\lambda_{t,f} - k_2^{cpu} + w_t\lambda_{t,f} \le 0 \quad \forall{t \in T}, \forall{f \in F} \\
+		&\epsilon x_{t,e} - k_1^{cpu}\lambda_{t,e} - k_2^{cpu} + w_t\lambda_{t,e} \le 0 \quad \forall{t \in T}, \forall{e \in E}
+		\end{align}
+	\end{subequations}
+	در گام بعدی لازم است که تابع هدف\LTRfootnote{Objective function} تعریف شود، برای این کار لازم که ابتدا هدف از صورت مسئله مشخص شود. اولین هدف در این مقاله کم کردن هزینه‌های مربوط به کل شبکه است به صورتیکه پردازش وظیفه‌ها در گره‌های پردازشی یک فرآیند هزینه‌بر است، حال صورت مسئله بهینه‌سازی با این هدف تعریف می‌شود که مجموع کل هزینه‌های موچود در شبکه کمترین مقدار ممکن باشد. برای این‌کار لازم است از متغیرهای دودویی مسئله$x$، تابع مشخص کننده میزان منبع پردازشی$f$ و همچنین واحد هزینه‌های پردازشی $\pi$ استفاده شود. درنهایت تابع هدف به صورت \cref{eqn:objective_func} تعریف می‌شود. 
+	\begin{subequations}\label{eqn:objective_func}
+		\begin{align}
+		& \notag \min \sum_{t \in T}\sum_{e \in E} (x_{t,e}\pi_e\sum_{r \in R}f_t^r(\lambda_{t,e})) \\
+		&\notag + \sum_{t \in T}\sum_{f \in F} (x_{t,f}\pi_f\sum_{r \in R}f_t^r(\lambda_{t,f})) \\
+		& + \sum_{t \in T}\sum_{c \in C} (x_{t,c}\pi_c\sum_{r \in R}f_t^r(\lambda_{t,c}))
+		\end{align}
+		\begin{align}
+		& \notag \min \sum_{t \in T}\sum_{e \in E} x_{t,e}\Gamma_{t,e} \\
+		& \notag + \sum_{t \in T}\sum_{f \in F} x_{t,f}\Gamma_{t,f} \\
+		& + \sum_{t \in T}\sum_{c \in C} x_{t,c}\Gamma_{t,c}
+		\end{align}
+		\begin{align}
+		&\notag \Gamma_{t,e} = \pi_e((k_1^{cpu}+k_1^{ram}+k_1^{storage})\lambda_{t,e} \\
+		&\notag +k_2^{cpu}+k_2^{ram}+k_2^{storage}) \\
+		& = \pi_e(K_1\lambda_{t,e}+K_2)
+		\end{align}
+		\begin{align}
+		&\notag x_{t,e}\Gamma_{t,e} = K_1\pi_ex_{t,e}\lambda_{t,e} + K_2\pi_ex_{t,e} \\
+		&= K_1\pi_e\psi_{t,e} + K_2\pi_ex_{t,e}
+		\end{align}
+	\end{subequations}
+	درنهایت با ساده‌سازی‌های انجام شده و همچنین استفاده از متغیرهای کمکی می‌توان گفت که تابع هدف نهایی به صورت \cref{eqn:objective_func_final} نوشته می‌شود. 
+	
+	\begin{equation}\label{eqn:objective_func_final}
+		\begin{align*}
+			& \min \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e} \\
+			& +\sum_{t \in T}\sum_{f \in F} K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f} \\
+			& +\sum_{t \in T}\sum_{c \in C} K_1\pi_c\psi_{t,c}+K_2\pi_cx_{t,c}	
+		\end{align*}
+	\end{equation}
+	
+	\begin{subequations}
+		\begin{align}
+		& \notag L(\underline{\underline x}, \underline{\underline \beta}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) = \sum_{t \in T}\sum_{e \in E} x_{t,e}\Gamma_{t,e} \\
+		& \notag + \sum_{t \in T}\sum_{f \in F} x_{t,f}\Gamma_{t,f} + \sum_{t \in T}\sum_{c \in C} x_{t,c}\Gamma_{t,c} \\
+		& \notag + \sum_{t \in T  }{\eta_{1,t}(1-\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c})} \\
+		& \notag + \sum_{t \in T}{\eta_{2,t}(\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c}-N_t)} \\
+		& + \sum_{t \in T}\sum_{s \in S}{\nu_{t,s}(\lambda_{t,s} - \sum_{e \in E}\beta_{t,s,e} + \sum_{f \in F}\beta_{t,s,f} +\sum_{c \in C}\beta_{t,s,c})}
+		\end{align}
+	\end{subequations}
+	
+	\begin{subequations}
+		\begin{align}
+		& \notag L = \sum_{e \in E}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,e}+\frac{\nu_{t,s}\lambda_{t,s}}{3|E|}) \\
+		&\notag + x_{t,e}(\Gamma_{t,e}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|E|}) \\
+		& \notag + \sum_{f \in F}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,f}+\frac{\nu_{t,s}\lambda_{t,s}}{3|F|}) \\
+		& \notag + x_{t,f}(\Gamma_{t,f}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|F|}) \\
+		& \notag + \sum_{c \in C}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,c}+\frac{\nu_{t,s}\lambda_{t,s}}{3|C|}) \\
+		&+ x_{t,c}(\Gamma_{t,c}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|C|})
+		\end{align}
+		\begin{align}
+		& L = \sum_{e \in E}L_e + \sum_{f \in F}L_f + \sum_{c \in C}L_c
+		\end{align}
+	\end{subequations}
+    
+    
+    
+
     در یک منطقه جغرافیایی تعداد $N$ عدد سرویس و $M$ عدد فراهم کننده زیرساخت\LTRfootnote{Infrastructure Provider} پردازشی در نظر گرفته می‌شود.
     مجموعه سرویس‌ها را با $S$ و مجموع منابع پردازشی را با $C$ نمایش می‌دهیم.
     فراهم‌کننده‌های زیرساخت علاقه دارند که توان پردازشی اضافی خود را با دیگران به اشتراک بگذارند.
@@ -31,9 +259,17 @@
       \caption{نماد‌های استفاده شده در \cref{chap:one_to_one_allocation}}
       \begin{tabularx}{\textwidth}{|c|C|} \hline
         نشانه                & توضیح                                                                                     \\ \hline
-        $N$                  & تعداد سرویس‌های شبکه                                                                       \\ \hline
-        $M$                  & تعداد منابع پردازشی شبکه                                                                  \\ \hline
-        $S$                  & مجموعه‌ی سریس‌های شبکه                                                                      \\ \hline
+        $C$                  & مجموعه‌ی گره‌های پردازشی لایه ابر                                                                       \\ \hline
+        $F$                  & مجموعه‌ی گره‌های پردازشی لایه مه                                                                       \\ \hline
+        $E$                  & مجموعه‌ی گره‌های پردازشی لایه لبه                                                                       \\ \hline
+        $S$                  & مجموعه‌ی گره‌های لایه‌ی حسگر                                                                     \\ \hline                        
+        $T$                  & مجموعه‌ی وظیفه‌های موجود در شبکه                                                                  \\ \hline
+		$c$                  & اندیس مربوط به گره‌های پردازشی لایه‌ی ابر                                                                       \\ \hline
+		$f$                  & اندیس مربوط به گره‌های پردازشی لایه‌ی مه                                                                       \\ \hline
+		$e$                  & اندیس مربوط به گره‌های پردازشی لایه‌ی لبه                                                                       \\ \hline
+		$s$                  & اندیس مربوط به گره‌های پردازشی لایه‌ی حسگر                                                                     \\ \hline                        
+		$t$                  & اندیس مربوط به وظیفه‌ها                                                                  \\ \hline
+       
         $C$                  & مجموعه‌ی منابع پردازشی شبکه                                                                \\ \hline
         $d_{i,s}^\text{CPU}$ & تاخیر پردازشی سرویس $s$ در صورتی که از منبع پردازشی $i$ استفاده کند                       \\ \hline
         $d_{i,s}^\text{net}$ & تاخیر انتقال داده‌ها سرویس $s$  در صورتی که از منبع پردازشی $i$ استفاده کند                \\ \hline
