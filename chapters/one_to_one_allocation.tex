@@ -14,7 +14,7 @@
 
 	    \cref{fig:system_model} مثالی از مدل سیستم این فصل را برای یک سرویس که دارای دو حسگر می‌باشد نشان می‌دهد. همانطور که دیده می‌شود و قبلا هم صحبت شد مدل سیستم از چهار لایه‌ی اصلی تشکیل می‌شود که از پایین به بالا عبارتند از لایه حسگر، لبه، مه و ابر که در \cref{fig:system_model} به خوبی این لایه‌ها دیده می‌شوند. 
     
-    مجموعه‌ی گره‌های لایه‌ی ابر، مه، لبه و حسگر را به ترتیب با $C$، $F$، $E$ و $S$ نمایش می‌دهیم. همچنین مجموعه منابع موجود در هر گره پردازشی را با $R$ نمایش می‌دهیم که در این پایان‌نامه این مجموعه را شامل 3 منبع پردازشی پردازنده\LTRfootnote{CPU}، حافظه\LTRfootnote{RAM} و همچنین دیسک\LTRfootnote{Storage} درنظر می‌گیریم. 
+    مجموعه‌ی گره‌های لایه‌ی ابر، مه، لبه و حسگر را به ترتیب با $C$، $F$، $E$ و $S$ نمایش می‌دهیم. همچنین مجموعه منابع موجود در هر گره پردازشی را با $R$ نمایش می‌دهیم که در این پایان‌نامه این مجموعه را شامل سه منبع پردازشی پردازنده\LTRfootnote{CPU}، حافظه\LTRfootnote{RAM} و همچنین دیسک\LTRfootnote{Storage} درنظر می‌گیریم. 
     \begin{subequations}\label{eqn:def_sets}
     	\begin{align}
     	C = \{v_1^c, v_2^c, ..., v_{|C|}^c\} , c \in C\\
@@ -30,19 +30,19 @@
     \begin{equation}\label{eqn:def_sets_tasks}
     	T = \{t_1, t_2, ..., t_{|T|}\}
     \end{equation}
-	که در \cref{eqn:def_sets_tasks} لازم است هر وظیفه به صورت دقیق‌تر تعریف شود. برای این‌ کار برای هر وظیفه 4 ویژگی درنظر گرفته شده است که در ادامه به تفصیل آورده می‌شود. 
+	که در \cref{eqn:def_sets_tasks} لازم است هر وظیفه به صورت دقیق‌تر تعریف شود، لذا برای هر وظیفه چهار ویژگی درنظر گرفته شده است که در ادامه به تفصیل آورده می‌شود. 
 	\begin{equation}\label{eqn:def_task}
 	t \in T => t = (w_t, \delta_t, N_t, f_t^r(\lambda_t))
 	\end{equation}
-	در \cref{eqn:def_task} $w_t$، $N_t$ و $\delta_t$ به ترتیب میزان حجم پردازنده مورد نیاز، بیشترین تعداد از وظیفه‌های مشابه و همچنین حداقل زمان مورد نیاز برای پردازش کامل، برای وظیفه $t \in T$ را نشان می‌دهد. واحد اندازه‌گیری در این سه متغیر می‌تواند به سلیقه‌ی استفاده کننده تغییر کند اما به عنونن مثال می‌توان گفت که     یک تابع به نام $f_t^r$ نیز دیده می‌شود که این تابع نرخ استفاده وظیفه از منبع $r \in R$ را نشان می‌دهد که ورودی آن متغیری به‌نام $\lambda$ است که نشان‌دهنده‌ی نرخ ورود وظیفه به گره پردازشی است که معمولا از جنس پوآسون است. 
+	در \cref{eqn:def_task} $w_t$، $N_t$ و $\delta_t$ به ترتیب میزان حجم پردازنده مورد نیاز، بیشترین تعداد از وظیفه‌های مشابه و همچنین حداقل زمان مورد نیاز برای پردازش کامل، برای وظیفه $t \in T$ را نشان می‌دهد. واحد اندازه‌گیری در این سه متغیر می‌تواند به سلیقه‌ی استفاده کننده تغییر کند اما به عنوان مثال می‌توان گفت که واحد اندازه‌گیری میزان حجم پردازنده را گیگاهرتز\LTRfootnote{GHz} در نظر گرفت  و یا واحد اندازه‌گیری در حداقل زمان مورد نیاز میلی‌ثانیه انتخاب کرد. در میان ویژگی‌های مربوط به یک وظیفه یک تابع به نام $f_t^r$ نیز دیده می‌شود که این تابع نرخ استفاده وظیفه از منبع $r \in R$ را نشان می‌دهد که ورودی آن متغیری به‌نام $\lambda$ است که نشان‌دهنده‌ی نرخ ورود وظیفه به گره پردازشی است که با توجه به مدل سیستم ما از جنس فرآیند تصادفی پوآسون است. 
 	
-	مطلب بعدی که لازم است مورد توجه قرار گیرد بحث هزینه‌های پردازشی است. در این مورد به صورت زیر عمل می‌شود که $\pi_c$ واحد هزینه پردازشی در گره $c \in C$ نشان می‌دهد. 
+	همانطور که در قسمت مقدمه گفته شد در مورد تاخیرها، تاخیر انتقال را صرفا در نظر می‌گیریم که بدین صورت که مثلا $\tau_{s,c}^{tr}$ برابر است با میزان تاخیر انتقال از گره حسگری $s \in S$ تا گره پردازشی $c \in C$. 
 	
-	همانطور که در قسمت مقدمه گفته شد در مورد تاخیرها، تاخیر انتقال را صرفا در نظر می‌گیریم که به عنوان مثال $\tau_{s,c}^{tr}$ برابر است با میزان تاخیر انتقال از گره حسگری $s \in S$ تا گره پردازشی $c \in C$. 
-	
-	متغیرهای مربوط به مسئله
+	نماد دیگری که در ادامه از آن استفاده می‌شود نماد $\pi$ است که به میزان هزینه‌های مربوط به پردازش را در گره‌های پردازشی نشان می‌دهد. برای جلوگیری از پیچیدگی بیشتر صورت مسئله برای هر گره پردازشی یک هزینه برای تمامی منابع آن گره در نظر گرفته می‌شود که به عنوان یک ضریب در رابطه‌های بعدی از آن استفاده خواهد شد. به عنوان مثال تمامی هزینه‌های پردازشی در گره $c \in C$ با نماد $\pi_c$ نمایش داده می‌شود و مفهوم آن بدین صورت است که مثلا برای استفاده از پردازنده در این گره به ازای هر واحد پردازشی در ثانیه لازم است که مقدار $\pi_c$ واحد پول پرداخته شود. 
+	\subsection{متغیرها}
+	در این بخش قرار است در مورد متغیرهای استفاده شده در مسئله به تفصیل صحبت شود. 
 	در مورد محل پردازش وظیفه ها، سه متغیر دودویی به صورت زیر تعریف می‌شود:
-	    \begin{subequations}
+	    \begin{subequations}\label{eqn:def_variable_x}
 		\begin{align}
 		x_{t,c} =
 		\begin{cases}
@@ -67,66 +67,57 @@
 		\end{cases}
 		\end{align}
 	\end{subequations}
-	همچنین در مورد ورودی‌های مسئله داریم:
-	\begin{equation}\label{eqn:input_poission_rate}
-		\lambda_{t,s} = \text{میزان نرخ پوآسون تولید وظیفه $t \in T$ در گره $s \in S$}
-	\end{equation}
-درواقع متغیر \cref{eqn:input_poission_rate} به عنوان ورودی مسئله تعریف می‌شود و در جریان حل مسئله مقدارش تعیین نمی‌شود. 
-	\begin{subequations}\label{eqn:request_flow_size}
+	دسته دوم متغیر که با $\beta$ نشان داده می‌شود متغیر پیوسته مسئله است که در \cref{eqn:def_variable_beta} معرفی می‌شود و مربوط است به حجم ارسالی جریان وظیفه‌ها بین گره ها، به عنوان مثال $\beta_{t,s,c}$ برابر است با میزان جریان ارسالی از نوع وظیفه‌ی $t \in T$، از گره حسگری $s \in S$ به گره پردازشی $c \in C$.
+	\begin{subequations}\label{eqn:def_variable_beta}
 		\begin{align}
 		0 \le \beta_{t,s,c} \le \lambda_{t,s}  \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \\
 		0 \le \beta_{t,s,f} \le \lambda_{t,s}  \quad \forall{t \in T}, \forall{s \in S}, \forall{f \in F} \\
 		0 \le \beta_{t,s,e} \le \lambda_{t,s}  \quad \forall{t \in T}, \forall{s \in S}, \forall{e \in E}
 		\end{align}
 	\end{subequations}
-	دسته دوم متغیر که با $\beta$ نشان داده می‌شود متغیر پیوسته مسئله است که در \cref{eqn:request_flow_size} معرفی شد و مربوط است به حجم ارسالی جریان وظیفه‌ها بین گره ها، به عنوان مثال $\beta_{t,s,c}$ برابر است با میزان جریان ارسالی از نوع وظیفه‌ی $t \in T$، از گره حسگری $s \in S$ به گره پردازشی $c \in C$. 
+ 
+		همچنین در مورد ورودی‌های مسئله داریم:
+	\begin{equation}\label{eqn:def_variable_lambda_t_s}
+	\lambda_{t,s} = \text{میزان نرخ پوآسون تولید وظیفه $t \in T$ در گره $s \in S$}
+	\end{equation}
+	درواقع متغیر \cref{eqn:def_variable_lambda_t_s} به عنوان ورودی مسئله تعریف می‌شود و در جریان حل مسئله مقدارش تعیین نمی‌شود و عملا متغیرهای اصلی در مسئله دو دسته هستند که دسته اول از جنس متغیر گسسته دودویی هستند و دسته دوم متغیرهای پیوسته. تا اینجای کار احتمالا خواننده می‌تواند حدس بزند که مسئله بهینه‌سازی که در ادامه شکل می‌گیرد از نوع مسئله‌های مخلوط عدد صحیح \LTRfootnote{Mixed-Integer} خواهد بود. در مورد خطی بودن یا نبودن نیز می‌دانیم که کار کردن با مسئله بهینه‌سازی خطی به مراتب راحت تر از غیرخطی خواهد بود، لذا به نظر می‌رسد که لازم است مسئله به‌گونه‌ای مدل شود که خطی باشد و یا اینکه خطی‌سازی شود. 
 	
 	در ادامه قیدهای موجود در مدل‌سازی بررسی می‌شود. 
     \subsection{قیدها}
-    اولین قید مورد بررسی به عنوان یک متغیر میانی معرفی می‌شود به این صورت که مجموع جریان‌های ورودی به یک گره پردازشی به عنوان یک متغیر میانی که در \cref{eqn:load_conservation} نشان داده شده است نمایش داده می‌شود.
-    
-    \begin{subequations}\label{eqn:load_conservation}
+    اولین قید مورد بررسی به عنوان یک متغیر میانی معرفی می‌شود به این صورت که مجموع جریان‌های ورودی به یک گره پردازشی به عنوان یک متغیر میانی که در \cref{eqn:constraint_load_conservation_computing_nodes} نشان داده شده است نمایش داده می‌شود. باید توجه کرد که جنس متغیر تعریف شده در \cref{eqn:def_variable_lambda_t_s} و متغیر میانی تعریف شده در \cref{eqn:constraint_load_conservation_computing_nodes} یکسان است اما مفهوم آن‌ها اندکی با هم فرق دارد، اولی نرخ خروج وظیفه از گره‌های حسگری را نشان می‌دهد در صورتیکه دومی نرخ ورود وظیفه به گره‌های پردازشی را بیان می‌کند. 
+    \begin{subequations}\label{eqn:constraint_load_conservation_computing_nodes}
     	\begin{align}
     	\lambda_{t,c} = \sum_{s\in S}\beta_{t,s,c} \quad \forall{t \in T}, \forall{c \in C} \\
     	\lambda_{t,f} = \sum_{s\in S}\beta_{t,s,f} \quad \forall{t \in T}, \forall{f \in F} \\
     	\lambda_{t,e} = \sum_{s\in S}\beta_{t,s,e} \quad \forall{t \in T}, \forall{e \in E}
     	\end{align}
     \end{subequations}
-	قید \cref{eqn:request_flow_existence} به این صورت است که رابطه‌ی بین متغیرهای پیوسته و گسسته(دودویی) مسئله را مشخص می‌کند. بدین صورت که اگر سمت راست نامساوی صفر باشد آنگاه سمت چپ نیز ناچارا لازم است که صفر باشد و این یعنی جریانی وجود ندارد، همچنین اگر سمت چپ غیرصفر باشد آنگاه متغیر دودویی سمت راست به ناچار باید مقدارش 1 باشد. 
-	\begin{subequations}\label{eqn:request_flow_existence}
+	قید \cref{eqn:constraint_request_flow_existence} به این صورت است که رابطه‌ی بین متغیرهای پیوسته و گسسته(دودویی) مسئله را مشخص می‌کند. بدین صورت که اگر سمت راست نامساوی صفر باشد آنگاه سمت چپ نیز ناچارا لازم است که صفر باشد و این یعنی جریانی وجود ندارد، همچنین اگر سمت چپ غیرصفر باشد آنگاه متغیر دودویی سمت راست به ناچار باید مقدارش یک باشد. 
+	\begin{subequations}\label{eqn:constraint_request_flow_existence}
 		\begin{align}
 		\frac{\lambda_{t,c}}{\sum_{s\in S}\lambda_{t,s}} \le x_{t,c} \quad \forall{t \in T}, \forall{c \in C} \\
 		\frac{\lambda_{t,f}}{\sum_{s\in S}\lambda_{t,s}} \le x_{t,f} \quad \forall{t \in T}, \forall{f \in F} \\
 		\frac{\lambda_{t,e}}{\sum_{s\in S}\lambda_{t,s}} \le x_{t,e} \quad \forall{t \in T}, \forall{e \in E}
 		\end{align}
 	\end{subequations}
-	قید بعدی که مورد بررسی قرار می‌گیرد مربوط به وجود تعادل بین جریان ورودی وظیفه‌ها و جریان خروجی وظیفه‌هاست. این قید در \cref{eqn:load_conservation2} آورده شده‌است.
-	\begin{subequations}\label{eqn:load_conservation2}
-		\begin{align}
-		\lambda_{t,s} = \sum_{e \in E} \beta_{t,s,e} + \sum_{f 	\in F} \beta_{t,s,f}
-		+\sum_{c \in C}\beta_{t,s,c} \quad \forall{t \in T}, \forall{s \in S}
-		\end{align}
-		\begin{align}
-		\lambda_{t,s} \le \sum_{e \in E} \beta_{t,s,e} + \sum_{f \in F} \beta_{t,s,f}
-		+\sum_{c \in C}\beta_{t,s,c} \le \lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S}
-		\end{align}
-	\end{subequations}
-	قید \cref{eqn:load_managing} مربوط به مدیریت منابع است به این‌ صورت که مجموع منابع استفاده شده در هر گره پردازشی لازم است از کل منابع موجود در آن گره کم‌تر باشد. در این قسمت یک تابع تحت عنوان $f_t^r(\lambda)$ تعریف می‌شود که این تابع یک تابع خطی از ورودی‌اش می‌باشد و نشان می‌دهد که وظیفه $t$ چه میزان منبع پردازشی از نوع $r$ لازم دارد. که مقدار خروجی این تابع وابسته به نوع وظیفه،نوع گره و میزان جریان ورودی به گره است. 
-	\begin{subequations}\label{eqn:load_managing}
+	قید \cref{eqn:constraint_load_managing} مربوط به مدیریت منابع است به این‌ صورت که مجموع منابع استفاده شده در هر گره پردازشی لازم است از کل منابع موجود در آن گره کم‌تر باشد. در این قسمت در مورد تابع$f_t^r(\lambda)$ بیشترین صحبت می‌کنیم. همانطور که مشاهده می‌شود این تابع یک تابع خطی از ورودی‌اش می‌باشد و نشان می‌دهد که وظیفه $t$ با چه نرخی منبع پردازشی از نوع $r$ را مصرف می‌کند بابراین لازم است که واحد آن از جنس مقدار منبع بر ثانیه باشد. در مورد ضرایب استفاده شده در این تابع می‌توان گفت که دو ضریب $k_1^r$ و $k_2^r$ بسته با نوع منبع و همچنین مشخصات گره محاسباتی تبیین می‌شوند که مقادیر آن‌ها در جدولی در ادامه خواهد آمد. در نهایت می‌توان گفت که مقدار خروجی این تابع وابسته به نوع وظیفه،نوع گره و میزان جریان ورودی به گره است. 
+	\begin{subequations}\label{eqn:constraint_load_managing}
 		\begin{align}
 		&\sum_{t \in T}x_{t,c}f_t^r(\lambda_{t,c}) \le \sigma_c^r \quad \forall{r \in R}, \forall{c \in C} \\
-		&x_{t,c}f_t^r(\lambda_{t,c}) = k_1^rx_{t,c}\lambda_{t,c} + k_2^rx_{t,c} \label{eqn:psi_appear} \\
-		&\psi_{t,c} \triangleq x_{t,c}\lambda_{t,c} \Rightarrow 0 \leq \psi_{t,c} \leq \lambda_{t,c} \label{eqn:psi_def} \\
-		&Q(x_{t,c}-1)+\lambda_{t,c} \leq \psi_{t,c} \leq x_{t,c}Q \\
+		&x_{t,c}f_t^r(\lambda_{t,c}) = k_1^rx_{t,c}\lambda_{t,c} + k_2^rx_{t,c} \label{eqn:def_psi_appear} \\
+		&\psi_{t,c} \triangleq x_{t,c}\lambda_{t,c} \Rightarrow 0 \leq \psi_{t,c} \leq \lambda_{t,c} \label{eqn:def_psi} \\
+		&Q(x_{t,c}-1)+\lambda_{t,c} \leq \psi_{t,c} \leq x_{t,c}Q \label{eqn:def_Q_appear}\\
 		&\notag Q = \max_{{t \in T},{c \in C}} \lambda_{t,c} \\
 		&\notag =\max_{{t \in T},{c \in C}} \sum_{s \in S}\beta_{t,s,c} \\
 		&\notag =\sum_{s\in S} \max_{{t \in T},{c \in C}} \beta_{t,s,c} \\
-		&=\sum_{s \in S}\lambda_{t,s}
+		&=\sum_{s \in S}\lambda_{t,s} \label{eqn:def_Q}
 		\end{align}
 	\end{subequations}
-	همانطور که در \cref{eqn:psi_appear} دیده می‌شود دو متغیر مسئله یعنی $x$ و $\lambda$ به صورت حاصلضرب درآمده‌اند که این فرآیند مسئله را از حالت خطی خارج می‌کند. جهت خطی سازی مسئله یک متغیر میانی در \cref{eqn:psi_def} تعریف شده است.
-	قیدهای مربوط به این متغیر جدید در \cref{eqn:psi_constraint} دیده می‌شود. 
-	\begin{subequations}\label{eqn:psi_constraint}
+	همانطور که در \cref{eqn:def_psi_appear} دیده می‌شود دو متغیر مسئله یعنی $x$ و $\lambda$ که مجموع خطی از $\beta$ است، به صورت حاصلضرب درآمده‌اند که این اتفاق مسئله را از حالت خطی خارج می‌کند و همانجایی است که لازم است مسئله خطی‌سازی شود. برای این کار یک متغیر میانی در \cref{eqn:def_psi} تعریف می‌شود. با این کار حاصلضرب ایجاد شده از بین می‌رود و قیدهای مسئله تا این جای کار همچنان خطی باقی می‌مانند. اما همانطور که می‌دانیم ایجاد یک متغیر جدید هزینه‌هایی هم دارد که باید بهای آن پرداخته شود و این بها به وجود آمدن قیدهای جدید در مسئله است. 
+	قبل از بررسی قیدهای اضافه شده لازم است که یک نماد دیگر معرفی شود. این نماد که با حرف $Q$ نشان داده شده است اولین بار در \cref{eqn:def_Q_appear} دیده شده است که برابر با مقدار بالقوه‌ی بیشترین جریان ورودی به یک گره محاسباتی، که در خاص‌ترین حالت می‌توان گفت که تمام جریان تولیدی وظیفه‌های موجود در شبکه برای پردازش به یک گره بروند در این صورت $Q$ برابر است با مچموع جریان تولید شده‌ی همه‌ی وظیفه‌ها در تمام حسگرها که در \cref{eqn:def_Q} نحوه‌ی محسابه آنچه که گفته شد دیده می‌شود. 
+	
+	در مورد متغیر میانی تعریف شده در \cref{eqn:def_psi} قیدهای مربوطه در \cref{eqn:constraint_psi} دیده می‌شود. 
+	\begin{subequations}\label{eqn:constraint_psi}
 		\begin{align}
 		&0 \leq \psi_{t,c} \leq \lambda_{t,c} \\
 		&Q(x_{t,c}-1)+\lambda_{t,c} \leq \psi_{t,c} \leq x_{t,c}Q \quad \forall{t\in T}, \forall{c \in C} \\
@@ -136,32 +127,34 @@
 		&Q(x_{t,e}-1)+\lambda_{t,e} \leq \psi_{t,e} \leq x_{t,e}Q \quad \forall{t \in T}, \forall{e \in E}
 		\end{align}
 	\end{subequations}
-	حال با تعریف متغیر \cref{eqn:psi_def} می‌توان قید موجود در \cref{eqn:load_managing} را به صورت \cref{eqn:load_managing_new} دوباره نویسی کرد. 
-	\begin{subequations}\label{eqn:load_managing_new}
+	حال با تعریف متغیر \cref{eqn:def_psi} می‌توان قید موجود در \cref{eqn:constraint_load_managing} را به صورت \cref{eqn:constraint_load_managing_new} دوباره نویسی کرد. 
+	\begin{subequations}\label{eqn:constraint_load_managing_new}
 		\begin{align}
 		\sum_{t \in T}k_1^r\psi_{t,c}+k_2^rx_{t,c} \le \sigma_c^r \quad \forall{r \in R}, \forall{c \in C} \\
 		\sum_{t \in T}k_1^r\psi_{t,f}+k_2^rx_{t,f} \le \sigma_f^r \quad \forall{r \in R}, \forall{f \in F} \\
 		\sum_{t \in T}k_1^r\psi_{t,e}+k_2^rx_{t,e} \le \sigma_e^r \quad \forall{r \in R}, \forall{e \in E}
 		\end{align}
 	\end{subequations}
-	قید بعدی که مورد بررسی قرار می‌گیرد قید مربوط به تاخیرهاست. ابتدا تاخیر موجود در شبکه از زمانی که وظیفه ارسال می‌شود تا لحظه‌ای که وظیفه پردازش می‌شود به صورت \cref{eqn:delay_def} تعریف می‌شود که همانطور که دیده می‌شود این تعریف از دو بخش تاخیر انتقال و تاخیر صف تشکیل شده است. 
-همانطور که در قسمت مقدمه گفته شد برای محاسبه‌ی تاخیر صف در یک سیستم نوع اول دو متغیر نرخ ورود بسته‌ها $\lambda$ و نرخ پردازش آن‌ها $\mu$ لازم است. در مدل ما نرخ ورود وظیفه‌ها در هر گره به صورت یک متغیر میانی تغریف شده است اما در مورد نرخ پردازش بسته‌ها به توجه به نوع بسته و همچنین میزان قدرت پردازشی گره رابطه‌ی \cref{eqn:mu_def} در نظر گرفته شده‌است. 
-	در نهایت قید مربوط به تاخیر در \cref{eqn:delay_constraint} آورده شده است که با ساده سازی به صورت \cref{eqn:delay_constraint_modified} نمایش داده می‌شود. 
-	\begin{subequations}\label{eqn:delay_def}
+	قید بعدی که مورد بررسی قرار می‌گیرد قید مربوط به تاخیرهاست. ابتدا تاخیر موجود در شبکه از زمانی که وظیفه ارسال می‌شود تا لحظه‌ای که وظیفه پردازش می‌شود به صورت \cref{eqn:def_delay} تعریف می‌شود، همانطور که دیده می‌شود این تعریف از دو بخش تاخیر انتقال و تاخیر صف تشکیل شده است. 
+همانطور که در قسمت مقدمه گفته شد برای محاسبه‌ی تاخیر صف در یک سیستم نوع اول، دو متغیر نرخ ورود بسته‌ها $\lambda$ و نرخ پردازش آن‌ها $\mu$ لازم است. در مدل ما نرخ ورود وظیفه‌ها در هر گره به صورت یک متغیر میانی تغریف شده است اما در مورد نرخ پردازش بسته‌ها به توجه به نوع بسته و همچنین میزان قدرت پردازشی گره رابطه‌ی \cref{eqn:def_mu} در نظر گرفته شده‌است. با جایگزین کردن موارد گفته شده رابطه‌ی نهایی تاخیر موجود در گره‌ها به صورت \cref{eqn:def_delay_final} نمایش داده می‌شود. 
+	\begin{subequations}
 		\begin{align}
-		&\tau_{t,c} = \tau_{t,s,c}^{tr} + \frac{1}{\mu_{t,c}-\lambda_{t,c}} \\
-		&\frac{1}{\mu_{t,c}} = \frac{w_t}{f_t^{cpu}(\lambda_{t,c})} \label{eqn:mu_def}\\
-		&f_t^{cpu}(\lambda_{t,c}) = k_1^{cpu}\lambda_{t,c}+k_2^{cpu} \\
-		&\notag\Rightarrow x_{t,c} \tau_{t,c} = x_{t,c} (\tau_{t,s,c}^{tr} + \frac{w_t}{(k_1^{cpu}-w_t)\lambda_{t,c} + k_2^{cpu}}) \\
-		&\le \delta_t \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \label{eqn:delay_constraint}
-		\end{align}
-		\begin{align}\label{eqn:delay_constraint_modified}
-		&\notag x_{t,c}\lambda_{t,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + \\ 
-		&\notag x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C}
+			&\tau_{t,c} = \tau_{t,s,c}^{tr} + \frac{1}{\mu_{t,c}-\lambda_{t,c}} \label{eqn:def_delay}\\
+			&\frac{1}{\mu_{t,c}} = \frac{w_t}{f_t^{cpu}(\lambda_{t,c})} \label{eqn:def_mu}\\
+			&f_t^{cpu}(\lambda_{t,c}) = k_1^{cpu}\lambda_{t,c}+k_2^{cpu} \\
+			&\tau_{t,c} = \tau_{t,s,c}^{tr} + \frac{w_t}{(k_1^{cpu}-w_t)\lambda_{t,c} + k_2^{cpu}} \label{eqn:def_delay_final}
 		\end{align}
 	\end{subequations}
-	در صورت استفاده از متغیر میانی \cref{eqn:psi_def} در قید \cref{eqn:delay_constraint_modified} می‌توان این قید را به صورت \cref{eqn:delay_constraint_last} به صورت نهایی نمایش داد. 
-	\begin{subequations}\label{eqn:delay_constraint_last}
+	در نهایت قید مربوط به تاخیر در \cref{eqn:constraint_delay} آورده شده است که با ساده سازی به صورت \cref{eqn:constraint_delay_new} نمایش داده می‌شود. 
+	\begin{subequations}
+		\begin{align}
+			&x_{t,c}\tau_{t,c}\le \delta_t \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \label{eqn:constraint_delay} \\			
+			&\notag x_{t,c}\lambda_{t,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + \\ 
+			&\notag x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \label{eqn:constraint_delay_new}
+		\end{align}
+	\end{subequations}
+	در صورت استفاده از متغیر میانی \cref{eqn:def_psi} در قید \cref{eqn:constraint_delay_new} می‌توان این قید را به صورت \cref{eqn:constraint_delay_last} به صورت نهایی نمایش داد. 
+	\begin{subequations}\label{eqn:constraint_delay_last}
 		\begin{align}
 		&\notag\psi_{t,s,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + \\ &\notag x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0
 		\end{align}
@@ -172,12 +165,8 @@
 		&\notag\psi_{t,s,e}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,e} + \\ &\notag x_{t,e}k_2^{cpu}\tau_{t,s,e}^{tr}+w_t x_{t,e}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,e} \le 0
 		\end{align}
 	\end{subequations}
-	یکی از قیدهای لازم در این مسئله مربوط به شرط لازم برای پردازش همه‌ی وظیفه‌هاست بدین صورت که هر وظیفه حداقل باید در یکی از گره‌های پردازشی موجود در شبکه پردازش شود. در این پایان‌نامه فرض خوبی که در نظر گرفته شده‌است این است که یک وظیفه می‌تواند در چندین گره پردازشی نیز پردازش شود این فرض این قابلیت را به مسئله اضافه می‌کند که وظیفه‌ها به صورت افقی مقیاس‌پذیر\LTRfootnote{Scalable} باشند به این معنی که تعداد وظیفه‌های از جنس یک سرویس می‌تواند افزایش یابد. برای این کار یک متغیر تحت عنوان $N_t$ در نظر گرفته می‌شود که هرچقدر این عدد بزرگتر باشد مقیاس‌پذیری سیستم بیشتر است. قید مربوطه در \cref{eqn:scalable_constraint} آورده شده‌است. 
-	\begin{equation}\label{eqn:scalable_constraint}
-		1 \le \sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c} \le N_t \quad \forall{t \in T}
-	\end{equation}
-	قید آخری که مورد بررسی قرار می‌گیرد قید مربوط به پایداری صف در گره‌هاست که در مورد آن در مقدمه توضیح داده شد. در مدل ما این قید به صورت \cref{eqn:queue_stability} آورده شده‌است. نکته‌ی قابل تامل این است که به ساده سازی مسئله کمک می‌کند معادله‌ی \cref{eqn:lambda_eqn} است که دلیل آن این است که زمانیکه چریانی از یک وظیفه به سمت یک گره وجود دارد می‌توان با حتمیت گفت که متغیر دودویی مربوط به آن وظیفه و گره مقدارش 1 است و بالعکس. 
-	\begin{subequations}\label{eqn:queue_stability}
+	دیگر قیدی که مورد بررسی قرار می‌گیرد قید مربوط به پایداری صف در گره‌هاست که در مورد آن در مقدمه توضیح داده شد. در مدل ما این قید به صورت \cref{eqn:constraint_queue_stability} آورده شده‌است. نکته‌ی قابل تاملی که به ساده سازی مسئله کمک می‌کند \cref{eqn:lambda_eqn} است که دلیل آن این است که زمانیکه چریانی از یک وظیفه به سمت یک گره وجود دارد، می‌توان با حتمیت گفت که متغیر دودویی مربوط به آن وظیفه و گره مقدارش یک است و بالعکس. 
+	\begin{subequations}\label{eqn:constraint_queue_stability}
 		\begin{align}
 		&x_{t,c}(\lambda_{t,c} < \mu_{t,c}) => x_{t,c}(\lambda_{t,c} + \epsilon \le \mu_{t,c}) \\
 		&x_{t,c}\lambda_{t,c} = \lambda_{t,c} \label{eqn:lambda_eqn}\\
@@ -186,7 +175,20 @@
 		&\epsilon x_{t,e} - k_1^{cpu}\lambda_{t,e} - k_2^{cpu} + w_t\lambda_{t,e} \le 0 \quad \forall{t \in T}, \forall{e \in E}
 		\end{align}
 	\end{subequations}
-	در گام بعدی لازم است که تابع هدف\LTRfootnote{Objective function} تعریف شود، برای این کار لازم که ابتدا هدف از صورت مسئله مشخص شود. اولین هدف در این مقاله کم کردن هزینه‌های مربوط به کل شبکه است به صورتیکه پردازش وظیفه‌ها در گره‌های پردازشی یک فرآیند هزینه‌بر است، حال صورت مسئله بهینه‌سازی با این هدف تعریف می‌شود که مجموع کل هزینه‌های موچود در شبکه کمترین مقدار ممکن باشد. برای این‌کار لازم است از متغیرهای دودویی مسئله$x$، تابع مشخص کننده میزان منبع پردازشی$f$ و همچنین واحد هزینه‌های پردازشی $\pi$ استفاده شود. درنهایت تابع هدف به صورت \cref{eqn:objective_func} تعریف می‌شود. 
+
+	تا اینجای کار بین تمام قیدهای گفته شده یک ویژگی مشترک وجود داشت و این بود که در تمامی قیدهای گفته شده قابلیت قید هر گره محاسباتی از سایر گره‌ها جدا بود و نمی‌توان قیدها را به گونه‌ای تجزیه کرد که هر گره محسابتی صرفا قید مربوط به خودش را ببیند که این اتفاق یک اتفاق خوشایند است که در ادامه علت خوشایند بودن آن مشخص خواهد شد. اما در دوقید بعد خواهیم دید که بین گره‌های محاسباتی به نوعی اتصال ایجاد خواهد شد. 
+	اولین قید اتصالی که مورد بررسی قرار می‌گیرد مربوط به وجود تعادل بین جریان ورودی وظیفه‌ها و جریان خروجی وظیفه‌هاست. این قید در \cref{eqn:constraint_load_conservation_sensor_nodes_coupling} آورده شده‌است. و همانطور که می‌بینید در این قید نمی‌توانیم برای هرگره پردازشی یک رابطه جدا مشخص کنیم. 
+	\begin{equation}\label{eqn:constraint_load_conservation_sensor_nodes_coupling}
+	\lambda_{t,s} = \sum_{e \in E} \beta_{t,s,e} + \sum_{f 	\in F} \beta_{t,s,f}
+	+\sum_{c \in C}\beta_{t,s,c} \quad \forall{t \in T}, \forall{s \in S}
+	\end{equation} 
+	قید بعدی مربوط به شرط لازم برای پردازش همه‌ی وظیفه‌هاست بدین صورت که هر وظیفه حداقل باید در یکی از گره‌های پردازشی موجود در شبکه پردازش شود. در این پایان‌نامه این فرض در نظر گرفته شده‌است که یک وظیفه می‌تواند در چندین گره پردازشی نیز پردازش شود این فرض این قابلیت را به مسئله اضافه می‌کند که وظیفه‌ها به صورت افقی مقیاس‌پذیر\LTRfootnote{Scalable} باشند به این معنی که بر روی تعداد وظیفه‌های از جنس یک سرویس می‌تواند محدودیتی وجود ندارد. برای این کار یک متغیر تحت عنوان $N_t$ در نظر گرفته می‌شود که هرچقدر این عدد بزرگتر باشد مقیاس‌پذیری سیستم بیشتر است. قید مربوطه در \cref{eqn:constraint_scalability_coupling} آورده شده‌است. به وضوح در این قید نیز دیده می‌شود که نمی‌توان رابطه‌ی مستقلی برای هر یک از گره‌های پردازشی پیدا کرد. 
+	\begin{equation}\label{eqn:constraint_scalability_coupling}
+		1 \le \sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c} \le N_t \quad \forall{t \in T}
+	\end{equation}
+	
+	\subsection{تابع هدف}
+	در گام بعدی لازم است که تابع هدف\LTRfootnote{Objective function} تعریف شود، برای این کار لازم که ابتدا هدف از صورت مسئله مشخص شود. اولین هدف در این مقاله کم کردن هزینه‌های مربوط به کل شبکه است. می‌دانیم که پردازش وظیفه‌ها در گره‌های پردازشی یک فرآیند هزینه‌بر است، حال صورت مسئله بهینه‌سازی با این هدف تعریف می‌شود که مجموع کل هزینه‌های موچود در شبکه کمترین مقدار ممکن باشد. برای این‌کار لازم است از متغیرهای دودویی مسئله$x$، تابع مشخص کننده نرخ مصرف منبع پردازشی$f$ و همچنین واحد هزینه‌های پردازشی $\pi$ استفاده شود. درنهایت تابع هدف به صورت \cref{eqn:objective_func} تعریف می‌شود. 
 	\begin{subequations}\label{eqn:objective_func}
 		\begin{align}
 		& \notag \min \sum_{t \in T}\sum_{e \in E} (x_{t,e}\pi_e\sum_{r \in R}f_t^r(\lambda_{t,e})) \\
@@ -198,7 +200,7 @@
 		& \notag + \sum_{t \in T}\sum_{f \in F} x_{t,f}\Gamma_{t,f} \\
 		& + \sum_{t \in T}\sum_{c \in C} x_{t,c}\Gamma_{t,c}
 		\end{align}
-		\begin{align}
+		\begin{align}\label{eqn:def_Gamma}
 		&\notag \Gamma_{t,e} = \pi_e((k_1^{cpu}+k_1^{ram}+k_1^{storage})\lambda_{t,e} \\
 		&\notag +k_2^{cpu}+k_2^{ram}+k_2^{storage}) \\
 		& = \pi_e(K_1\lambda_{t,e}+K_2)
@@ -208,17 +210,26 @@
 		&= K_1\pi_e\psi_{t,e} + K_2\pi_ex_{t,e}
 		\end{align}
 	\end{subequations}
+	در \cref{eqn:def_Gamma} یک متغیر میانی تعریف شده است، که به ساده نویسی مسئله کمک شایانی می‌کند. 
 	درنهایت با ساده‌سازی‌های انجام شده و همچنین استفاده از متغیرهای کمکی می‌توان گفت که تابع هدف نهایی به صورت \cref{eqn:objective_func_final} نوشته می‌شود. 
-	
-
 	\begin{align}
-		\min \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e}\notag \\
-		+\sum_{t \in T}\sum_{f \in F} K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f}\notag \\
-		+\sum_{t \in T}\sum_{c \in C} K_1\pi_c\psi_{t,c}+K_2\pi_cx_{t,c} \label{eqn:objective_func_final}	
+		&\min \sum_{t \in T}\sum_{e \in E} 				K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e}\notag \\
+		&+\sum_{t \in T}\sum_{f \in F} 	K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f}\notag \\
+		&+\sum_{t \in T}\sum_{c \in C} K_1\pi_c\psi_{t,c}+K_2\pi_cx_{t,c} \label{eqn:objective_func_final} \notag \\
+		&s.t. 
+		\cref{eqn:constraint_load_conservation_computing_nodes}
+		\cref{eqn:constraint_request_flow_existence}				\cref{eqn:constraint_psi}
+		\cref{eqn:constraint_load_managing_new} \notag \\
+		&\cref{eqn:constraint_delay_last}
+		\cref{eqn:constraint_queue_stability}
+		\cref{eqn:constraint_load_conservation_sensor_nodes_coupling}
+		\cref{eqn:constraint_scalability_coupling}
 	\end{align}
 	
-	\section{Decentralized Approach}
-	در این بخش قرار است که معادله \cref{eqn:objective_func_final}ادامه برای حل مسئله از روش لاگرانژین و همچنین دوال دیکامپوزیشن کمک میگیریم. برای این کار ابتدا لاگرانژین تابع هدف را برای قیدهایی که به صورت متصل‌شده\LTRfootnote{Coupling} هستند یعنی قید \cref{eqn:scalable_constraint} و \cref{eqn:load_conservation2} 
+	\section{راه‌حل غیرمتمرکز}
+	در این بخش قرار است که مسئله بهینه‌سازی نهایی که در \cref{eqn:objective_func_final} نوشته شد به صورت غیرمتمرکز حل شود. 
+	همانطور که در قسمت بررسی قیدهای مربوط به مسئله اصلی گفته شد، بجز دو قید از قیدهای مسئله‌ی 
+		 برای این کار ابتدا لاگرانژین تابع هدف را برای قیدهایی که به صورت متصل‌شده\LTRfootnote{Coupling} هستند یعنی قید \cref{eqn:scalable_constraint} و \cref{eqn:load_conservation2} 
 	\begin{subequations}
 		\begin{align}
 		& \notag L(\underline{\underline x}, \underline{\underline \beta}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) = \sum_{t \in T}\sum_{e \in E} x_{t,e}\Gamma_{t,e} \\
@@ -242,6 +253,12 @@
 		& L = \sum_{e \in E}L_e + \sum_{f \in F}L_f + \sum_{c \in C}L_c
 		\end{align}
 	\end{subequations}
+
+
+	\begin{align}
+		\lambda_{t,s} \le \sum_{e \in E} \beta_{t,s,e} + \sum_{f \in F} \beta_{t,s,f}
+		+\sum_{c \in C}\beta_{t,s,c} \le \lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S}
+	\end{align}
     
     
     
