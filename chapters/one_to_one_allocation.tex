@@ -228,29 +228,81 @@
 	
 	\section{راه‌حل غیرمتمرکز}
 	در این بخش قرار است که مسئله بهینه‌سازی نهایی که در \cref{eqn:objective_func_final} نوشته شد به صورت غیرمتمرکز حل شود. 
-	همانطور که در قسمت بررسی قیدهای مربوط به مسئله اصلی گفته شد، بجز دو قید از قیدهای مسئله‌ی 
-		 برای این کار ابتدا لاگرانژین تابع هدف را برای قیدهایی که به صورت متصل‌شده\LTRfootnote{Coupling} هستند یعنی قید \cref{eqn:scalable_constraint} و \cref{eqn:load_conservation2} 
+	همانطور که در قسمت بررسی قیدهای مربوط به مسئله اصلی گفته شد، بجز دو قید از قیدهای مسئله که به صورت متصل بودند بقیه قیدها این قابلیت را داشتند که بین گره‌ها تجزیه شوند. 
+	\subsection{راه‌حل غیرمتمرکز برای مسئله milp}
+	در این بخش ابتدا با ارچاع به یکی از مقاله‌های موجود در این زمینه در مورد نجوه‌ی حل مسائل milp به صورت غیرمتمرکز صحبت می‌شود و در ادامه این راه حل ارائه شده بر روی مسئله اصلی اجرا می‌شود. 
+	در مقاله \cite{decentralized_approach} به صورت کامل در مورد روش غیرمتمرکز صحبت شده است با ارجاع به این مقاله در ادامه این روش را مورد بررسی قرار می‌دهیم. 
+	
+	فرض کنید که مسئله milp به صورت \cref{eqn:cite_def_milp} نوشته شده باشد. 
 	\begin{subequations}
+		\begin{align}\label{eqn:cite_def_milp}
+			&\min_{x_1,..,x_m} \sum_{i=1}^m c_i^Tx_i \notag \\
+			&\text{subject to:} \sum_{i=1}^m A_ix_i \le b \notag \\
+			&\quad\quad x_i \in X_i, i = 1,..,m
+		\end{align}
 		\begin{align}
-		& \notag L(\underline{\underline x}, \underline{\underline \beta}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) = \sum_{t \in T}\sum_{e \in E} x_{t,e}\Gamma_{t,e} \\
-		& \notag + \sum_{t \in T}\sum_{f \in F} x_{t,f}\Gamma_{t,f} + \sum_{t \in T}\sum_{c \in C} x_{t,c}\Gamma_{t,c} \\
-		& \notag + \sum_{t \in T  }{\eta_{1,t}(1-\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c})} \\
-		& \notag + \sum_{t \in T}{\eta_{2,t}(\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c}-N_t)} \\
-		& + \sum_{t \in T}\sum_{s \in S}{\nu_{t,s}(\lambda_{t,s} - \sum_{e \in E}\beta_{t,s,e} + \sum_{f \in F}\beta_{t,s,f} +\sum_{c \in C}\beta_{t,s,c})}
+			&b \in R^p \notag \\
+			&X_i = \{x_i\in R^{n_{c,i}}*Z^{n_{d,i}}:D_ix_i \le d_i\}
 		\end{align}
 	\end{subequations}
+	اگر برای مسئله \cref{eqn:cite_def_milp} رابطه‌ی مسئله‌ی تجزیه دوگان\LTRfootnote{Dual decomposition} را بنویسیم، آنگاه به \cref{eqn:cite_dual}  می‌رسیم. 
+	\begin{equation}\label{eqn:cite_dual}
+		\max_{\lambda > 0} -\lambda^Tb + \sum_{i=1}^m \min_{x_1,..,x_m}(c_i^T + \lambda^TA_i)x_i
+	\end{equation}
+	بعد از حل مسئله \cref{eqn:cite_dual} می‌توان متغیرهای اصلی یعنی $x$ را به صورت \cref{eqn:cite_x_from_dual} یافت. 
+	\begin{align}\label{eqn:cite_x_from_dual}
+		x(\lambda^*) = [x_1(\lambda^*)^T, ..., x_m(\lambda^*)^T]^T \notag \\
+		x_i(\lambda) \in \arg \min_{x_i \in vert(X_i)} (c_i^T + \lambda^TA_i)x_i
+	\end{align}
+	%todo shor cite handling
+	در مقاله \cite{decentralized_approach} با یک مثال نشان داده می‌شود که با طی کردن مراحل بالا برای یافتن جواب بهینه $x$، می‌توان تضمین کرد که شرایط محلی یعنی $x_i \in X_i$ حتما ارضا می‌شود اما متاسفانه نمی‌توان حتما تضمین کرد که قیدهای متصل نیز ارضا می‌شوند. راه حل احتمالی که به ذهن می‌رسد استفاده از راه حل ارائه شده در مقاله \cite{shor} است که در آنجا مسئله را از حالت milp به حالت lp تبدیل می‌کند، با این کار تضمین می‌شود که قیدهای متصل حتما ارضا شوند اما از آن طرف به دلیل وجود متغیرهای گسسته این احتمال وجود دارد که قیدهای محلی به طور کامل ارضا نشوند. بنابراین از این راه حل نیز نمی‌توان استفاده کرد. 
 	
+\begin{latin}
+	\begin{algorithm}
+		\caption{Decentralized milp from \cite{decentralized_approach}}
+		\begin{algorithmic}[1]
+			\Procedure{}{}       %\Comment{This is a test}
+				\State $\lambda(0) = 0$
+				\State $\bar{s}_i(0) = -\infty , i = 1,...,m$ 
+				\State $\underline{s}_i(0) = +\infty , i = 1,...,m$ 
+				\State k = 0
+				
+				\Repeat
+					\For{$i = 1$ to $m$}
+						\State $x_i(k+1) \gets \arg \min_{x_i \in vert(X_i)} (c_i^T + \lambda(k)^TA_i)x_i$
+					\EndFor
+					\State $\bar{s}_i(k+1) = \max\{\bar{s}_i(k), A_ix_i(k+1) \} , i = 1,...,m$
+					\State $\underline{s}_i(k+1) = \min\{\underline{s}_i(k), A_ix_i(k+1) \} , i = 1,...,m$
+					\State $\rho_i(k+1) = \bar{s}_i(k+1) - \underline{s}_i(k+1),  , i = 1,...,m$
+					\State $\rho(k+1) = p \max \{ \rho_1(k+1), ..., \rho_m(k+1) \}$
+					\State $\lambda(k+1) = [\lambda(k) + \alpha(k)(\sum_{i=1}^{m}A_ix_i(k+1)-b+\rho(k+1)]_+$
+					\State $k \gets k+1$ 
+				\Until{some stopping criterion is met.}
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+\end{latin}
+	
+		 برای این کار ابتدا لاگرانژین تابع هدف را برای قیدهایی که به صورت متصل‌شده\LTRfootnote{Coupling} هستند یعنی قیدهای \cref{eqn:constraint_scalability_coupling} و \cref{eqn:constraint_load_conservation_sensor_nodes_coupling} می‌نویسیم که به فرم \cref{eqn:lagrangian_1} نوشته می‌شود.
+		\begin{align}\label{eqn:lagrangian_1}
+			& \notag L(\underline{\underline x}, \underline{\underline \beta}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) = \sum_{t \in T}\sum_{e \in E} x_{t,e}\Gamma_{t,e} \\
+			& \notag + \sum_{t \in T}\sum_{f \in F} x_{t,f}\Gamma_{t,f} + \sum_{t \in T}\sum_{c \in C} x_{t,c}\Gamma_{t,c} \\
+			& \notag + \sum_{t \in T  }{\eta_{1,t}(1-\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c})} \\
+			& \notag + \sum_{t \in T}{\eta_{2,t}(\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c}-N_t)} \\
+			& + \sum_{t \in T}\sum_{s \in S}{\nu_{t,s}(\lambda_{t,s} - \sum_{e \in E}\beta_{t,s,e} + \sum_{f \in F}\beta_{t,s,f} +\sum_{c \in C}\beta_{t,s,c})}
+		\end{align}
+	در \cref{eqn:lagrangian_2} سعی شده است که کل تابع موجود بر روی گره‌های پردازشی تجزیه شود. بدین صورت که هر گره پردازشی تابع مخصوص به خود را داشته باشد. 
 	\begin{subequations}
 		\begin{align}
-		& \notag L = \sum_{e \in E}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,e}+\frac{\nu_{t,s}\lambda_{t,s}}{3|E|}) \\
-		&\notag + x_{t,e}(\Gamma_{t,e}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|E|}) \\
-		& \notag + \sum_{f \in F}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,f}+\frac{\nu_{t,s}\lambda_{t,s}}{3|F|}) \\
-		& \notag + x_{t,f}(\Gamma_{t,f}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|F|}) \\
-		& \notag + \sum_{c \in C}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,c}+\frac{\nu_{t,s}\lambda_{t,s}}{3|C|}) \\
-		&+ x_{t,c}(\Gamma_{t,c}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|C|})
+			& \notag L = \sum_{e \in E}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,e}+\frac{\nu_{t,s}\lambda_{t,s}}{3|E|}) \\
+			&\notag + x_{t,e}(\Gamma_{t,e}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|E|}) \\
+			& \notag + \sum_{f \in F}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,f}+\frac{\nu_{t,s}\lambda_{t,s}}{3|F|}) \\
+			& \notag + x_{t,f}(\Gamma_{t,f}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|F|}) \\
+			& \notag + \sum_{c \in C}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,c}+\frac{\nu_{t,s}\lambda_{t,s}}{3|C|}) \\
+			&+ x_{t,c}(\Gamma_{t,c}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|C|})
 		\end{align}
 		\begin{align}
-		& L = \sum_{e \in E}L_e + \sum_{f \in F}L_f + \sum_{c \in C}L_c
+			& L = \sum_{e \in E}L_e + \sum_{f \in F}L_f + \sum_{c \in C}L_c
 		\end{align}
 	\end{subequations}
 
