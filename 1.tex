@@ -1,0 +1,604 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmicx}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\def\NoNumber#1{{\def\alglinenumber##1{}\State #1}\addtocounter{ALG@line}{-1}}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+  T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Paper Title*}
+
+\author{
+  \IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
+  \IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+  \textit{name of organization (of Aff.)}\\
+  City, Country \\
+  email address}
+\and
+  \IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
+  \IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+  \textit{name of organization (of Aff.)}\\
+  City, Country \\
+  email address}
+}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+
+\end{IEEEkeywords}
+
+  \section{Introduction}
+  \section{System Model}
+    % \cite{ref1}
+
+    % \begin{enumerate}
+      % \item
+      % \item
+    % \end{enumerate}
+    % We consider that measuremnts of sensors for service $s$ are performed and sent to processing units by rate of $\sum_{i=1}^{N_I} r_{i,s}$ and $r_{i,s}$ is sampeling rate processed by IaaS provider $i$ for service $s$, hence we use $\log(\sum_{i=1}^{N_I} r_{i,s})$ as a quality of experience measurement for user of service $s$.
+    % Let $p_i$ be the price that should be paid to IaaS provider $i$ for unit of processing power and $F_s$ be the processing power required for each sensor sample of user $s$.
+    % Then $p_i r_{i,s} F_s$ is price paid to IaaS provider $i$ by user of service $s$ and total cost for user of service $s$ is $\sum_{i=1}^{N_I}{p_i r_{i,s} F_s}$.
+    % We define utility function for user of service $s$ as the difference between quality of experience indicator and his total cost:
+    \subsection{Graph Model}
+
+    $C$ is set of cloud nodes.
+    $F$ is set of fog nodes.
+    $E$ is set of edge nodes.
+    $S$ is set of sensor nodes.
+    $R$ is set of resources in each computational node(cloud, fog or edge node).
+    \begin{subequations}
+      \begin{align}
+          C = \{v_1^c, v_2^c, ..., v_{|C|}^c\} , c \in C\\
+          F = \{v_1^f, v_2^f, ..., v_{|F|}^f\} , f \in F\\
+          E = \{v_1^e, v_2^e, ..., v_{|E|}^e\} , e \in E\\
+          S = \{v_1^s, v_2^s, ..., v_{|S|}^s\} , s \in S\\
+          R = \{CPU, RAM, Storage\} , r \in R
+      \end{align}
+    \end{subequations}
+
+    $\sigma_c^r$ is total capacity of resource $r \in R$ on node $c \in C$.
+    and also $\sigma_f^r$ and $\sigma_e^r$ are total capacity of resource $r \in R$
+    on nodes $f \in F$ and $e \in E$ respectively.
+
+    $T$ is set of tasks.
+    \begin{subequations}
+      \begin{align}
+          T = \{t_1, t_2, ..., t_{|T|}\}
+      \end{align}
+    \end{subequations}
+    Each task expresses as follows:
+    \begin{equation}
+      t \in T => t = (w_t, \delta_t, N_t, f_t^r(\lambda_t))
+    \end{equation}
+    $w_t$ shows computation workload of the task.
+    $\delta_t$ is completion deadline of the task and
+    $N_t$ determines the maximum number of instances of task $t \in T$.\\
+
+    $\pi_c$ is unit price of processing in node $c \in C$ and also $\pi_f$
+    and $\pi_e$ are the related prices in nodes $f \in F$ and $e \in E$ respectively.
+
+    Transmission delays that show required time for transmitting packets
+    from sensors to each computational node are defined as follows:\\
+    $\tau_{s,c}^{tr}$ = transmission delay between node $s \in S$ and $c \in C$\\
+    $\tau_{s,f}^{tr}$ = transmission delay between node $s \in S$ and $f \in F$\\
+    $\tau_{s,e}^{tr}$ = transmission delay between node $s \in S$ and $e \in E$
+
+    \subsection{Variables}
+
+    We define three integer variables for allocating tasks between nodes.
+    \begin{subequations}
+      \begin{align}
+        x_{t,c} =
+        \begin{cases}
+          1 & \text{task $t \in T$ is allocated to node $c \in C$} \\
+          0 & \text{o.w.}
+        \end{cases}
+      \end{align}
+
+      \begin{align}
+        x_{t,f} =
+        \begin{cases}
+          1 & \text{task $t \in T$ is all‌ocated to node $f \in F$} \\
+          0 & \text{o.w.}
+        \end{cases}
+      \end{align}
+
+     \begin{align}
+       x_{t,e} =
+       \begin{cases}
+         1 & \text{task $t \in T$ is allocated to node $e \in E$} \\
+         0 & \text{o.w.}
+      \end{cases}
+     \end{align}
+  \end{subequations}
+  there are two continuous variables:
+  \begin{subequations}
+     \begin{align}
+        \lambda_{t,s} = \text{poisson rate of task $t \in T$ generated by node $s \in S$}
+     \end{align}
+
+     \begin{align}
+       0 \le \beta_{t,s,c} \le \lambda_{t,s}  \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \\
+       0 \le \beta_{t,s,f} \le \lambda_{t,s}  \quad \forall{t \in T}, \forall{s \in S}, \forall{f \in F} \\
+       0 \le \beta_{t,s,e} \le \lambda_{t,s}  \quad \forall{t \in T}, \forall{s \in S}, \forall{e \in E}
+     \end{align}
+
+     \begin{align}
+       \beta_{t,s,c} = \text{size of flow of task $t \in T$ from node $s \in S$ to node $c \in C$}
+     \end{align}
+   \end{subequations}
+
+    \subsection{Constraints}
+    \begin{subequations}
+      \begin{align}
+        \lambda_{t,c} = \sum_{s\in S}\beta_{t,s,c} \quad \forall{t \in T}, \forall{c \in C} \\
+        \lambda_{t,f} = \sum_{s\in S}\beta_{t,s,f} \quad \forall{t \in T}, \forall{f \in F} \\
+        \lambda_{t,e} = \sum_{s\in S}\beta_{t,s,e} \quad \forall{t \in T}, \forall{e \in E}
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        \frac{\lambda_{t,c}}{\sum_{s\in S}\lambda_{t,s}} \le x_{t,c} \quad \forall{t \in T}, \forall{c \in C} \\
+        \frac{\lambda_{t,f}}{\sum_{s\in S}\lambda_{t,s}} \le x_{t,f} \quad \forall{t \in T}, \forall{f \in F} \\
+        \frac{\lambda_{t,e}}{\sum_{s\in S}\lambda_{t,s}} \le x_{t,e} \quad \forall{t \in T}, \forall{e \in E}
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        \lambda_{t,s} = \sum_{e \in E} \beta_{t,s,e} + \sum_{f 	\in F} \beta_{t,s,f}
+                        +\sum_{c \in C}\beta_{t,s,c} \quad \forall{t \in T}, \forall{s \in S}
+      \end{align}
+      \begin{align}
+        \lambda_{t,s} \le \sum_{e \in E} \beta_{t,s,e} + \sum_{f \in F} \beta_{t,s,f}
+                        +\sum_{c \in C}\beta_{t,s,c} \le \lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S}
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        &\sum_{t \in T}x_{t,c}f_t^r(\lambda_{t,c}) \le \sigma_c^r \quad \forall{r \in R}, \forall{c \in C} \\
+        &x_{t,c}f_t^r(\lambda_{t,c}) = k_1^rx_{t,c}\lambda_{t,c} + k_2^rx_{t,c} \\
+        &\psi_{t,c} \triangleq x_{t,c}\lambda_{t,c} \Rightarrow 0 \leq \psi_{t,c} \leq \lambda_{t,c} \\
+        &Q(x_{t,c}-1)+\lambda_{t,c} \leq \psi_{t,c} \leq x_{t,c}Q \\
+        &\notag Q = \max_{{t \in T},{c \in C}} \lambda_{t,c} \\
+        &\notag =\max_{{t \in T},{c \in C}} \sum_{s \in S}\beta_{t,s,c} \\
+        &\notag =\sum_{s\in S} \max_{{t \in T},{c \in C}} \beta_{t,s,c} \\
+        &=\sum_{s \in S}\lambda_{t,s}
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+      &0 \leq \psi_{t,c} \leq \lambda_{t,c} \\
+      &Q(x_{t,c}-1)+\lambda_{t,c} \leq \psi_{t,c} \leq x_{t,c}Q \quad \forall{t\in T}, \forall{c \in C} \\
+      &0 \leq \psi_{t,f} \leq \lambda_{t,f} \\
+      &Q(x_{t,f}-1)+\lambda_{t,f} \leq \psi_{t,f} \leq x_{t,f}Q \quad \forall{t \in T}, \forall{f \in F} \\
+      &0 \leq \psi_{t,e} \leq \lambda_{t,e} \\
+      &Q(x_{t,e}-1)+\lambda_{t,e} \leq \psi_{t,e} \leq x_{t,e}Q \quad \forall{t \in T}, \forall{e \in E}
+      \end{align}
+    \end{subequations}
+    \begin{subequations}
+      \begin{align}
+        \sum_{t \in T}k_1^r\psi_{t,c}+k_2^rx_{t,c} \le \sigma_c^r \quad \forall{r \in R}, \forall{c \in C} \\
+        \sum_{t \in T}k_1^r\psi_{t,f}+k_2^rx_{t,f} \le \sigma_f^r \quad \forall{r \in R}, \forall{f \in F} \\
+        \sum_{t \in T}k_1^r\psi_{t,e}+k_2^rx_{t,e} \le \sigma_e^r \quad \forall{r \in R}, \forall{e \in E}
+      \end{align}
+    \end{subequations}
+    \begin{subequations}
+      \begin{align}
+        &\tau_{t,c} = \tau_{t,s,c}^{tr} + \frac{1}{\mu_{t,c}-\lambda_{t,c}} \\
+        &\notag\text{We have:} \\
+        &\frac{1}{\mu_{t,c}} = \frac{w_t}{f_t^{cpu}(\lambda_{t,c})} \\
+        &f_t^{cpu}(\lambda_{t,c}) = k_1^{cpu}\lambda_{t,c}+k_2^{cpu} \\
+        &\notag\Rightarrow x_{t,c} \tau_{t,c} = x_{t,c} (\tau_{t,s,c}^{tr} + \frac{w_t}{(k_1^{cpu}-w_t)\lambda_{t,c} + k_2^{cpu}}) \\
+        &\le \delta_t \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C}
+      \end{align}
+      \begin{align}
+        &\notag x_{t,c}\lambda_{t,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + \\ &\notag x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C}
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        &\notag\psi_{t,s,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + \\ &\notag x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0
+      \end{align}
+      \begin{align}
+        &\notag\psi_{t,s,f}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,f} + \\ &\notag x_{t,f}k_2^{cpu}\tau_{t,s,f}^{tr}+w_t x_{t,f}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,f} \le 0
+      \end{align}
+      \begin{align}
+        &\notag\psi_{t,s,e}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,e} + \\ &\notag x_{t,e}k_2^{cpu}\tau_{t,s,e}^{tr}+w_t x_{t,e}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,e} \le 0
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        1 \le \sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c} \le N_t \quad \forall{t \in T}
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        &x_{t,c}(\lambda_{t,c} < \mu_{t,c}) => x_{t,c}(\lambda_{t,c} + \epsilon \le \mu_{t,c}) \\
+        &x_{t,c}\lambda_{t,c} = \lambda_{t,c} \\
+        &=> \epsilon x_{t,c} - k_1^{cpu}\lambda_{t,c} - k_2^{cpu} + w_t\lambda_{t,c} \le 0 \quad \forall{t \in T}, \forall{c \in C} \\
+        &\epsilon x_{t,f} - k_1^{cpu}\lambda_{t,f} - k_2^{cpu} + w_t\lambda_{t,f} \le 0 \quad \forall{t \in T}, \forall{f \in F} \\
+        &\epsilon x_{t,e} - k_1^{cpu}\lambda_{t,e} - k_2^{cpu} + w_t\lambda_{t,e} \le 0 \quad \forall{t \in T}, \forall{e \in E}
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        & \notag \min \sum_{t \in T}\sum_{e \in E} (x_{t,e}\pi_e\sum_{r \in R}f_t^r(\lambda_{t,e})) \\
+        &\notag + \sum_{t \in T}\sum_{f \in F} (x_{t,f}\pi_f\sum_{r \in R}f_t^r(\lambda_{t,f})) \\
+        & + \sum_{t \in T}\sum_{c \in C} (x_{t,c}\pi_c\sum_{r \in R}f_t^r(\lambda_{t,c}))
+      \end{align}
+      \begin{align}
+        & \notag \min \sum_{t \in T}\sum_{e \in E} x_{t,e}\Gamma_{t,e} \\
+        & \notag + \sum_{t \in T}\sum_{f \in F} x_{t,f}\Gamma_{t,f} \\
+        & + \sum_{t \in T}\sum_{c \in C} x_{t,c}\Gamma_{t,c}
+      \end{align}
+      \begin{align}
+        &\notag \Gamma_{t,e} = \pi_e((k_1^{cpu}+k_1^{ram}+k_1^{storage})\lambda_{t,e} \\
+        &\notag +k_2^{cpu}+k_2^{ram}+k_2^{storage}) \\
+        & = \pi_e(K_1\lambda_{t,e}+K_2)
+      \end{align}
+      \begin{align}
+        &\notag x_{t,e}\Gamma_{t,e} = K_1\pi_ex_{t,e}\lambda_{t,e} + K_2\pi_ex_{t,e} \\
+        &= K_1\pi_e\psi_{t,e} + K_2\pi_ex_{t,e}
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        & \notag \min \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e} \\
+        & \notag \sum_{t \in T}\sum_{f \in F} K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f} \\
+        & \sum_{t \in T}\sum_{c \in C} K_1\pi_c\psi_{t,c}+K_2\pi_cx_{t,c}
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        & \notag L(\underline{\underline x}, \underline{\underline \beta}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) = \sum_{t \in T}\sum_{e \in E} x_{t,e}\Gamma_{t,e} \\
+        & \notag + \sum_{t \in T}\sum_{f \in F} x_{t,f}\Gamma_{t,f} + \sum_{t \in T}\sum_{c \in C} x_{t,c}\Gamma_{t,c} \\
+        & \notag + \sum_{t \in T  }{\eta_{1,t}(1-\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c})} \\
+        & \notag + \sum_{t \in T}{\eta_{2,t}(\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c}-N_t)} \\
+        & + \sum_{t \in T}\sum_{s \in S}{\nu_{t,s}(\lambda_{t,s} - \sum_{e \in E}\beta_{t,s,e} + \sum_{f \in F}\beta_{t,s,f} +\sum_{c \in C}\beta_{t,s,c})}
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+      & \notag L = \sum_{e \in E}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,e}+\frac{\nu_{t,s}\lambda_{t,s}}{3|E|}) \\
+      &\notag + x_{t,e}(\Gamma_{t,e}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|E|}) \\
+      & \notag + \sum_{f \in F}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,f}+\frac{\nu_{t,s}\lambda_{t,s}}{3|F|}) \\
+      & \notag + x_{t,f}(\Gamma_{t,f}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|F|}) \\
+      & \notag + \sum_{c \in C}\sum_{t \in T}(\sum_{s \in S}(\nu_{t,s}\beta_{t,s,c}+\frac{\nu_{t,s}\lambda_{t,s}}{3|C|}) \\
+      &+ x_{t,c}(\Gamma_{t,c}-\eta_{1,t}+\eta_{2,t})+\frac{\eta_{1,t}-N_t\eta_{2,t}}{3|C|})
+      \end{align}
+      \begin{align}
+      & L = \sum_{e \in E}L_e + \sum_{f \in F}L_f + \sum_{c \in C}L_c
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        & \notag g(\underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) = \inf_{\underline{\underline x}, \underline{\underline \beta}}L(\underline{\underline x}, \underline{\underline \beta}, \underline{\eta_1},\underline{\eta_2}, \underline{\underline \nu}) \\
+        & \notag = \sum_{e \in E}\inf_{\underline{\underline {x_e}}, \underline{\underline {\beta_e}}}L_e(\underline{\underline {x_e}}, \underline{\underline {\beta_e}}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) \\
+        & \notag + \sum_{f \in F}\inf_{\underline{\underline {x_f}}, \underline{\underline {\beta_f}},}L_f(\underline{\underline {x_f}}, \underline{\underline {\beta_f}}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) \\
+        & \notag + \sum_{c \in C}\inf_{\underline{\underline {x_c}}, \underline{\underline {\beta_c}},}L_c(\underline{\underline {x_c}}, \underline{\underline {\beta_c}}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) \\
+        & \notag = \sum_{e \in E}g_e(\underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) \\
+        & \notag + \sum_{f \in F}g_f(\underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) \\
+        & + \sum_{c \in C}g_c(\underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu})
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        & \underline{\underline {x_e}}^{(k+1)}, \underline{\underline {\beta_e}}^{(k+1)} = arg \min_{\underline{\underline {x_e}}, \underline{\underline {\beta_e}}}L_e(\underline{\underline {x_e}}, \underline{\underline {\beta_e}}, \underline {\eta_1}^{(k)}, \underline {\eta_2}^{(k)}, \underline{\underline \nu}^{(k)}) \\
+        & \underline{\underline {x_f}}^{(k+1)}, \underline{\underline {\beta_f}}^{(k+1)} = arg \min_{\underline{\underline {x_f}}, \underline{\underline {\beta_f}}}L_f(\underline{\underline {x_f}}, \underline{\underline {\beta_f}}, \underline {\eta_1}^{(k)}, \underline {\eta_2}^{(k)}, \underline{\underline \nu}^{(k)}) \\
+        & \underline{\underline {x_c}}^{(k+1)}, \underline{\underline {\beta_c}}^{(k+1)} = arg \min_{\underline{\underline {x_c}}, \underline{\underline {\beta_c}}}L_c(\underline{\underline {x_c}}, \underline{\underline {\beta_c}}, \underline {\eta_1}^{(k)}, \underline {\eta_2}^{(k)}, \underline{\underline \nu}^{(k)})
+      \end{align}
+    \end{subequations}
+    \begin{subequations}
+      \begin{align}
+        &\eta_{1,t}^{(k+1)} = \eta_{1,t}^{(k)} + \alpha^{(k)}(1-\sum_{e \in E}x_{t,e}^{(k+1)} + \sum_{f \in F}x_{t,f}^{(k+1)} + \sum_{c \in C}x_{t,c}^{(k+1)}) \\
+        &\eta_{2,t}^{(k+1)} = \eta_{2,t}^{(k)} + \alpha^{(k)}(\sum_{e \in E}x_{t,e}^{(k+1)} + \sum_{f \in F}x_{t,f}^{(k+1)} + \sum_{c \in C}x_{t,c}^{(k+1)}-N_t) \\
+        &\nu_{t,s}^{(k+1)} = \nu_{t,s}^{(k)} + \alpha^{(k)}(\lambda_{t,s} - \sum_{e \in E}\beta_{t,s,e}^{(k+1)} + \sum_{f \in F}\beta_{t,s,f}^{(k+1)} +\sum_{c \in C}\beta_{t,s,c}^{(k+1)})
+      \end{align}
+    \end{subequations}
+    \subsection{Objective}
+
+    \begin{subequations}
+        \begin{align}
+          p_k = \sum_{i=1}^{l_e}x_{k,i}^e C(v_i^e, t_k) \\ \notag
+          +\sum_{j=1}^{l_f}x_{k,j}^f C(v_j^f, t_k) \\ \notag
+          +\sum_{h=1}^{l_c}x_{k,h}^c C(v_h^c, t_k)
+        \end{align}
+    \end{subequations}
+    \begin{subequations}
+    \begin{align}
+      \min{\sum_{k=1}^{l_t}{p_k}} \\ \notag
+      \text{subject to: 9}
+    \end{align}
+    \end{subequations}
+
+    \subsection{Solution}
+    We can reshape main problem as following:
+    \begin{subequations}
+      \begin{align}
+        &\min(\sum_{i=1}^{l_e} \sum_{k=1}^{l_t} x_{k,i}^e C_{k,i}^e \\ \notag
+        &+\sum_{j=1}^{l_f} \sum_{k=1}^{l_t} x_{k,j}^f C_{k,j}^f
+        +\sum_{h=1}^{l_c} \sum_{k=1}^{l_t} x_{k,h}^c C_{k,h}^c) \\ \notag
+        &\text{subject to:} \\ \notag
+          %
+        &\sum_{i=1}^{l_e}x_{k,i}^e\tau_{k,i}^e
+        +\sum_{j=1}^{l_f}x_{k,j}^f\tau_{k,j}^f
+        +\sum_{h=1}^{l_c}x_{k,h}^c\tau_{k,h}^c
+        \le \delta_k \quad \forall k\in\{1,...,l_t\} \\ \notag
+          %
+        &\sum_{k=1}^{l_t}x_{k,h}^c w_k \le c_h^c \quad\quad \forall h\in\{1,2,...,l_c\} \\ \notag
+          %
+        &\sum_{k=1}^{l_t}x_{k,j}^f w_k \le c_j^f \quad\quad \forall j\in\{1,2,...,l_f\} \\ \notag
+          %
+        &\sum_{k=1}^{l_t}x_{k,i}^e w_k \le c_i^e \quad\quad \forall i\in\{1,2,...,l_e\} \\ \notag
+          %
+        &\sum_{i=1}^{l_e}x_{k,i}^e+\sum_{j=1}^{l_f}x_{k,j}^f+\sum_{h=1}^{l_c}x_{k,h}^c=1 \quad\quad
+        \forall k\in\{1,2,...,l_t\} \\ \notag
+      \end{align}
+    \end{subequations}
+
+    We define $u^m$ for each computational agent $m$, that is a matrix with size $l_t*(l_e+l_f+l_c)$.
+    It is the local copy of all variables in agent $m$. i.e. $u_{k,i}^{e,m}$ is the copy of variable $x_{k,i}^e$
+    in agent $m$ for $m=1,..,(l_m = l_e+l_f+l_c)$. So we should add new constraint $u^m = z \quad \forall m$ to main problem.
+    We will use admm on this new constraint so:
+
+    \begin{subequations}
+      \begin{align}
+        &L_p = \sum_{i=1}^{l_e} \sum_{k=1}^{l_t} x_{k,i}^e C_{k,i}^e
+        +\sum_{j=1}^{l_f} \sum_{k=1}^{l_t} x_{k,j}^f C_{k,j}^f
+        +\sum_{h=1}^{l_c} \sum_{k=1}^{l_t} x_{k,h}^c C_{k,h}^c \\ \notag
+        &+\sum_{m=1}^{l_m} \nu^m*(u^m-z) + \sum_{m=1}^{l_m} \norm\frac{\rho}{2} \|u^m-z\|^2
+      \end{align}
+    \end{subequations}
+
+    We can seperate augmented lagrangian for each computational agent $m$ then:
+    \begin{subequations}
+      \begin{align}
+        &L_p^m = \sum_{k=1}^{l_t} u_{k,m}^{m} C_{k,m}
+        + \nu^m*(u^m-z) + \norm\frac{\rho}{2} \|u^m-z\|^2 \\ \notag
+        &\quad \forall m\in\{1,2,...,l_m\}
+      \end{align}
+    \end{subequations}
+
+    So we can write the algorithm as following:
+    \begin{subequations}
+      \begin{align}
+        &\text{for each iteration k} \\ \notag
+        &\text{1.\quad}u^{m,(k+1)} = arg \min {L_p^m(u^{m}, z^{(k)}, \nu^{m,(k)})} = \\ \notag
+        &\sum_{k=1}^{l_t} u_{k,m}^{m} C_{k,m}
+        + \nu^{m,(k)}*(u^m-z^{(k)}) + \norm\frac{\rho}{2} \|u^m-z^{(k)}\|^2 \\ \notag
+        &\text{subject to:} \\ \notag
+        &\sum_{k=1}^{l_t}{u_{k,m}^m w_k} \le c^m \\ \notag
+        &\sum_{i=1}^{l_e}u_{k,i}^{e,m}+\sum_{j=1}^{l_f}u_{k,j}^{f,m}+\sum_{h=1}^{l_c}u_{k,h}^{c,m}=1 \quad\quad \forall k\in\{1,2,...,l_t\} \\ \notag
+        &\sum_{i=1}^{l_e}u_{k,i}^{e,m}\tau_{k,i}^e
+        +\sum_{j=1}^{l_f}u_{k,j}^{f,m}\tau_{k,j}^f
+        +\sum_{h=1}^{l_c}u_{k,h}^{c,m}\tau_{k,h}^c
+        \le \delta_k \quad\quad \forall k\in\{1,2,...,l_t\} \\ \notag
+        &\text{2.\quad}{z}^{(k+1)} = \bar{u}^{(k+1)} + \frac{1}{\rho}\bar{\nu}^{(k)} \\ \notag
+        &\text{3.\quad}{\nu}^{m,(k+1)} = \nu^{m,(k)} + \rho(u^{m,(k+1)} - z^{(k+1)})
+      \end{align}
+    \end{subequations}
+
+    \subsection{Solution 2}
+    lagrangian of main problem is as following
+    \begin{subequations}
+      \begin{align}
+        &L(x^e,x^f,x^c,\lambda,\nu) = \sum_{i=1}^{l_e} \sum_{k=1}^{l_t} x_{k,i}^e C_{k,i}^e
+        +\sum_{j=1}^{l_f} \sum_{k=1}^{l_t} x_{k,j}^f C_{k,j}^f
+        +\sum_{h=1}^{l_c} \sum_{k=1}^{l_t} x_{k,h}^c C_{k,h}^c \\ \notag
+        %
+        &+\sum_{k=1}^{l_t}\lambda_k(\sum_{i=1}^{l_e}x_{k,i}^e\tau_{k,i}^e
+        +\sum_{j=1}^{l_f}x_{k,j}^f\tau_{k,j}^f
+        +\sum_{h=1}^{l_c}x_{k,h}^c\tau_{k,h}^c
+        -\delta_k) \\ \notag
+        %
+        &+\sum_{k=1}^{l_t}\nu_k(\sum_{i=1}^{l_e}x_{k,i}^e+\sum_{j=1}^{l_f}x_{k,j}^f+\sum_{h=1}^{l_c}x_{k,h}^c-1)
+      \end{align}
+    \end{subequations}
+    So we can decompose the lagrangian as follows
+    \begin{subequations}
+      \begin{align}
+        &L(x^e,x^f,x^c,\lambda,\nu) = \\ \notag
+        &\sum_{i=1}^{l_e} \sum_{k=1}^{l_t} (x_{k,i}^e C_{k,i}^e +\lambda_kx_{k,i}^e\tau_{k,i}^e +\nu_kx_{k,i}^e - \frac{\lambda_k\delta_k +\nu_k}{3l_e} ) \\ \notag
+        &+\sum_{j=1}^{l_f} \sum_{k=1}^{l_t} (x_{k,j}^f C_{k,j}^f +\lambda_kx_{k,j}^f\tau_{k,j}^f +\nu_kx_{k,j}^f - \frac{\lambda_k\delta_k +\nu_k}{3l_f}) \\ \notag
+        &+\sum_{h=1}^{l_c} \sum_{k=1}^{l_t} (x_{k,h}^c C_{k,h}^c +\lambda_kx_{k,h}^c\tau_{k,h}^c +\nu_kx_{k,h}^c - \frac{\lambda_k\delta_k +\nu_k}{3l_c}) \\ \notag
+      \end{align}
+    \end{subequations}
+    \begin{subequations}
+      \begin{align}
+        &L(x^e,x^f,x^c,\lambda,\nu) = \sum_{i=1}^{l_e} L_{i}^e(x_{i}^e,\lambda,\nu) \\ \notag
+        &+\sum_{j=1}^{l_f} L_{j}^f(x_{j}^f,\lambda,\nu) \\ \notag
+        &+\sum_{h=1}^{l_c} L_{h}^c(x_{h}^c,\lambda,\nu) \\ \notag
+      \end{align}
+    \end{subequations}
+    \begin{subequations}
+      \begin{align}
+        &g(\lambda, \nu) = \inf_{x^e,x^f,x^c}L(x^e,x^f,x^c,\lambda,\nu) \\ \notag
+        &=\sum_{i=1}^{l_e}\inf_{x_i^e}L_{i}^e(x_{i}^e,\lambda,\nu) \\ \notag
+        &+\sum_{j=1}^{l_f}\inf_{x_j^f}L_{j}^f(x_{j}^f,\lambda,\nu) \\ \notag
+        &+\sum_{h=1}^{l_c}\inf_{x_h^c}L_{h}^c(x_{h}^c,\lambda,\nu) \\ \notag
+        &=\sum_{i=1}^{l_e}g_{i}^e(\lambda,\nu) \\ \notag
+        &+\sum_{j=1}^{l_f}g_{j}^f(\lambda,\nu) \\ \notag
+        &+\sum_{h=1}^{l_c}g_{h}^c(\lambda,\nu) \\ \notag
+      \end{align}
+    \end{subequations}
+
+    \begin{subequations}
+      \begin{align}
+        &\lambda_k^+ = \lambda_k^- + \alpha(\sum_{i=1}^{l_e}x_{k,i}^e\tau_{k,i}^e
+        +\sum_{j=1}^{l_f}x_{k,j}^f\tau_{k,j}^f
+        +\sum_{h=1}^{l_c}x_{k,h}^c\tau_{k,h}^c
+        -\delta_k) \\ \notag
+      \end{align}
+      \begin{align}
+        &\nu_k^+ = \nu_k^- + \alpha(\sum_{i=1}^{l_e}x_{k,i}^e+\sum_{j=1}^{l_f}x_{k,j}^f+\sum_{h=1}^{l_c}x_{k,h}^c-1)
+      \end{align}
+    \end{subequations}
+
+    \begin{algorithm}
+    \renewcommand{\thealgorithm}{}
+    \caption{Test Algorithm}\label{euclid}
+    \begin{algorithmic}[1]
+      % \Procedure{Euclid}{$a,b$}\Comment{The g.c.d. of a and b}
+      %   \State $r\gets a\bmod b$
+      %   \While{$r\not=0$}\Comment{We have the answer if r is 0}
+      %   \State $a\gets b$
+      %   \State $b\gets r$
+      %   \State $r\gets a\bmod b$
+      %   \EndWhile\label{euclidendwhile}
+      %   \State \textbf{return} $b$\Comment{The gcd is b}
+      %   \NoNumber{This line will not have a number!}
+      % \EndProcedure
+      \For{$n=1:L_v$}
+        \State{Determine the set of states $Z_n$}
+        \State $RemovedStates={}$
+        \For{$j\in Z_n$}
+          \State{Determine the index of computational node $l$ and the index of task $t$
+          and the index of part $u$}
+          \State $XP_n^j=Z_{n-1}$
+          \If{$j\neq 0$}
+            \For{$i \in XP_n^j$}
+              \If{$ServerResource < 0$}
+                \State $XP_n^j = XP_n^j - \{i\}$
+              \EndIf
+            \EndFor
+          \EndIf
+          \If{$XP_n^j \neq \emptyset$}
+            \For{$i \in XP_n^j$}
+              \State{Calculate $T_{n-1,n}^{i,j}$}
+            \EndFor
+            \State{Calculate $I_n^j$ and $\Lambda_n^j$}
+            \State{Calculate $\phi_n^j$}
+            \If{$j\neq 0$}
+              \State $ServerResource < 0$
+            \EndIf
+          \Else
+            \State $RemovedStates = RemovedStates + \{j\}$
+          \EndIf
+        \EndFor
+        \If{$RemovedStates = Z_n$}
+          \State{Set $H=\sum_{m=1}^{t}{N_m}$ and $ResourceIndicator=0$}
+          \State{Determine the Viterbi path $P$ with $H$}
+          \State\textbf{break}
+        \Else
+            \State{Remove all states in the $RemovedStates$ from the $Z_n$}
+        \EndIf
+      \EndFor
+    \If{$ResourceIndicator = 1$}
+      \State{Determine the Viterbi path $P$ with $H$}
+    \EndIf
+      \State{Determine the task scheduling using Viterbi path $P$}
+    \end{algorithmic}
+    \end{algorithm}
+
+    % \begin{equation}
+    %   P_i(u_i) = P_i^{idle} + (P_i^{max} - P_i^{idle}) u_i
+    % \end{equation}
+    % So each IaaS provider try to solve following optimizaiton problem:
+    % \begin{subequations}
+    %   \begin{align}
+    %     &\max_{p_i, U_i,\Lambda^i_S} \varphi_i(p_i, U_i, \Lambda^i_S)\\
+    %     &\text{subject to:} \nonumber\\
+    %     &0 \le u_s^i, \forall s \in \{1, \hdots, N_S\} \\
+    %     &\sum_{s=1}^{N_S}u_s^i \le 1 \\
+    %     &P_{idle}^i + (P_{max}^i - P_{idle}^i)\sum_{s=1}^{N_S}u_s^i \le \bar{P^i} \\
+    %     &\Lambda_s^i \in SOL(F_s), \forall s
+    %   \end{align}
+    % \end{subequations}
+
+
+
+
+    % We can define an exact potential function for this game.
+    % As explained in ** function $\pi$ is an exact potential function if for --- we have:
+
+
+
+
+  %
+  %   \begin{equation}
+  %     \pi(x^i,x^{-i}) - \pi(y^i,x^{-i}) = \varphi_i(x^i,x^{-i}) - \varphi_i(y^i,x^{-i})
+  %   \end{equation}
+  %   It's easy to show that any global minimum of function $\pi$ is a nash equilibrium of corresponding game.
+  %
+  %   show or not???
+  %   For IaaS providers exact potential function can be writen as:
+  %   \begin{equation}
+  %     \pi(x^i, x^{-i}) = \sum_{i=1}^{N_I} \varphi_i(x^i, x^{-i})
+  %   \end{equation}
+  % \section{Problem Formulation}
+  %   \begin{subequations}
+  %     \begin{align}
+  %       &\max_{p^i, U^i,\Lambda^i_S, \sigma_S^i, \gamma_S^i, \nu_S^i,, \eta_S^i} \varphi(p_i, U^i,\Lambda_S^i)\\
+  %       &\text{subject to:} \nonumber\\
+  %       &\sum_{s=1}^{N_S}u_s^i \le 1 \\
+  %       &0 \le u_s^i, \forall s \in \{1, \hdots, N_S\} \\
+  %       &P_{idle}^i + (P_{max}^i - P_{idle}^i)\sum_{s=1}^{N_S}u_s^i \le \bar{P^i} \\
+  %       &0 \le \lambda_{s,i}^i \\
+  %       &\lambda_s^{min} - \sum_{j=1}^{N_{I}} \lambda_{j,s}^i \le 0, \forall s \in \{1, \hdots, N_S\} \\
+  %       &\lambda_{j,s}^i R_s \le 0.9 \mu_{j,s} C_j, \forall s \& j  \\
+  %       \begin{split}
+  %         \sum_{j=1}^{N_I} \lambda_{j,s}^i  (t^{sensors}_{j,s} + \frac{1}{\mu_{j,s}^i - \lambda_{j,s}^i} + t_{j,s}^{actuators} - t_s^{\text{max}}) \\
+  %         \le 0, \forall s
+  %       \end{split} \\
+  %       &\sigma_{j,s}^i \lambda_{j,s}^i = 0, \forall j \& s\\
+  %       &\gamma_s^i (\lambda_s^{min} - \sum_{j=1}^{N_{I}} \lambda_{j,s}^i) = 0, \forall s\\
+  %       &\nu_{j,s}^i (\lambda_{j,s} R_s - 0.9 \mu_{j,s} C_j) = 0 \forall j \& s\\
+  %       \begin{split}
+  %         \eta_s^i \sum_{j=1}^{N_I} \lambda_{j,s}^i  (t^{sensors}_{j,s} + \frac{1}{\mu_{j,s} C_j - \lambda_{j,s} R_s} + t_{j,s}^{actuators} - t_s^{\text{max}}) \\
+  %         = 0, \forall s
+  %       \end{split} \\
+  %       \begin{split}
+  %         &\frac{1}{\sum_{k=1}^{N_I} \lambda_{k,s}^i} - p_j R_s + \\
+  %         &\sigma_{j,s}^i + \gamma_s^i - R_s \nu_{j,s}^i - \\
+  %         &\eta_s^i (t_{j,s}^{sensors} + t_{j,s}^{actuators} - t_s^{max} + \frac{\mu_{j,s} C_j}{\mu_{j,s} C_j - \lambda_{j,s}^i R_s}) \\
+  %         & = 0, \forall s \& j
+  %       \end{split} \\
+  %       &0 \le \sigma_{j,s}^i, \sigma_{j,s}^i, \nu_{j,s}^i \& \sigma_{j,s}^i, \forall s \& j
+  %     \end{align}
+  %   \end{subequations}
+  %   Here $\lambda_{s,i}$ is $[\lambda^i_1, \cdots, \lambda^i_{N_S}]$ and $\lambda^i_s$ is conjecture of $\lambda_s$ by PaaS provider $i$, $u^i$ is $[u_{i,1}, \cdots, u_{i,N_S}]$ and $u_i = \sum_{i=1}^{N_S}u_{i,s}$.
+  %   A potential function can be defined for this game.
+  %
+  %   Function $\pi$ is potential function of this game:
+  %   \begin{equation}
+  %     \pi(x^i, y^i,x^{-i}, y^{-i})=\sum_{i=1}^{N_I} P(u_i) - p_i u_i
+  %   \end{equation}
+  %   here $x^i$ and $y^i$ are a tuple of $(p^i,u^i)$ and  $(\lambda_{s,i},\nu_S^i,\gamma_S^i)$
+
+
+
+
+
+
+
+    \bibliographystyle{IEEEtran}
+    \bibliography{references}
+
+\end{document}
