@@ -210,6 +210,7 @@
 		&= K_1\pi_e\psi_{t,e} + K_2\pi_ex_{t,e}
 		\end{align}
 	\end{subequations}
+
 	در \cref{eqn:def_Gamma} یک متغیر میانی تعریف شده است، که به ساده نویسی مسئله کمک شایانی می‌کند. 
 	درنهایت با ساده‌سازی‌های انجام شده و همچنین استفاده از متغیرهای کمکی می‌توان گفت که تابع هدف نهایی به صورت \cref{eqn:objective_func_final} نوشته می‌شود. 
 	\begin{align}
@@ -229,7 +230,7 @@
 	\section{راه‌حل غیرمتمرکز}
 	در این بخش قرار است که مسئله بهینه‌سازی نهایی که در \cref{eqn:objective_func_final} نوشته شد به صورت غیرمتمرکز حل شود. 
 	همانطور که در قسمت بررسی قیدهای مربوط به مسئله اصلی گفته شد، بجز دو قید از قیدهای مسئله که به صورت متصل بودند بقیه قیدها این قابلیت را داشتند که بین گره‌ها تجزیه شوند. 
-	\subsection{راه‌حل غیرمتمرکز برای مسئله milp}
+	
 	در این بخش ابتدا با ارچاع به یکی از مقاله‌های موجود در این زمینه در مورد نجوه‌ی حل مسائل milp به صورت غیرمتمرکز صحبت می‌شود و در ادامه این راه حل ارائه شده بر روی مسئله اصلی اجرا می‌شود. 
 	در مقاله \cite{decentralized_approach} به صورت کامل در مورد روش غیرمتمرکز صحبت شده است با ارجاع به این مقاله در ادامه این روش را مورد بررسی قرار می‌دهیم. 
 	
@@ -269,9 +270,9 @@
 				\State k = 0
 				\Repeat
 					\For{$i = 1$ to $m$}
-						\State $x_i(k+1) \gets \arg \min_{x_i \in vert(X_i)} (c_i^T + \lambda(k)^TA_i)x_i$
+						\State $x_i(k+1) \gets \arg \displaystyle \min_{x_i \in vert(X_i)} (c_i^T + \lambda(k)^TA_i)x_i$
 					\EndFor
-					\State $\bar{s}_i(k+1) = \max\{\bar{s}_i(k), A_ix_i(k+1) \} , i = 1,...,m$
+					\State $\bar{s}_i(k+1) = \max\{\bar{s}_i(k), A_ix_i(k+1) \} , i = 1, \dots, m$
 					\State $\underline{s}_i(k+1) = \min\{\underline{s}_i(k), A_ix_i(k+1) \} , i = 1,...,m$
 					\State $\rho_i(k+1) = \bar{s}_i(k+1) - \underline{s}_i(k+1),  , i = 1,...,m$
 					\State $\rho(k+1) = p \max \{ \rho_1(k+1), ..., \rho_m(k+1) \}$
@@ -376,8 +377,14 @@
 			\State k = 0
 			\Repeat
 				\For{$i = 1$ to $l$}
-					\State $x_i(k+1), \beta_i(k+1), \psi_i(k+1) \gets \arg \min_{x_i,\beta_i,\psi_i \in vert(X_i)} \sum_{t \in T}(x_i(K_2\pi_i-\eta_{1,t}+\eta_{2,t}) + K_1\pi_i\psi_{t,i} + \sum_{s \in S}\beta_{t,s,i}(\nu_{2,t,s} - \nu_{1,t,s}))
-					s. to: 
+					\State $x_i(k+1), \beta_i(k+1), \psi_i(k+1) \gets \arg \displaystyle \min_{x_i,\beta_i,\psi_i \in vert(X_i)} \sum_{t \in T}(x_i(K_2\pi_i-\eta_{1,t}+\eta_{2,t}) + K_1\pi_i\psi_{t,i} + \sum_{s \in S}\beta_{t,s,i}(\nu_{2,t,s} - \nu_{1,t,s}))\newline
+					\text{subj. to} \newline
+					\cref{eqn:constraint_load_conservation_computing_nodes}
+					\cref{eqn:constraint_request_flow_existence}				
+					\cref{eqn:constraint_psi}
+					\cref{eqn:constraint_load_managing_new} 
+					\cref{eqn:constraint_delay_last}
+					\cref{eqn:constraint_queue_stability}
 					$
 					%todo constraints and new line
 					\State $\bar{s}_{\eta_1,i}(k+1) = \max\{\bar{s}_{\eta_1,i}(k), -x_{t,i}(k+1) \}$
@@ -412,8 +419,12 @@
 \end{latin}
 
 
+\section{روش huristic}
 
-
+	در این بخش قرار است برای مسئله اصلی یک راه‌حل شبه‌بهینه طراحی شود. مزیت این بخش نسبت به راه‌حل‌های قبلی این است که نیازی نیست که مسئله خطی‌سازی شود. بنابراین می‌توان کفت که مسئله اصلی این‌بار به صورت زیر نوشته می‌شود. 
+	
+%todo viterbi abstract here or in abstract
+	
     در یک منطقه جغرافیایی تعداد $N$ عدد سرویس و $M$ عدد فراهم کننده زیرساخت\LTRfootnote{Infrastructure Provider} پردازشی در نظر گرفته می‌شود.
     مجموعه سرویس‌ها را با $S$ و مجموع منابع پردازشی را با $C$ نمایش می‌دهیم.
     فراهم‌کننده‌های زیرساخت علاقه دارند که توان پردازشی اضافی خود را با دیگران به اشتراک بگذارند.
