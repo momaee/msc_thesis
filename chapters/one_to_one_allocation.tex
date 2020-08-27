@@ -303,16 +303,16 @@
 	درنهایت می‌توان گفت که فرم استاندارد شده‌ی مسئله که بتوان \cref{alg:decentralized_approach} را بر روی آن اعمال کرد به صورت \cref{eqn:objective_func_dec_form} نوشته می‌شود. 
 	
 	\begin{align}
-		&\min \sum_{t \in T}\sum_{e \in E} 				K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e} \notag \\
+		&\min \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e} \notag \\
 		&+\sum_{t \in T}\sum_{f \in F} 	K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f}\notag \\
 		&+\sum_{t \in T}\sum_{c \in C} K_1\pi_c\psi_{t,c}+K_2\pi_cx_{t,c} \label{eqn:objective_func_dec_form} \notag \\
-		&s.to \notag \\
-		&\sum_{e \in E} \beta_{t,s,e} + \sum_{f \in F} \beta_{t,s,f}
-		+\sum_{c \in C}\beta_{t,s,c} \le \lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S} \notag \\
+		&\text{subject to:} \notag \\
+		&-\sum_{e \in E}x_{t,e} - \sum_{f \in F}x_{t,f} - \sum_{c \in C}x_{t,c} \le -1 \quad \forall{t \in T} \notag \\
+		&\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c} \le N_t \quad \forall{t \in T} \notag \\
 		&-\sum_{e \in E} \beta_{t,s,e} - \sum_{f \in F} \beta_{t,s,f}
 		-\sum_{c \in C}\beta_{t,s,c} \le -\lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S} \notag \\ 
-		&\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c} \le N_t \quad \forall{t \in T} \notag \\
-		&-\sum_{e \in E}x_{t,e} - \sum_{f \in F}x_{t,f} - \sum_{c \in C}x_{t,c} \le -1 \quad \forall{t \in T} \notag \\
+		&\sum_{e \in E} \beta_{t,s,e} + \sum_{f \in F} \beta_{t,s,f}
+		+\sum_{c \in C}\beta_{t,s,c} \le \lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S} \notag \\		
 		&\cref{eqn:constraint_load_conservation_computing_nodes}
 		\cref{eqn:constraint_request_flow_existence}				
 		\cref{eqn:constraint_psi} \notag \\
@@ -324,8 +324,9 @@
 	%todo lagrangian in persian
 		لاگرانژین صورت مسئله‌ی فوق به صورت زیر نوشته خواهد شد.
 		\begin{align}\label{eqn:lagrangian_1}
-			&L(\underline{\underline x}, \underline{\underline \beta}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu}) = \sum_{t \in T}\sum_{e \in E} x_{t,e}\Gamma_{t,e} \notag \\
-			&+ \sum_{t \in T}\sum_{f \in F} x_{t,f}\Gamma_{t,f} + \sum_{t \in T}\sum_{c \in C} x_{t,c}\Gamma_{t,c} \notag \\
+			&L(\underline{\underline x}, \underline{\underline \beta}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu_1}, \underline{\underline \nu_2}) = \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e} \notag \\
+			&+ \sum_{t \in T}\sum_{f \in F} K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f} \notag \\
+			&+ \sum_{t \in T}\sum_{c \in C} K_1\pi_c\psi_{t,c}+K_2\pi_cx_{t,c} \notag \\
 			&+ \sum_{t \in T  }{\eta_{1,t}(1-\sum_{e \in E}x_{t,e} - \sum_{f \in F}x_{t,f} - \sum_{c \in C}x_{t,c})} \notag \\
 			&+ \sum_{t \in T}{\eta_{2,t}(\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c}-N_t)} \notag \\
 			&+ \sum_{t \in T}\sum_{s \in S}{\nu_{1,t,s}(\lambda_{t,s} - \epsilon - \sum_{e \in E}\beta_{t,s,e} - \sum_{f \in F}\beta_{t,s,f} - \sum_{c \in C}\beta_{t,s,c})} \notag \\
@@ -334,15 +335,84 @@
 	در \cref{eqn:lagrangian_2} سعی شده است که کل تابع موجود بر روی گره‌های پردازشی تجزیه شود. بدین صورت که هر گره پردازشی تابع مخصوص به خود را داشته باشد.
 	\begin{subequations}\label{eqn:lagrangian_2}
 		\begin{align}
-			&L = \sum_{e \in E}\sum_{t \in T}(\sum_{s \in S}(\beta_{t,s,e}(\nu_{2,t,s} - \nu_{1,t,s}))+x_{t,e}(\Gamma_{t,e}-\eta_{1,t}+\eta_{2,t})) \notag \\
-			&+ \sum_{f \in F}\sum_{t \in T}(\sum_{s \in S}(\beta_{t,s,f}(\nu_{2,t,s}-\nu_{1,t,s}))+ x_{t,f}(\Gamma_{t,f}-\eta_{1,t}+\eta_{2,t})) \notag \\
-			&+ \sum_{c \in C}\sum_{t \in T}(\sum_{s \in S}(\beta_{t,s,c}(\nu_{2,t,s}-\nu_{1,t,s}))+ x_{t,c}(\Gamma_{t,c}-\eta_{1,t}+\eta_{2,t})) \notag \\
-			&+\sum_{t \in T}(\sum_{s \in S}(\lambda_{t,s}(\nu_{1,t,s}-\nu_{2,t,s}) -\epsilon(\nu_{1,t,s}+\nu_{2,t,s})) + \eta_{1,t} - N_t\eta_{2,t})
+			&L = \sum_{e \in E}\sum_{t \in T}(x_{t,e}(K_2\pi_e-\eta_{1,t}+\eta_{2,t}) + K_1\pi_e\psi_{t,e} + \sum_{s \in S}\beta_{t,s,e}(\nu_{2,t,s} - \nu_{1,t,s})) \notag \\
+			&+ \sum_{f \in F}\sum_{t \in T}(x_{t,f}(K_2\pi_f-\eta_{1,t}+\eta_{2,t}) + K_1\pi_f\psi_{t,f} + \sum_{s \in S}\beta_{t,s,f}(\nu_{2,t,s}-\nu_{1,t,s})) \notag \\
+			&+ \sum_{c \in C}\sum_{t \in T}(x_{t,c}(K_2\pi_c-\eta_{1,t}+\eta_{2,t}) + K_1\pi_c\psi_{t,c} + \sum_{s \in S}\beta_{t,s,c}(\nu_{2,t,s}-\nu_{1,t,s})) \notag \\
+			&+\sum_{t \in T}(\eta_{1,t} - N_t\eta_{2,t} + \sum_{s \in S}\lambda_{t,s}(\nu_{1,t,s}-\nu_{2,t,s}) -\epsilon(\nu_{1,t,s}+\nu_{2,t,s}))
 		\end{align}
 		\begin{align}
 			&L = L_0 + \sum_{e \in E}L_e + \sum_{f \in F}L_f + \sum_{c \in C}L_c
 		\end{align}
 	\end{subequations}
+حال می‌توانیم \cref{alg:decentralized_approach} را بر روی مسئله خودمان اعمال کنیم همچنین در الگوریتم پیشنهادی حاصل جهت بهینه کردن میزان محاسبات تغییراتی داده شده است بدین صورت که در \cref{alg:decentralized_approach} یک حلقه‌ وجود دارد که متغیرهای محلی را حساب می‌کند و در مرحله بعد سه حلقه‌ی دیگر به همان اندازه استفاده می‌شود که متغیر اضافه شده به قیدها حساب شوند اما در \cref{alg:my_decentralized_approach} که الگوریتم پیشنهادی است تمام این محاسبات در یک حلقه انجام می‌شود. در \cref{alg:my_decentralized_approach} بعضی متغیرها به صورت برداری هستند، اما جهت خوانایی بیشتر از گذاشتن علامت بردار و یا ماتریس بر روی متغیرها صرف‌نظر شده‌است. برخی قراردادهای جدید در \cref{eqn:def_globals} آورده شده‌است که از آن‌ها در \cref{alg:my_decentralized_approach} استفاده شده‌است.
+\begin{subequations}
+	\begin{align}
+		l = |E| + |F| + |C|
+	\end{align}
+\end{subequations}
+	
+\begin{latin}
+	\begin{algorithm}
+		\caption{Decentralized milp from \cite{decentralized_approach}}		          \label{alg:my_decentralized_approach}
+		\begin{algorithmic}[1]
+			\Procedure{}{}       %\Comment{This is a test}
+			\State $\eta_1(0) = 0$
+			\State $\eta_2(0) = 0$
+			\State $\nu_1(0) = 0$
+			\State $\nu_2(0) = 0$
+			
+			\State $\bar{s}_{\eta_1,i}(0) = -\infty , i = 1,...,l$ 
+			\State $\underline{s}_{\eta_1,i}(0) = +\infty , i = 1,...,l$ 
+			
+			\State $\bar{s}_{\eta_2,i}(0) = -\infty , i = 1,...,l$ 
+			\State $\underline{s}_{\eta_2,i}(0) = +\infty , i = 1,...,l$ 
+			
+			\State $\bar{s}_{\nu_1,i}(0) = -\infty , i = 1,...,l$ 
+			\State $\underline{s}_{\nu_1,i}(0) = +\infty , i = 1,...,l$ 
+			
+			\State $\bar{s}_{\nu_2,i}(0) = -\infty , i = 1,...,l$ 
+			\State $\underline{s}_{\nu_2,i}(0) = +\infty , i = 1,...,l$ 
+			
+			\State k = 0
+			\Repeat
+				\For{$i = 1$ to $l$}
+					\State $x_i(k+1), \beta_i(k+1), \psi_i(k+1) \gets \arg \min_{x_i,\beta_i,\psi_i \in vert(X_i)} \sum_{t \in T}(x_i(K_2\pi_i-\eta_{1,t}+\eta_{2,t}) + K_1\pi_i\psi_{t,i} + \sum_{s \in S}\beta_{t,s,i}(\nu_{2,t,s} - \nu_{1,t,s}))
+					s. to: 
+					$
+					%todo constraints and new line
+					\State $\bar{s}_{\eta_1,i}(k+1) = \max\{\bar{s}_{\eta_1,i}(k), -x_{t,i}(k+1) \}$
+					\State $\bar{s}_{\eta_2,i}(k+1) = \max\{\bar{s}_{\eta_2,i}(k), +x_{t,i}(k+1) \}$
+					\State $\bar{s}_{\nu_1,i}(k+1) = \max\{\bar{s}_{\nu_1,i}(k), -\beta_{t,s,i}(k+1) \}$
+					\State $\bar{s}_{\nu_2,i}(k+1) = \max\{\bar{s}_{\nu_2,i}(k), +\beta_{t,s,i}(k+1) \}$
+					
+					\State $\underline{s}_{\eta_1,i}(k+1) = \min\{\underline{s}_{\eta_1,i}(k), -x_{t,i}(k+1) \}$
+					\State $\underline{s}_{\eta_2,i}(k+1) = \min\{\underline{s}_{\eta_2,i}(k), +x_{t,i}(k+1) \}$
+					\State $\underline{s}_{\nu_1,i}(k+1) = \min\{\underline{s}_{\nu_1,i}(k), -\beta_{t,s,i}(k+1) \}$
+					\State $\underline{s}_{\nu_2,i}(k+1) = \min\{\underline{s}_{\nu_2,i}(k), +\beta_{t,s,i}(k+1) \}$
+					
+					\State $\rho_{\eta_1,i}(k+1) = \bar{s}_{\eta_1,i}(k+1) - \underline{s}_{\eta_1,i}(k+1)$
+					\State $\rho_{\eta_2,i}(k+1) = \bar{s}_{\eta_2,i}(k+1) - \underline{s}_{\eta_2,i}(k+1)$
+					\State $\rho_{\nu_1,i}(k+1) = \bar{s}_{\nu_1,i}(k+1) - \underline{s}_{\nu_1,i}(k+1)$
+					\State $\rho_{\nu_2,i}(k+1) = \bar{s}_{\nu_2,i}(k+1) - \underline{s}_{\nu_2,i}(k+1)$
+				\EndFor
+				
+				\State $\rho_{\eta_1}(k+1) = |T| \max \{ \rho_{\eta_1,1}(k+1), ..., \rho_{\eta_1,l}(k+1)\}$
+				\State $\rho_{\eta_2}(k+1) = |T| \max \{ \rho_{\eta_2,1}(k+1), ..., \rho_{\eta_2,l}(k+1)\}$
+				\State $\rho_{\nu_1}(k+1) = |S||T| \max \{ \rho_{\nu_1,1}(k+1), ..., \rho_{\nu_1,l}(k+1)\}$
+				\State $\rho_{\nu_2}(k+1) = |S||T| \max \{ \rho_{\nu_2,1}(k+1), ..., \rho_{\nu_2,l}(k+1)\}$
+				\State $\eta_1(k+1) = [\eta_1(k) + \alpha(k)(1-\sum_{e \in E}x_{t,e}(k+1) - \sum_{f \in F}x_{t,f}(k+1) - \sum_{c \in C}x_{t,c}(k+1)+\rho_{\eta_1}(k+1))]_+$
+				\State $\eta_2(k+1) = [\eta_2(k) + \alpha(k)(\sum_{e \in E}x_{t,e}(k+1) + \sum_{f \in F}x_{t,f}(k+1) + \sum_{c \in C}x_{t,c}(k+1) - N_t +\rho_{\eta_2}(k+1))]_+$
+				\State $\nu_1(k+1) = [\nu_1(k) + \alpha(k)( \lambda_{t,s} - \epsilon - \sum_{e \in E}\beta_{t,s,e}(k+1) - \sum_{f \in F}\beta_{t,s,f}(k+1) - \sum_{c \in C}\beta_{t,s,c}(k+1) +\rho_{\nu_1}(k+1))]_+$
+				\State $\nu_2(k+1) = [\nu_2(k) + \alpha(k)( \sum_{e \in E}\beta_{t,s,e}(k+1) + \sum_{f \in F}\beta_{t,s,f}(k+1) + \sum_{c \in C}\beta_{t,s,c}(k+1) -\lambda_{t,s} - \epsilon + \rho_{\nu_2}(k+1))]_+$
+				\State $k \gets k+1$ 
+			\Until{some stopping criterion is met.}
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+\end{latin}
+
+
+
 
     در یک منطقه جغرافیایی تعداد $N$ عدد سرویس و $M$ عدد فراهم کننده زیرساخت\LTRfootnote{Infrastructure Provider} پردازشی در نظر گرفته می‌شود.
     مجموعه سرویس‌ها را با $S$ و مجموع منابع پردازشی را با $C$ نمایش می‌دهیم.
