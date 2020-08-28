@@ -84,7 +84,7 @@
 	
 	در ادامه قیدهای موجود در مدل‌سازی بررسی می‌شود. 
     \subsection{قیدها}
-    اولین قید مورد بررسی به عنوان یک متغیر میانی معرفی می‌شود به این صورت که مجموع جریان‌های ورودی به یک گره پردازشی به عنوان یک متغیر میانی که در \cref{eqn:constraint_load_conservation_computing_nodes} نشان داده شده است نمایش داده می‌شود. باید توجه کرد که جنس متغیر تعریف شده در \cref{eqn:def_variable_lambda_t_s} و متغیر میانی تعریف شده در \cref{eqn:constraint_load_conservation_computing_nodes} یکسان است اما مفهوم آن‌ها اندکی با هم فرق دارد، اولی نرخ خروج وظیفه از گره‌های حسگری را نشان می‌دهد در صورتیکه دومی نرخ ورود وظیفه به گره‌های پردازشی را بیان می‌کند. 
+    اولین قید مورد بررسی به عنوان یک متغیر میانی معرفی می‌شود به این صورت که مجموع جریان‌های ورودی به یک گره پردازشی به عنوان یک متغیر میانی که در \cref{eqn:constraint_load_conservation_computing_nodes} نشان داده شده است نمایش داده می‌شود. باید توجه کرد که جنس متغیر تعریف شده در \cref{eqn:def_variable_lambda_t_s} و متغیر میانی تعریف شده در \cref{eqn:constraint_load_conservation_computing_nodes} یکسان است اما مفهوم آن‌ها اندکی با هم فرق دارد، اولی نرخ خروج وظیفه از گره‌های حسگری را نشان می‌دهد درصورتی‌که دومی نرخ ورود وظیفه به گره‌های پردازشی را بیان می‌کند. 
     \begin{subequations}\label{eqn:constraint_load_conservation_computing_nodes}
     	\begin{align}
     	\lambda_{t,c} = \sum_{s\in S}\beta_{t,s,c} \quad \forall{t \in T}, \forall{c \in C} \\
@@ -100,10 +100,18 @@
 		\frac{\lambda_{t,e}}{\sum_{s\in S}\lambda_{t,s}} \le x_{t,e} \quad \forall{t \in T}, \forall{e \in E}
 		\end{align}
 	\end{subequations}
-	قید \cref{eqn:constraint_load_managing} مربوط به مدیریت منابع است به این‌ صورت که مجموع منابع استفاده شده در هر گره پردازشی لازم است از کل منابع موجود در آن گره کم‌تر باشد. در این قسمت در مورد تابع$f_t^r(\lambda)$ بیشترین صحبت می‌کنیم. همانطور که مشاهده می‌شود این تابع یک تابع خطی از ورودی‌اش می‌باشد و نشان می‌دهد که وظیفه $t$ با چه نرخی منبع پردازشی از نوع $r$ را مصرف می‌کند بابراین لازم است که واحد آن از جنس مقدار منبع بر ثانیه باشد. در مورد ضرایب استفاده شده در این تابع می‌توان گفت که دو ضریب $k_1^r$ و $k_2^r$ بسته با نوع منبع و همچنین مشخصات گره محاسباتی تبیین می‌شوند که مقادیر آن‌ها در جدولی در ادامه خواهد آمد. در نهایت می‌توان گفت که مقدار خروجی این تابع وابسته به نوع وظیفه،نوع گره و میزان جریان ورودی به گره است. 
+	قید \cref{eqn:constraint_load_managing} مربوط به مدیریت منابع است به این‌ صورت که مجموع منابع استفاده شده در هر گره پردازشی لازم است از کل منابع موجود در آن گره کم‌تر باشد. در این قسمت در مورد تابع$f_t^r(\lambda)$ بیشتر صحبت می‌کنیم.
 	\begin{subequations}\label{eqn:constraint_load_managing}
 		\begin{align}
-		&\sum_{t \in T}x_{t,c}f_t^r(\lambda_{t,c}) \le \sigma_c^r \quad \forall{r \in R}, \forall{c \in C} \\
+		&\sum_{t \in T}x_{t,e}f_t^r(\lambda_{t,e}) \le \sigma_e^r \quad \forall{r \in R}, \forall{e \in E} \\
+		&\sum_{t \in T}x_{t,f}f_t^r(\lambda_{t,f}) \le \sigma_f^r \quad \forall{r \in R}, \forall{f \in F} \\
+		&\sum_{t \in T}x_{t,c}f_t^r(\lambda_{t,c}) \le \sigma_c^r \quad \forall{r \in R}, \forall{c \in C}
+		\end{align}
+	\end{subequations}
+	همانطور که در \cref{eqn:def_f} مشاهده می‌شود این تابع یک تابع خطی از ورودی‌اش می‌باشد و نشان می‌دهد که وظیفه $t$ با چه نرخی منبع پردازشی از نوع $r$ را مصرف می‌کند بابراین لازم است که واحد آن از جنس مقدار منبع بر ثانیه باشد. در مورد ضرایب استفاده شده در این تابع می‌توان گفت که دو ضریب $k_1^r$ و $k_2^r$ بسته با نوع منبع و همچنین مشخصات گره محاسباتی تبیین می‌شوند که مقادیر آن‌ها در جدولی در ادامه خواهد آمد. در نهایت می‌توان گفت که مقدار خروجی این تابع وابسته به نوع وظیفه،نوع گره و میزان جریان ورودی به گره است.
+	%todo  table of k1 and k2
+	\begin{subequations}\label{eqn:def_f}
+		\begin{align}
 		&x_{t,c}f_t^r(\lambda_{t,c}) = k_1^rx_{t,c}\lambda_{t,c} + k_2^rx_{t,c} \label{eqn:def_psi_appear} \\
 		&\psi_{t,c} \triangleq x_{t,c}\lambda_{t,c} \Rightarrow 0 \leq \psi_{t,c} \leq \lambda_{t,c} \label{eqn:def_psi} \\
 		&Q(x_{t,c}-1)+\lambda_{t,c} \leq \psi_{t,c} \leq x_{t,c}Q \label{eqn:def_Q_appear}\\
@@ -127,8 +135,8 @@
 		&Q(x_{t,e}-1)+\lambda_{t,e} \leq \psi_{t,e} \leq x_{t,e}Q \quad \forall{t \in T}, \forall{e \in E}
 		\end{align}
 	\end{subequations}
-	حال با تعریف متغیر \cref{eqn:def_psi} می‌توان قید موجود در \cref{eqn:constraint_load_managing} را به صورت \cref{eqn:constraint_load_managing_new} دوباره نویسی کرد. 
-	\begin{subequations}\label{eqn:constraint_load_managing_new}
+	حال با تعریف متغیر \cref{eqn:def_psi} می‌توان قید موجود در \cref{eqn:constraint_load_managing} را به صورت \cref{eqn:constraint_load_managing_linear} دوباره نویسی کرد. 
+	\begin{subequations}\label{eqn:constraint_load_managing_linear}
 		\begin{align}
 		\sum_{t \in T}k_1^r\psi_{t,c}+k_2^rx_{t,c} \le \sigma_c^r \quad \forall{r \in R}, \forall{c \in C} \\
 		\sum_{t \in T}k_1^r\psi_{t,f}+k_2^rx_{t,f} \le \sigma_f^r \quad \forall{r \in R}, \forall{f \in F} \\
@@ -147,35 +155,43 @@
 	\end{subequations}
 	در نهایت قید مربوط به تاخیر در \cref{eqn:constraint_delay} آورده شده است که با ساده سازی به صورت \cref{eqn:constraint_delay_new} نمایش داده می‌شود. 
 	\begin{subequations}
-		\begin{align}
-			&x_{t,c}\tau_{t,c}\le \delta_t \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \label{eqn:constraint_delay} \\			
-			&\notag x_{t,c}\lambda_{t,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + \\ 
-			&\notag x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \label{eqn:constraint_delay_new}
+		\begin{align}\label{eqn:constraint_delay}
+			&x_{t,c}\tau_{t,c}\le \delta_t \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \\
+			&x_{t,f}\tau_{t,f}\le \delta_t \quad \forall{t \in T}, \forall{s \in S}, \forall{f \in F} \\
+			&x_{t,e}\tau_{t,e}\le \delta_t \quad \forall{t \in T}, \forall{s \in S}, \forall{e \in E} 
 		\end{align}
 	\end{subequations}
-	در صورت استفاده از متغیر میانی \cref{eqn:def_psi} در قید \cref{eqn:constraint_delay_new} می‌توان این قید را به صورت \cref{eqn:constraint_delay_last} به صورت نهایی نمایش داد. 
-	\begin{subequations}\label{eqn:constraint_delay_last}
-		\begin{align}
-		&\notag\psi_{t,s,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + \\ &\notag x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0
-		\end{align}
-		\begin{align}
-		&\notag\psi_{t,s,f}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,f} + \\ &\notag x_{t,f}k_2^{cpu}\tau_{t,s,f}^{tr}+w_t x_{t,f}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,f} \le 0
-		\end{align}
-		\begin{align}
-		&\notag\psi_{t,s,e}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,e} + \\ &\notag x_{t,e}k_2^{cpu}\tau_{t,s,e}^{tr}+w_t x_{t,e}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,e} \le 0
+	\begin{subequations}\label{eqn:constraint_delay_new}
+		\begin{align}		
+			&x_{t,c}\lambda_{t,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \notag \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \\
+			&x_{t,f}\lambda_{t,f}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,f} + x_{t,f}k_2^{cpu}\tau_{t,s,f}^{tr}+w_t x_{t,f}-k_2^{cpu}\delta_t \notag \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,f} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{f \in F}  \\			
+			&x_{t,e}\lambda_{t,e}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,e} + x_{t,e}k_2^{cpu}\tau_{t,s,e}^{tr}+w_t x_{t,e}-k_2^{cpu}\delta_t \notag \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,e} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{e \in E}  
 		\end{align}
 	\end{subequations}
-	دیگر قیدی که مورد بررسی قرار می‌گیرد قید مربوط به پایداری صف در گره‌هاست که در مورد آن در مقدمه توضیح داده شد. در مدل ما این قید به صورت \cref{eqn:constraint_queue_stability} آورده شده‌است. نکته‌ی قابل تاملی که به ساده سازی مسئله کمک می‌کند \cref{eqn:lambda_eqn} است که دلیل آن این است که زمانیکه چریانی از یک وظیفه به سمت یک گره وجود دارد، می‌توان با حتمیت گفت که متغیر دودویی مربوط به آن وظیفه و گره مقدارش یک است و بالعکس. 
+	در صورت استفاده از متغیر میانی \cref{eqn:def_psi} در قید \cref{eqn:constraint_delay_new} می‌توان این قید را به صورت \cref{eqn:constraint_delay_linear} به صورت نهایی نمایش داد. 
+	\begin{subequations}\label{eqn:constraint_delay_linear}
+		\begin{align}
+		&\notag\psi_{t,s,c}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,c} + x_{t,c}k_2^{cpu}\tau_{t,s,c}^{tr}+w_t x_{t,c}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,c} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \\
+		&\notag\psi_{t,s,f}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,f} + x_{t,f}k_2^{cpu}\tau_{t,s,f}^{tr}+w_t x_{t,f}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,f} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{f \in F} \\
+		&\notag\psi_{t,s,e}(k_1^{cpu}-w_t)\tau^{tr}_{t,s,e} + x_{t,e}k_2^{cpu}\tau_{t,s,e}^{tr}+w_t x_{t,e}-k_2^{cpu}\delta_t \\ &-(k_1^{cpu}-w_t)\delta_t\lambda_{t,e} \le 0 \quad \forall{t \in T}, \forall{s \in S}, \forall{e \in E}
+		\end{align}
+	\end{subequations}
+	دیگر قیدی که مورد بررسی قرار می‌گیرد قید مربوط به پایداری صف در گره‌هاست که در مورد آن در مقدمه توضیح داده شد. در مدل ما این قید به صورت \cref{eqn:constraint_queue_stability} آورده شده‌است.
 	\begin{subequations}\label{eqn:constraint_queue_stability}
 		\begin{align}
-		&x_{t,c}(\lambda_{t,c} < \mu_{t,c}) => x_{t,c}(\lambda_{t,c} + \epsilon \le \mu_{t,c}) \\
-		&x_{t,c}\lambda_{t,c} = \lambda_{t,c} \label{eqn:lambda_eqn}\\
-		&=> \epsilon x_{t,c} - k_1^{cpu}\lambda_{t,c} - k_2^{cpu} + w_t\lambda_{t,c} \le 0 \quad \forall{t \in T}, \forall{c \in C} \\
-		&\epsilon x_{t,f} - k_1^{cpu}\lambda_{t,f} - k_2^{cpu} + w_t\lambda_{t,f} \le 0 \quad \forall{t \in T}, \forall{f \in F} \\
-		&\epsilon x_{t,e} - k_1^{cpu}\lambda_{t,e} - k_2^{cpu} + w_t\lambda_{t,e} \le 0 \quad \forall{t \in T}, \forall{e \in E}
+		&x_{t,c}(\lambda_{t,c} < \mu_{t,c}) => x_{t,c}(\lambda_{t,c} + \epsilon \le \mu_{t,c}) \quad \forall{t \in T}, \forall{c \in C}\\
+		&x_{t,f}(\lambda_{t,f} < \mu_{t,f}) => x_{t,f}(\lambda_{t,f} + \epsilon \le \mu_{t,f}) \quad \forall{t \in T}, \forall{f \in F} \\
+		&x_{t,e}(\lambda_{t,e} < \mu_{t,e}) => x_{t,e}(\lambda_{t,e} + \epsilon \le \mu_{t,e}) \quad \forall{t \in T}, \forall{e \in E}
 		\end{align}
 	\end{subequations}
-
+	با اعمال متغیر میانی تعریف شده در \cref{eqn:def_psi} بر روی قید \cref{eqn:constraint_queue_stability}، این قید به صورت \cref{eqn:constraint_queue_stability_linear} نوشته می‌شود. 
+	\begin{subequations}\label{eqn:constraint_queue_stability_linear}
+		\begin{align}
+			&x_{t,c}(\epsilon w_t - k_2^{cpu}) + \psi_{t,c}(w_t - k_1^{cpu}) \le 0 \quad \forall{t \in T}, \forall{c \in C} \\
+			&x_{t,f}(\epsilon w_t - k_2^{cpu}) + \psi_{t,f}(w_t - k_1^{cpu}) \le 0 \quad \forall{t \in T}, \forall{f \in F} \\
+			&x_{t,e}(\epsilon w_t - k_2^{cpu}) + \psi_{t,e}(w_t - k_1^{cpu}) \le 0 \quad \forall{t \in T}, \forall{e \in E}
+		\end{align}
+	\end{subequations}
 	تا اینجای کار بین تمام قیدهای گفته شده یک ویژگی مشترک وجود داشت و این بود که در تمامی قیدهای گفته شده قابلیت قید هر گره محاسباتی از سایر گره‌ها جدا بود و نمی‌توان قیدها را به گونه‌ای تجزیه کرد که هر گره محسابتی صرفا قید مربوط به خودش را ببیند که این اتفاق یک اتفاق خوشایند است که در ادامه علت خوشایند بودن آن مشخص خواهد شد. اما در دوقید بعد خواهیم دید که بین گره‌های محاسباتی به نوعی اتصال ایجاد خواهد شد. 
 	اولین قید اتصالی که مورد بررسی قرار می‌گیرد مربوط به وجود تعادل بین جریان ورودی وظیفه‌ها و جریان خروجی وظیفه‌هاست. این قید در \cref{eqn:constraint_load_conservation_sensor_nodes_coupling} آورده شده‌است. و همانطور که می‌بینید در این قید نمی‌توانیم برای هرگره پردازشی یک رابطه جدا مشخص کنیم. 
 	\begin{equation}\label{eqn:constraint_load_conservation_sensor_nodes_coupling}
@@ -186,7 +202,6 @@
 	\begin{equation}\label{eqn:constraint_scalability_coupling}
 		1 \le \sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c} \le N_t \quad \forall{t \in T}
 	\end{equation}
-	
 	\subsection{تابع هدف}
 	در گام بعدی لازم است که تابع هدف\LTRfootnote{Objective function} تعریف شود، برای این کار لازم که ابتدا هدف از صورت مسئله مشخص شود. اولین هدف در این مقاله کم کردن هزینه‌های مربوط به کل شبکه است. می‌دانیم که پردازش وظیفه‌ها در گره‌های پردازشی یک فرآیند هزینه‌بر است، حال صورت مسئله بهینه‌سازی با این هدف تعریف می‌شود که مجموع کل هزینه‌های موچود در شبکه کمترین مقدار ممکن باشد. برای این‌کار لازم است از متغیرهای دودویی مسئله$x$، تابع مشخص کننده نرخ مصرف منبع پردازشی$f$ و همچنین واحد هزینه‌های پردازشی $\pi$ استفاده شود. درنهایت تابع هدف به صورت \cref{eqn:objective_func} تعریف می‌شود. 
 	\begin{subequations}\label{eqn:objective_func}
@@ -210,23 +225,21 @@
 		&= K_1\pi_e\psi_{t,e} + K_2\pi_ex_{t,e}
 		\end{align}
 	\end{subequations}
-
 	در \cref{eqn:def_Gamma} یک متغیر میانی تعریف شده است، که به ساده نویسی مسئله کمک شایانی می‌کند. 
 	درنهایت با ساده‌سازی‌های انجام شده و همچنین استفاده از متغیرهای کمکی می‌توان گفت که تابع هدف نهایی به صورت \cref{eqn:objective_func_final} نوشته می‌شود. 
 	\begin{align}
-		&\min \sum_{t \in T}\sum_{e \in E} 				K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e}\notag \\
-		&+\sum_{t \in T}\sum_{f \in F} 	K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f}\notag \\
+		&\min \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e}\notag \\
+		&+\sum_{t \in T}\sum_{f \in F} K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f}\notag \\
 		&+\sum_{t \in T}\sum_{c \in C} K_1\pi_c\psi_{t,c}+K_2\pi_cx_{t,c} \label{eqn:objective_func_final} \notag \\
-		&s.t. 
+		&\text{subj. to}  %todo edit subj to
 		\cref{eqn:constraint_load_conservation_computing_nodes}
-		\cref{eqn:constraint_request_flow_existence}				\cref{eqn:constraint_psi}
-		\cref{eqn:constraint_load_managing_new} \notag \\
-		&\cref{eqn:constraint_delay_last}
-		\cref{eqn:constraint_queue_stability}
+		\cref{eqn:constraint_request_flow_existence}\cref{eqn:constraint_psi}
+		\cref{eqn:constraint_load_managing_linear} \notag \\
+		&\cref{eqn:constraint_delay_linear}
+		\cref{eqn:constraint_queue_stability_linear}
 		\cref{eqn:constraint_load_conservation_sensor_nodes_coupling}
 		\cref{eqn:constraint_scalability_coupling}
 	\end{align}
-	
 	\section{راه‌حل غیرمتمرکز}
 	در این بخش قرار است که مسئله بهینه‌سازی نهایی که در \cref{eqn:objective_func_final} نوشته شد به صورت غیرمتمرکز حل شود. 
 	همانطور که در قسمت بررسی قیدهای مربوط به مسئله اصلی گفته شد، بجز دو قید از قیدهای مسئله که به صورت متصل بودند بقیه قیدها این قابلیت را داشتند که بین گره‌ها تجزیه شوند. 
@@ -307,7 +320,7 @@
 		&\min \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e} \notag \\
 		&+\sum_{t \in T}\sum_{f \in F} 	K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f}\notag \\
 		&+\sum_{t \in T}\sum_{c \in C} K_1\pi_c\psi_{t,c}+K_2\pi_cx_{t,c} \label{eqn:objective_func_dec_form} \notag \\
-		&\text{subject to:} \notag \\
+		&\text{subj. to} \notag \\
 		&-\sum_{e \in E}x_{t,e} - \sum_{f \in F}x_{t,f} - \sum_{c \in C}x_{t,c} \le -1 \quad \forall{t \in T} \notag \\
 		&\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c} \le N_t \quad \forall{t \in T} \notag \\
 		&-\sum_{e \in E} \beta_{t,s,e} - \sum_{f \in F} \beta_{t,s,f}
@@ -317,9 +330,9 @@
 		&\cref{eqn:constraint_load_conservation_computing_nodes}
 		\cref{eqn:constraint_request_flow_existence}				
 		\cref{eqn:constraint_psi} \notag \\
-		&\cref{eqn:constraint_load_managing_new} 
-		\cref{eqn:constraint_delay_last}
-		\cref{eqn:constraint_queue_stability}
+		&\cref{eqn:constraint_load_managing_linear} 
+		\cref{eqn:constraint_delay_linear}
+		\cref{eqn:constraint_queue_stability_linear}
 	\end{align}
 	
 	%todo lagrangian in persian
@@ -382,9 +395,9 @@
 					\cref{eqn:constraint_load_conservation_computing_nodes}
 					\cref{eqn:constraint_request_flow_existence}				
 					\cref{eqn:constraint_psi}
-					\cref{eqn:constraint_load_managing_new} 
-					\cref{eqn:constraint_delay_last}
-					\cref{eqn:constraint_queue_stability}
+					\cref{eqn:constraint_load_managing_linear} 
+					\cref{eqn:constraint_delay_linear}
+					\cref{eqn:constraint_queue_stability_linear}
 					$
 					%todo constraints and new line
 					\State $\bar{s}_{\eta_1,i}(k+1) = \max\{\bar{s}_{\eta_1,i}(k), -x_{t,i}(k+1) \}$
@@ -419,9 +432,22 @@
 \end{latin}
 
 
-\section{روش huristic}
+\section{راه‌حل اکتشافی}
 
 	در این بخش قرار است برای مسئله اصلی یک راه‌حل شبه‌بهینه طراحی شود. مزیت این بخش نسبت به راه‌حل‌های قبلی این است که نیازی نیست که مسئله خطی‌سازی شود. بنابراین می‌توان کفت که مسئله اصلی این‌بار به صورت زیر نوشته می‌شود. 
+	\begin{align}
+		& \min \sum_{t \in T}\sum_{e \in E} K_1\pi_ex_{t,e}\lambda_{t,e} + K_2\pi_ex_{t,e} \notag \\
+		& + \sum_{t \in T}\sum_{f \in F} K_1\pi_fx_{t,f}\lambda_{t,f} + K_2\pi_fx_{t,f} \notag \\
+		& + \sum_{t \in T}\sum_{c \in C} K_1\pi_cx_{t,c}\lambda_{t,c} + K_2\pi_cx_{t,c} \notag \\
+		& \text{subj. to}  %todo edit subj to
+		\cref{eqn:constraint_load_conservation_computing_nodes}
+		\cref{eqn:constraint_request_flow_existence}
+		\cref{eqn:constraint_load_managing}\notag \\
+		&\cref{eqn:constraint_delay}
+		\cref{eqn:constraint_queue_stability}
+		\cref{eqn:constraint_load_conservation_sensor_nodes_coupling}
+		\cref{eqn:constraint_scalability_coupling}
+	\end{align}
 	
 %todo viterbi abstract here or in abstract
 	
