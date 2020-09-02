@@ -1,0 +1,188 @@
+\chapter{راه‌حل اکتشافی}\label{chap:heuristic}
+\thispagestyle{empty}
+\section{مقدمه}
+%todo suboptimal
+	در \cref{chap:system_model_centralized_decentralized} مدل سیتم به‌صورت کامل توضیح داده شد، مسئله بهینه‌سازی تبیین شد و در ابتدا به روش متمرکز و سپس به روش غیرمتمرکز بررسی و حل شد. محدودیتی که برای حل مسئله وجود داشت بحث خطی‌سازی آن بود و لازم بود که مسئله حتما به‌صورت خطی باشد.
+	 در این فصل سعی می‌شود یک راه‌حل اکتشافی\LTRfootnote{Heuristic} که شبه‌بهینه\LTRfootnote{Sub-optimal} است ارائه و بررسی گردد، مزیت این راه‌حل این است که نیازی نیست مسئله به‌صورت خطی تبیین شود، اما عیب آن نسبت به دو راه‌حل قبلی شبه بهینه بودن آن است. 
+	 
+	 این راه‌حل اکتشافی مبتنی بر یکی از الگوریتم‌های معروف به نام ویتربی\LTRfootnote{Viterbi} است. در ادامه ابتدا مقدمه‌ای در مورد الگوریتم ویتربی گفته می‌شود، سپس مسئله‌ی اصلی به‌صورتی‌که در این فصل قابل استفاده باشد بازنویسی می‌شود و درنهایت الگوریتم اکتشافی مربوطه کامل و نتایح مربوطه بررسی و با دو راه‌حل قبلی مقایسه می‌شود. 
+\section{مقدمه‌ای بر ویتربی}
+	 ابتدا لازم است که در مورد الگوریتم ویتربی و نحوه‌ی کار آن صحبت شود. این الگوریتم یک الگوریتم پویا\LTRfootnote{Dynamic}، برای پیدا کردن محتمل‌ترین مسیر از حالت‌های پنهان، با داشتن یک توالی از مشاهدات است. این الگوریتم اغلب در مواردی به‌کار می‌رود که با داشتن یک مدل پنهان مارکف و توالی‌ از مشاهدات، می‌خواهیم بدانیم چه توالی‌ از حالت‌ها (مسیر) این مشاهدات را تولید کرده‌اند. به عبارت دیگر ما دنبال محتمل‌ترین مسیر به‌وجودآورنده مشاهدات در یک مدل پنهان مارکف هستیم. 
+	 
+	 به عنوان ابتدایی‌ترین پاسخ می‌توانیم تمامی مسیرهای ممکن که مشاهده ما را تولید می‌کنند، پیدا کنیم، سپس با محاسبه احتمال آنها، محتمل‌ترین مسیر را بدست آوریم اما می‌توان نشان داد که پیچیدگی زمانی این راه‌حل نسبت به طول توالی $n$، از اندازه نمایی $(O(a^n))$ است. الگوریتم ویتربی یک راه‌حل ارائه می‌دهد که هزینه محاسباتی آن به صورت خطی با طول توالی افزایش می‌یابد، اصطلاحا هزینه آن از اندازه چندجمله‌ای است. فرم نهایی مسئله را می‌توان بدین صورت نوشت: می‌خواهیم مسیر بهینه‌ای مانند $\displaystyle \pi^* = \arg \max_\pi P(x,\pi)$ داشته باشیم، که در آن $x=(x_1, \dots, x_L)$ یکه توالی از مشاهدات و $\pi = (\pi_1, \dots, \pi_L)$ یک توالی از متغیرهای پنهان باشد. 
+	 
+	 نحوه‌ی عملکرد این الگوریتم بدین صورت است که مسئله را به صورت یک گراف چندمرحله‌ای\LTRfootnote{Multistage} در نظر می‌گیرد. تعداد مرحله‌\LTRfootnote{Stage}ها برابر است با تعداد مشاهدات و در هر مرحله یکی از مشاهدات مورد بررسی قرار می‌گیرد. در هر مرحله تعدادی حالت\LTRfootnote{State} درنظر گرفته‌می‌شود که هر حالت یک پیشامد ممکن در آن مرحله را بیان می‌کند. حال لازم است که دو مدل تابع هزینه\LTRfootnote{Cost function} تعریف شود یک تابع به عنوان هزینه‌ی بودن در هر حالت در هر مرحله و یک تابع به عنوان هزینه انتقال از یک حالت در یک مرحله به یک حالت دیگر در مرحله بعد است، در واقع این دوتابع به نحوی با یکدیگر ارتباط دارند. در هر مرحله، برای هریک از حالت‌های آن مرحله یک مسیر به عنوان مسیر نجات‌یافته\LTRfootnote{Survived path} تعریف می‌شود که برابر است با مسیری از اولین مرحله تا مرحله فعلی که کمترین هزینه ممکن را دارد. در آخرین مرحله نیز هریک از حالت‌ها یک مسیر نجات‌یافته دارد، در این مرحله حالتی که کمترین هزینه ممکن را دارد، مسیر نجات‌یافته‌اش به عنوان مسیر ویتربی\LTRfootnote{Viterbi path} مشخص می‌شود که این مسیر درواقع پاسخ مسئله است. 
+	 %todo a picture about viterbi
+\section{مدل سیستم}	 
+	در این بخش قرار است که باتوجه به مقدمه‌ی گفته شده متغیرهای مربوط به الگوریتم ویتربی را برای مسئله اصلی تعریف کنیم. 
+	
+	ابتدا صورت مسئله اصلی که به صورت غیرخطی است در \cref{eqn:heuristic:def_optimization_problem} آورده می‌شود. 
+	\begin{align}\label{eqn:heuristic:def_optimization_problem}
+		& \min \sum_{t \in T}\sum_{e \in E} K_1\pi_ex_{t,e}\lambda_{t,e} + K_2\pi_ex_{t,e} \notag \\
+		& + \sum_{t \in T}\sum_{f \in F} K_1\pi_fx_{t,f}\lambda_{t,f} + K_2\pi_fx_{t,f} \notag \\
+		& + \sum_{t \in T}\sum_{c \in C} K_1\pi_cx_{t,c}\lambda_{t,c} + K_2\pi_cx_{t,c} \notag \\
+		&\text{subj. to}  %todo edit subj to
+		\cref{eqn:constraint_load_conservation_computing_nodes}
+		\cref{eqn:constraint_request_flow_existence}
+		\cref{eqn:constraint_load_managing}\notag \\
+		&\cref{eqn:constraint_delay}
+		\cref{eqn:constraint_queue_stability}
+		\cref{eqn:constraint_load_conservation_sensor_nodes_coupling}
+		\cref{eqn:constraint_scalability_coupling}
+	\end{align}
+	حال لازم است که متغیرهای مربوط به الگوریتم ویتربی متناسب با مسئله‌ ما تعریف شوند، می دانیم که هدف از مسئله ما این است که تعدادی وظیفه به تعدادی گره پردازشی ارسال شوند و هرکدام از این وظیفه‌ها در یک یا چند گره پردازشی، پردازش شوند، با هدف اینکه کل هزینه موجود کمترین حالت ممکن باشد، حال می‌توانیم اینگونه فرض کنیم، که هر وظیفه یک مشاهده است و هر گره پردازشی نیز یک پیشامد است یعنی هر وظیفه را به عنوان یک مرحله در نظر بگیریم و در هر مرحله، هر حالت برابر است با یک گره پردازشی، پس درواقع $l$ حالت مختلف داریم و در نهایت الگوریتم ویتربی باید طوری طراحی شود که مسیر ویتربی نشان‌دهنده این باشد که هر وظیفه در کدام گره پردازش شود یا درواقع مسیر ویتربی کمترین هزینه موجود در شبکه را نشان دهد.
+	نکته‌ای که باید مدنظر قرار بگیرد بحث پردازش یک وظیفه در چند گره است، همانطور که قبلا توضیح داده شد، بدین صورت است که هر وظیفه این امکان را دارد که شکسته شود و در دو یا چند گره پردازشی پردازش شود و حداکثر می‌تواند در $N_t$ گره پردازش شود. 
+	برای این کار در تعداد مرحله‌های الگوریتم یک تغییر کوچک ایجاد می‌کینم به‌این‌صورت که هر بخش شکسته‌شده از هر وظیفه را یک مرحله درنظر می‌گیریم، پس در نهایت $ \displaystyle L_V=\sum_{t \in T} N_t$ مرحله خواهیم داشت. 
+	برای حالت‌های هر مرحله نیز لازم است که یک تغییر کوچک ایجاد شود، برای هر وظیفه در بخش اول حالت‌های ممکن برابر است با همان حالت‌های قبل یعنی $l$ حالت، اما در مورد بخش‌های بعدی از یک وظیفه یک حالت دیگر که حالت صفر $(0)$ نام دارد درنظر گرفته‌می‌شود. تعداد حالت‌های ممکن باتوجه به شماره‌ی مرحله در \cref{eqn:heuristic:def_states} دیده می‌شود. 
+	\begin{subequations}\label{eqn:heuristic:def_states}
+		\begin{align}
+			&Z_n =
+			\begin{cases}
+			\{0\} \bigcup S, & \text{$u = (n \mod N_t) = 1$} \\
+			S,               & \text{در غیر این‌صورت}
+			\end{cases}
+			,n = 1, \dots, L_V \\
+			&S = E \bigcup F \bigcup C
+		\end{align}
+	\end{subequations}
+	بنابراین تا اینجای کار تعداد مرحله‌ها و همچنین حالت‌های هر مرحله مشخص شد. در ادامه لازم است که چند تابع مختلف تعریف شود یکی از آن‌ها تابع میزان هزینه انتقال از یک حالت در یک مرحله به یک حالت دیگر در مرحله بعد است. که به صورت \cref{eqn:heuristic:def_tx_cost} تعریف می‌شود. 
+	\begin{align}\label{eqn:heuristic:def_tx_cost}
+		&\Theta_{n-1,n}^{i,j} = \Gamma_{t,u,j} + \phi_{n-1}^i \\
+		&u \in \{1, \dots, N_t\}
+	\end{align}
+که در \cref{eqn:heuristic:def_tx_cost}، $n$ نشان‌دهنده‌ی مرحله، $u$ نشان‌دهنده‌ی شماره‌ی بخش مربوط به هر وظیفه، که نشان می‌دهد کدام بخش از هر وظیفه قرار است بررسی شود که درواقع برای وظیفه $t$ عددی است بین یک تا $N_t$، $i$ و $j$ نشان‌دهنده‌ی حالت هستند. همچنین $\phi_{n-1}^i$ میزان هزینه‌ی بودن در مرحله $n-1$ و حالت $i$ است. 
+	
+	در ادامه یک متغیر دیگر تعریف می‌کنیم به نام $T_{n-1,n}^{i,j}$ که نشان‌دهنده‌ی تاخیر سیستم است زمانیکه وظیفه مورد نظر در گره $j$ پردازش شود و الگوریتم ویتربی از حالت $i$ در مرحله قبل به این حالت بیاید. این متغیر در \cref{eqn:heuristic:def_delay_level} تعریف شده‌است. 
+	\begin{align}\label{eqn:heuristic:def_delay_level}
+		T_{n-1,n}^{i,j} =
+		\begin{cases}
+			0,				& \text{$j = 0$} \\
+			\tau_{t,u,j},  	& \text{در غیر این‌صورت}
+		\end{cases}
+		,n = 1, \dots, L_V
+	\end{align}
+	در معادله بالا بعد از مشخص شدن وظیفه و گره پردازشی $\tau$ را به راحتی می‌توان به کمک \cref{eqn:def_delay_final} محاسبه کرد. تنها قسمتی که لازم است در مورد آن صحبت شود مقدار $\lambda$ در \cref{eqn:def_delay_final} است. برای هر وظیفه نرخ کل جریان تولیدی در حسگرها مشخص است که لازم است در طی حل مسئله کل این نرخ تولیدی برای پردازش به دست گره‌های پردازشی برسد، پس در هر مرحله از الگوریتم لازم است که مشخص شود چه حجمی از کل جریان تولید مورد بررسی قرار می‌گیرد، ایده‌ی به کار رفته در الگوریتم به این صورت است که ابتدا فرض می‌شود کل جریان تولیدی مربوط به هر وظیفه در مرحله اول از هر وظیفه بررسی می‌شود و برای ارسال به گره‌ها آماده می‌شود، در صورتیکه در یک مرحله هیچ گره‌ای پیدا نشود که منبع کافی برای پردازش کامل وظیفه را داشته باشد آنگاه، وظیفه شکسته می‌شود، یعنی بخشی از جریان تولیدی برای بخش‌های بعدی از وظیفه در نظر گرفته می‌شود و الگوریتم از اول آن وظیفه دوباره اجرا می‌شود. جزئیات دقیق‌تری درمورد آن‌چه که گفته شد در \cref{alg:heuristic} آمده‌است. 
+	
+	حال با توجه به متغیرهای تعریف شده برای هر حالت در هر مرحله می‌توان مسیر نجات‌یافته را به صورت \cref{eqn:heuristic:def_survived_path} پیدا کرد. 
+	\begin{align}\label{eqn:heuristic:def_survived_path}
+		&I_n^j = \arg \min_{i \in XP_n^j} (D_{n-1,n}^{i,j}) \\
+		&D_{n-1,n}^{i,j} = \Theta_{n-1,n}^{i,j} + M_k * (T_{n-1,n}^{i,j} - OD_n^j) * I(T_{n-1,n}^{i,j} - OD_n^j)
+	\end{align}	
+در \cref{eqn:heuristic:def_survived_path} $D_{n-1,n}^{i,j}$ به عنوان معیار نهایی تصمیم‌گیری برای انتخاب مسیر بین حالت $i$ از مرحله $n-1$ و حالت $j$ از مرحله $n$ درنظر گرفته می‌شود. $I_n^j$ به عنوان شمارنده مسیرنجات‌یافته و $XP_n^j$ به عنوان مجموعه‌ی حالت‌های ممکن از مرحله $n-1$ که منابع کافی جهت ورود به حالت $j$ را دارند، درنظر گرفته‌می‌شود. می‌توان گفت که $XP_n^j \subset Z_{n-1}$، یعنی گره‌هایی که منبع کافی جهت انتقال به حالت جدید را ندارند از کل مجموعه حالت‌های مرحله قبل حذف می‌شوند. $M_k$ به عنوان یک هزینه سنگین در نظر گرفته می‌شود برای حالت‌هایی که تاخیر پردازش در آن‌ها از حداقل تاخیر قابل قبول برای پردازش وظیفه بیشتر است. یک متغیر دیگر به‌نام $OD_n^j$ دیده‌می‌شود، که می‌توان گفت بیانگر تاخیر درخواستی\LTRfootnote{Ordinary delay} برای وظیفه موردنظر است که در \cref{eqn:heuristic:def_ordinary_delay} آورده شده است در این رابطه این تاخیر برابر با میزان تاخیر درخواستی هر وظیفه درنظر گرفته‌شده‌است، درحالیکه می‌توانیم برای اطمینان بیشتر این تاخیر را اندکی کمتر از تاخیر درخواستی وظیفه در آن مرحله در نظر بگیریم که از همگرا شدن الگوریتم اطمینان بیشتری حاصل کنیم. 
+
+	\begin{align}\label{eqn:heuristic:def_ordinary_delay}
+		OD_n^j = 
+		\begin{cases}
+			\infty, & \text{$j = 0$} \\
+			\delta_t,& \text{در غیر این‌صورت}
+		\end{cases}
+	\end{align}
+	در هر مرحله از الگوریتم لازم است که مسیر نجات‌یافته را برای هر حالت ذخیره کنیم برای این کار از یک بردار به نام $\Lambda$ استفاده می‌کنیم، که به صورت \cref{eqn:heuristic:def_Lambda} بروزرسانی می‌شود. 
+	\begin{align}\label{eqn:heuristic:def_Lambda}
+		\Lambda_n^j[u] = 
+		\begin{cases}
+			\Lambda_n^{I_n^j}[u], & 1 \le u \le n-1 \\
+			j, 				& u = n
+		\end{cases}
+	\end{align}
+	در هر حالت پس از مشخص شدن شمارنده مربوط به حالت نجات یافته، مسیر نجات‌یافته برای حالت فعلی برابر است به مسیر نجات‌یافته برای حالت نجات‌یافته، به اضافه‌ی خود حالت فعلی. 
+
+در قسمت بعد لازم است که هزینه‌ی بودن در هر حالت بعد از مشخص شدن مسیر نجات‌یافته بروزرسانی شود. 
+\begin{align}\label{eqn:heuristic:def_phi}
+	\phi_n^j = \Theta_{n-1,n}^{I_n^j,j}
+\end{align}
+در آخر لازم است که در هر مرحله بتوانیم مسیر ویتربی را بیابیم، فرض کنیم که در مرحله $\displaystyle H = \sum_{t \in T}N_t$ هستیم، در میان مسیرهای نجات یافته در این مرحله، مسیر ویتربی را می‌توان به کمک \cref{eqn:def_heuristic_viterbi_path} یافت.
+\begin{subequations}
+	\begin{align}\label{eqn:heuristic:def_viterbi_path}
+		&P = \Lambda_H^\zeta \\
+		&\zeta = \arg \min_{i \in Z_H} \phi_H^i \times M_k
+		%todo correct this fucking formula
+	\end{align}
+\end{subequations}
+در حالتی‌که الگوریتم به خوبی تمام شود و تمام مراحل پیموده شوند می‌توان گفت که $H=L_V$.
+\begin{latin}
+	\begin{algorithm}
+		\caption{Heuristic}
+		\label{alg:heuristic}
+		\begin{algorithmic}[1]
+			\State $Z_0 = 0, \phi_0^0 = 0, ResourceIndicator = true, H = L_V, NodeResource_0^0 = \sigma.$ 
+			\For{$n=1:L_v$}
+				\State{Determine the index of considered task, $t$, the index of considered part of task, $u$.}
+				\State{Determine the set of states $Z_n$ using \cref{eqn:heuristic:def_states}}
+				\State $RemovedStates=\{\}$
+				\State $RepeatIndicator = false$
+				\If{u = 1}
+					\State update backups
+				\EndIf	
+				\For{$j\in Z_n$}
+					\State $XP_n^j=Z_{n-1}, OD_n^j = \infty$
+					\If{$j\neq 0$}
+						\For{$i \in XP_n^j$}
+							\If{$NodeResource_{n-1}^i < f_t^r(\lambda_{t,u,j})$}
+								\State $XP_n^j = XP_n^j - \{i\}$
+							\EndIf
+						\EndFor
+						\State $OD_n^j = \delta_t$
+					\EndIf
+					\If{$XP_n^j \neq \emptyset$}
+						\For{$i \in XP_n^j$}
+							\State{Calculate $T_{n-1,n}^{i,j}$ using \cref{eqn:heuristic:def_delay_level}}
+							\State Calculate $\Theta_{n-1,n}^{i,j}$ using \cref{eqn:heuristic:def_tx_cost}
+						\EndFor
+						\State{Calculate $I_n^j$ using \cref{eqn:heuristic:def_survived_path}and $\Lambda_n^j$ using \cref{eqn:heuristic:def_Lambda}}
+						\State{Calculate $\phi_n^j$ using \cref{eqn:heuristic:def_phi}}
+						\If{$j\neq 0$}
+							\State $NodeResource_n^j = NodeResource_n^j - f_t^r(\lambda_{t,u,j})$
+						\EndIf
+					\Else
+						\State $RemovedStates = RemovedStates + \{j\}$
+					\EndIf
+				\EndFor
+				\If{$|RemovedStates| > 0.7 |Z_n|$}
+					\State $num_of_iters = num_of_iters + 1$
+					\If{$num_of_iters > 7$}
+						\State \textbf{break}
+					\EndIf
+					\State $RepeatIndicator = true$
+					\State divide $\lambda_{t,u,j}$ into smaller pieces.
+					\State update parameters with backup data.
+					\State \textbf{break}	
+				\EndIf
+				\If{$RemovedStates = Z_n$}
+					\State{Set $H=\sum_{m=1}^{t}{N_m}$ and $ResourceIndicator=false$}
+					\State{Determine the Viterbi path $P$, using \cref{eqn:heuristic:def_viterbi_path} with $H$.}
+					\State\textbf{break}
+				\Else
+					\State{Remove all states in the $RemovedStates$ from the $Z_n$}
+				\EndIf
+			\EndFor
+			\If{$ResourceIndicator = true$}
+				\State{Determine the Viterbi path $P$, using \cref{eqn:heuristic:def_viterbi_path} with $H$.}
+			\EndIf
+			\State{Determine the task scheduling using Viterbi path $P$}
+		\end{algorithmic}
+	\end{algorithm}
+\end{latin}
+
+
+
+
+\begin{latin}
+	\begin{algorithm}
+		\caption{Viterbi Path Scheduling}
+		\label{alg:viterbi_path_scheduling}
+		\begin{algorithmic}[1]
+			\For{ i = 1 : H}
+				\State{Determine the index of considered task, $t$, the index of considered part of task, $u$.} 
+				\State{Determine the index of considered computational node n}
+				\If{$\tau_{t,u,n} \le \delta_t$}}
+					\State $x_{t,n} = 1$
+					\State $\lambda_{t,n} = \lambda_{t,u,n}$
+				\EndIf
+			\EndFor
+		\end{algorithmic}
+	\end{algorithm}
+\end{latin}
+
+
+
