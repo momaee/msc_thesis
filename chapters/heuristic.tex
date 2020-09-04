@@ -217,22 +217,47 @@ asdf
 
 
 
-\begin{latin}
-	\begin{algorithm}
-		\caption{Viterbi Path Scheduling}
-		\label{alg:viterbi_path_scheduling}
-		\begin{algorithmic}[1]
-			\For{ i = 1 : H}
-				\State{Determine the index of considered task, $t$, the index of considered part of task, $u$.} 
-				\State{Determine the index of considered computational node n}
-				\If{$\tau_{t,u,n} \le \delta_t$}}
-					\State $x_{t,n} = 1$
-					\State $\lambda_{t,n} = \lambda_{t,u,n}$
-				\EndIf
-			\EndFor
-		\end{algorithmic}
-	\end{algorithm}
-\end{latin}
+%\begin{latin}
+%	\begin{algorithm}
+%		\caption{Viterbi Path Scheduling}
+%		\label{alg:viterbi_path_scheduling}
+%		\begin{algorithmic}[1]
+%			\For{ i = 1 : H}
+%				\State{Determine the index of considered task, $t$, the index of considered part of task, $u$.} 
+%				\State{Determine the index of considered computational node n}
+%				\If{$\tau_{t,u,n} \le \delta_t$}}
+%					\State $x_{t,n} = 1$
+%					\State $\lambda_{t,n} = \lambda_{t,u,n}$
+%				\EndIf
+%			\EndFor
+%		\end{algorithmic}
+%	\end{algorithm}
+%\end{latin}
+
+
+
+
+\section{راه‌حل توزیع‌شده}
+
+در این بخش قرار است که یک روش دیگر برای حل مسئله اصلی استفاده شود. در این روش قرار است که مسئله بهینه‌سازی به‌طور کامل شکسته شود و به صورت توزیع‌شده حل شود. برای این‌کار از الگوریتم ارائه شده در \cite{testa2019distributed} استفاده می‌شود. همانند راه‌حل‌های قبلی ابتدا یک مقدمه‌ای  در مورد این الگوریتم و نحوه‌ی کار کردن آن گفته می‌شود، سپس همین الگوریتم برای مسئله اصلی نوشته می‌شود و درنهایت نتایج شبیه‌سازی به نمایش گذاشته می‌شود. 
+\subsection{الگوریتم توزیع‌شده ارائه‌شده در \cite{testa2019distributed}}
+فرض کنید که مسئله بهینه سازی خطی مخلوط عدد صحیح به صورت \cref{eqn:distributed:objective_func} باشد. 
+\begin{subequations}\label{eqn:distributed:objective_func}
+	\begin{align}
+		&\min_{z}c^Tz \notag \\
+		&\text{\lr{subj. to}} \quad a_i^Tz \le b_i, i = 1, \dots, n \notag \\
+		&z \in \mathbb{Z}^{d_Z} \times \mathbb{R}^{d_R} \\
+		&d = d_Z + d_R \notag \\
+		&a_i \in \mathbb{R}^d , b_i \in \mathbb{R}, c \in \mathbb{R}^d
+	\end{align}
+\end{subequations}
+
+
+
+
+
+
+
 
 
 
