@@ -1,7 +1,7 @@
-\chapter{راه‌حل اکتشافی}\label{chap:heuristic}
+\chapter{راه‌حل اکتشافی}\label{chap:heuristic_distributed}
 \thispagestyle{empty}
 \section{مقدمه}
-%todo suboptimal
+%todo suboptimal persian queuing stability constraint
 	در \cref{chap:system_model_centralized_decentralized} مدل سیتم به‌صورت کامل توضیح داده شد، مسئله بهینه‌سازی تبیین شد و در ابتدا به روش متمرکز و سپس به روش غیرمتمرکز بررسی و حل شد. محدودیتی که برای حل مسئله وجود داشت بحث خطی‌سازی آن بود و لازم بود که مسئله حتما به‌صورت خطی باشد.
 	 در این فصل سعی می‌شود یک راه‌حل اکتشافی\LTRfootnote{Heuristic} که شبه‌بهینه\LTRfootnote{Sub-optimal} است ارائه و بررسی گردد، مزیت این راه‌حل این است که نیازی نیست مسئله به‌صورت خطی تبیین شود، اما عیب آن نسبت به دو راه‌حل قبلی شبه بهینه بودن آن است. 
 	 
@@ -42,7 +42,7 @@
 			S,               & \text{در غیر این‌صورت}
 			\end{cases}
 			,n = 1, \dots, L_V \\
-			&S = E \bigcup F \bigcup C
+			&S = E \cup F \cup C
 		\end{align}
 	\end{subequations}
 	بنابراین تا اینجای کار تعداد مرحله‌ها و همچنین حالت‌های هر مرحله مشخص شد. در ادامه لازم است که چند تابع مختلف تعریف شود یکی از آن‌ها تابع میزان هزینه انتقال از یک حالت در یک مرحله به یک حالت دیگر در مرحله بعد است. که به صورت \cref{eqn:heuristic:def_tx_cost} تعریف می‌شود. 
@@ -66,7 +66,8 @@
 	حال با توجه به متغیرهای تعریف شده برای هر حالت در هر مرحله می‌توان مسیر نجات‌یافته را به صورت \cref{eqn:heuristic:def_survived_path} پیدا کرد. 
 	\begin{align}\label{eqn:heuristic:def_survived_path}
 		&I_n^j = \arg \min_{i \in XP_n^j} (D_{n-1,n}^{i,j}) \\
-		&D_{n-1,n}^{i,j} = \Theta_{n-1,n}^{i,j} + M_k * (T_{n-1,n}^{i,j} - OD_n^j) * I(T_{n-1,n}^{i,j} - OD_n^j)
+		&D_{n-1,n}^{i,j} = \Theta_{n-1,n}^{i,j} + M_k \times (T_{n-1,n}^{i,j} - OD_n^j) \times I(T_{n-1,n}^{i,j} - OD_n^j) \notag \\
+		&+M_k \times (\lambda_{t,u,j} - \mu_{t,u,j}) \times I(\lambda_{t,u,j} - \mu_{t,u,j})
 	\end{align}	
 در \cref{eqn:heuristic:def_survived_path} $D_{n-1,n}^{i,j}$ به عنوان معیار نهایی تصمیم‌گیری برای انتخاب مسیر بین حالت $i$ از مرحله $n-1$ و حالت $j$ از مرحله $n$ درنظر گرفته می‌شود. $I_n^j$ به عنوان شمارنده مسیرنجات‌یافته و $XP_n^j$ به عنوان مجموعه‌ی حالت‌های ممکن از مرحله $n-1$ که منابع کافی جهت ورود به حالت $j$ را دارند، درنظر گرفته‌می‌شود. می‌توان گفت که $XP_n^j \subset Z_{n-1}$، یعنی گره‌هایی که منبع کافی جهت انتقال به حالت جدید را ندارند از کل مجموعه حالت‌های مرحله قبل حذف می‌شوند. $M_k$ به عنوان یک هزینه سنگین در نظر گرفته می‌شود برای حالت‌هایی که تاخیر پردازش در آن‌ها از حداقل تاخیر قابل قبول برای پردازش وظیفه بیشتر است. یک متغیر دیگر به‌نام $OD_n^j$ دیده‌می‌شود، که می‌توان گفت بیانگر تاخیر درخواستی\LTRfootnote{Ordinary delay} برای وظیفه موردنظر است که در \cref{eqn:heuristic:def_ordinary_delay} آورده شده است در این رابطه این تاخیر برابر با میزان تاخیر درخواستی هر وظیفه درنظر گرفته‌شده‌است، درحالیکه می‌توانیم برای اطمینان بیشتر این تاخیر را اندکی کمتر از تاخیر درخواستی وظیفه در آن مرحله در نظر بگیریم که از همگرا شدن الگوریتم اطمینان بیشتری حاصل کنیم. 
 
@@ -106,7 +107,7 @@
 		\label{alg:heuristic}
 		\begin{algorithmic}[1]
 			\State $Z_0 = 0, \phi_0^0 = 0, ResourceIndicator = true, H = L_V, NodeResource_0^0 = \sigma.$ 
-			\For{$n=1:L_v$}
+			\For{$n=1:L_v$}\label{eqn:alg_steps:heuristic_main_loop}
 				\State{Determine the index of considered task, $t$, the index of considered part of task, $u$.}
 				\State{Determine the set of states $Z_n$ using \cref{eqn:heuristic:def_states}}
 				\State $RemovedStates=\{\}$
@@ -139,14 +140,13 @@
 					\EndIf
 				\EndFor
 				\If{$|RemovedStates| > 0.7 |Z_n|$}
-					\State $num_of_iters = num_of_iters + 1$
-					\If{$num_of_iters > 7$}
+					\State $numOfIters[n] = numOfIters[n] + 1$
+					\If{$numOfIters[n] < 7$}
+						\State $RepeatIndicator = true$
+						\State divide $\lambda_{t,u,j}$ into smaller pieces.
+						\State update parameters with backup data.
 						\State \textbf{break}
 					\EndIf
-					\State $RepeatIndicator = true$
-					\State divide $\lambda_{t,u,j}$ into smaller pieces.
-					\State update parameters with backup data.
-					\State \textbf{break}	
 				\EndIf
 				\If{$RemovedStates = Z_n$}
 					\State{Set $H=\sum_{m=1}^{t}{N_m}$ and $ResourceIndicator=false$}
@@ -156,6 +156,9 @@
 					\State{Remove all states in the $RemovedStates$ from the $Z_n$}
 				\EndIf
 			\EndFor
+			\If{$RepeatIndicator = true$}
+				\State go to \cref{eqn:alg_steps:heuristic_main_loop}, repeat the loop from first part of last task.
+			\EndIf
 			\If{$ResourceIndicator = true$}
 				\State{Determine the Viterbi path $P$, using \cref{eqn:heuristic:def_viterbi_path} with $H$.}
 			\EndIf
@@ -242,11 +245,11 @@
 \end{latin}
 	در \cref{alg:distributed:centralized} از مفهوم $CUTORACLE$ استفاده شده‌است که نشان‌دهنده یک تابع است که باتوجه به نقطه بهینه فعلی و آخرین چندوجهی مربوط به قیدها، یک قید جدید تولید می‌کند به‌طوریکه اشتراک چندوجهی قبلی و این قید جدید شامل پوش محدب مجموعه گسسته \lr{conv$(P_I)$} باشد اما شامل اخرین نقطه بهینه $z^{LP} = (x^{LP},y^{LP}$ نباشد.
 	
-	در ادامه لازم است که دو مفهوم دیگر تعریف شود. یک جعبه مجدود به صورت \cref{eqn:distributed:bounding_box} تعریف می‌شود که در ادامه از آن استفاده خواهد شد. فرض می‌شود که $P \subset H_M$.
+	در ادامه لازم است که چند مفهوم دیگر تعریف شود. یک جعبه مجدود به صورت \cref{eqn:distributed:bounding_box} تعریف می‌شود که در ادامه از آن استفاده خواهد شد. فرض می‌شود که $P \subset H_M$.
 \begin{equation}\label{eqn:distributed:bounding_box}
 H_M := \bigcap_{l=1}^d (\{ z_l \le M \} \cap \{ z_l \ge -M \})
 \end{equation}
-	یک مفهوم دیگر به نام پایه\LTRfootnote{Basis} تعریف می‌شود، فرض کنید که یک مسئله بهینه‌سازی خطی پیوسته با مجموعه قید $P := \bigcap_{i=1}^n P_i$ داریم که هریک از $P_i$ ها یک نیم‌فضا\LTRfootnote{Half-spce} است، پایه $B$ مجموعه‌ تشکیل شده از تقاطع حداقل تعداد نیم‌فضا $P_{l_1}, \dots, P_{l_q}$ است به صورتی‌که $q \le d$ و جواب بهینه مسئله بهینه سازی بر روی مجموعه قید $P$ با جواب همان مسئله بر روی مجموعه قید $B$ برابر است. اگر برای حل کردن مسئله بهینه‌سازی از الگوریتم $LEXOPTIMAL$ که نوعی الگوریتم سیمپلکس\LTRfootnote{Simplex} است استفاده شود، می‌توان نشان داد که $B$ دقیقا از تقاطع $d$ نیم‌فضا تشکیل می‌شود.  الگوریتم $LEXOPTIMAL$ به تفصیل در \cite{lexoptimal} توضیح داده شده‌است.
+	یک مفهوم دیگر به نام پایه\LTRfootnote{Basis} تعریف می‌شود، فرض کنید که یک مسئله بهینه‌سازی خطی پیوسته با مجموعه قید $P := \bigcap_{i=1}^n P_i$ داریم که هریک از $P_i$ ها یک نیم‌فضا\LTRfootnote{Half-spce} است، پایه $B$ مجموعه‌ تشکیل شده از تقاطع حداقل تعداد نیم‌فضا $P_{l_1}, \dots, P_{l_q}$ است به صورتی‌که $q \le d$ و جواب بهینه مسئله بهینه سازی بر روی مجموعه قید $P$ با جواب همان مسئله بر روی مجموعه قید $B$ برابر است. اگر برای حل کردن مسئله بهینه‌سازی از الگوریتم $LEXOPTIMAL$ که نوعی الگوریتم سیمپلکس\LTRfootnote{Simplex} است استفاده شود، می‌توان نشان داد که $B$ دقیقا از تقاطع $d$ نیم‌فضا تشکیل می‌شود.  الگوریتم $LEXOPTIMAL$ به تفصیل در \cite{jones2007lexicographic} توضیح داده شده‌است.
 	%todo lexoptimal cite
 	
 \begin{latin}
@@ -266,7 +269,31 @@ H_M := \bigcap_{l=1}^d (\{ z_l \le M \} \cap \{ z_l \ge -M \})
 	\end{algorithm}
 \end{latin}
 %todo h_mig H_M
-
+در \cref{alg:distributed:int_distributed} خروجی تابع CUTORACLE به‌صورت دو قسمتی است. که لازم است در مورد آن صحبت شود. در \cite{gomory1960algorithm} یک روش برش به نام MIG\LTRfootnote{Mixed-Integer Gomory} ارائه شده است و اثبات شده است که در صورتی‌که تابع هدف مسئله بهینه‌سازی به صورت گسسته باشد، این روش صفحه برش می‌تواند مسئله را حل کند. خروجی تابع که به صورت $h_MIG$ نشان داده شده‌است، مربوط به این نحوه‌ی برش می‌باشد. خروجی دیگر که با نماد $h_c$ نشان داده شده‌است در \cref{eqn:distributed:cost_baced_cut} آورده شده‌است. 
+\begin{align}
+	h_c = \{ c^Tz > \lceil c^Tz^{LP}\rceil \}	
+\end{align}
+	بنابراین از \cref{alg:distributed:int_distributed} برای حل کردن مسئله خطی ترکیب عددصحیح به‌صورت کاملا توزیع‌شده استفاده می‌شود، اما این شرط اساسی وجود دارد که تابع هدف مسئله بهینه‌سازی به صورت گسسته(عددصحیح) باشد. 
+	
+	برای حل مشکل شرط گسسته بودن تابع هدف یک الگوریتم دیگر ارائه می‌شود که در \cref{alg:distributed:epsilon_distributed} آورده شده‌است. ابتدا مسئله اصلی نوشته شده در \cref{eqn:distributed:objective_func} به صورت \cref{eqn:distributed:objective_func_epigraph} بازنویسی می‌شود، که مدل epigraph نامیده می‌شود. 
+	\begin{subequations}\label{eqn:distributed:objective_func_epigraph}
+		\begin{align}
+		&\min_{\rho,z}\rho \\
+		&\text{\lr{subj. to}} \quad a_i^Tz \le b_i, i = 1, \dots, n  \\
+		&c^Tz \le \rho \\
+		&\rho \in \mathbb{R}, z \in \mathbb{Z}^{d_Z} \times \mathbb{R}^{d_R} \\
+		\end{align}
+	\end{subequations}
+	حال می‌دانیم که $\rho$ لزوما به صورت عددصحیح نیست، بنابراین یک متغیر دیگر به نام $\rho_I$ که فرض می‌کنیم به صورت عددصحیح است، به‌صورت $\epsilon\rho_I = \rho$ تعریف می‌شود. حال مسئله بهینه‌سازی مجددا به فرم \cref{eqn:distributed:objective_func_epigraph_int} بازنویسی می‌شود و درنهایت الگوریتم توزیع‌شده برای این مسئله نوشته می‌شود. 
+	\begin{subequations}\label{eqn:distributed:objective_func_epigraph_int}
+		\begin{align}
+		&\min_{\rho_I,z}\rho_I \\
+		&\text{\lr{subj. to}} \quad a_i^Tz \le b_i, i = 1, \dots, n  \\
+		&c^Tz \le \epsilon \rho_I \\
+		&\rho_I \in \mathbb{Z}, z \in \mathbb{Z}^{d_Z} \times \mathbb{R}^{d_R}, \epsilon > 0 \\
+		\end{align}
+	\end{subequations}
+	درنهایت می‌توان \cref{alg:distributed:epsilon_distributed} را به‌صورت زیر نوشت که برای تمام مسئله‌های خطی ترکیب عددصحیح جواب می‌دهد. توضیح بیشتر درمورد چزئیات این الگوریتم این‌که هریک از گره‌ها قید اولیه و محلی خود را به صورت $h_{i0} = \{ a_i^Tz \le b_i\} \cap \{c^Tz \le \epsilon\rho\}$ در نظر می‌گیرد. زوج متغیر $\rho_I$ , $z$ را نیز به عنوان هزینه جدید درنظر می‌گیرم و با $e_1$ نشان می‌دهیم. 
 \begin{latin}
 	\begin{algorithm}
 		\caption{Distributed Algorithm}
@@ -278,14 +305,84 @@ H_M := \bigcap_{l=1}^d (\{ z_l \le M \} \cap \{ z_l \ge -M \})
 			\State $((\rho_I^{[i]},z^{[i]}),B^{[i]}) = LPLEXSOLV(h^{[i]}, e_1)$
 			\Statex Evolution 
 			\State $h_{MIG}(t) = MIGORACLE((\rho_I^{[i]}(t),z^{[i]}(t)),B^{[i]}(t),c)$
-			\State $h_c(t) = \{ \rho_I \ge [\rho_I^{[i]}(t)] \}$
+			\State $h_c(t) = \{ \rho_I \ge \lceil\rho_I^{[i]}(t)\rceil \} $
 			\State $\displaystyle H_{TMP}(t) = (\bigcap_{j \in N_i(t)}B^{[j]}(t)) \cap B^{[i]}(t) \cap h^{[i]} \cap h_{MIG}(t) \cap h_c(t)$
 			\State $((\rho_I^{[i]}(t+1),z^{[i]}(t+1)),B^{[i]}(t+1)) = LPLEXSOLV(H_{TMP}, e_1)$
 		\end{algorithmic}
 	\end{algorithm}
 \end{latin}
 
+در هر دو الگوریتم ارائه شده، هر گره متغیر اصلی مسئله را به صورت محلی ذخیره می‌کند و در هر مرحله بعد از تبادل اطلاعات با همسایه‌های خود و دریافت قید(برش)های جدید، متغیر اصلی مسئله را بروز رسانی می‌کند. سوالی که پیش می‌آید، این است که هر گره از کجا بداند فرآیند حل مسئله تمام شده است یا نه، در \cite{testa2019distributed} گفته شده‌است که هروفت یک گره از تمام همسایه‌های خود هیچ قید جدیدی دریافت نکرد، این بدین معنی است که فرآیند حل مسئله به پایان رسیده است. 
 
-
-
-
+\begin{algorithm}
+	\caption{Calculating Score}\label{euclid}
+	\begin{algorithmic}[1]
+%		\Procedure{CheckBetaamplitude}{}
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(1) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(2) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(3) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(4) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(5) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(6) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(7) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(8) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(9) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(10) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(11) \gets n/length()$
+%		\EndProcedure
+		\algstore{myalg}
+	\end{algorithmic}
+\end{algorithm}
+gsl;kfjg;lskj
+\begin{algorithm}                     
+	\begin{algorithmic} [1]              
+		\algrestore{myalg}
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(12) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(13) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(14) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(15) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(16) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(17) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(18) \gets n/length()$
+		\State $i \gets find(absolute()<maxamp)$
+		\State $n \gets length(i)$
+		\State $s(19) \gets n/length()$
+		\State $score4 \gets Average(s)$
+	\end{algorithmic}
+\end{algorithm}
