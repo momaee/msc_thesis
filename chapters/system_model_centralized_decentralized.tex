@@ -80,6 +80,37 @@
 	\end{equation}
 	درواقع متغیر \cref{eqn:def_variable_lambda_t_s} به عنوان ورودی مسئله تعریف می‌شود و در جریان حل مسئله مقدارش تعیین نمی‌شود و عملا متغیرهای اصلی در مسئله دو دسته هستند که دسته اول از جنس متغیر گسسته دودویی هستند و دسته دوم متغیرهای پیوسته. تا اینجای کار احتمالا خواننده می‌تواند حدس بزند که مسئله بهینه‌سازی که در ادامه شکل می‌گیرد از نوع مسئله‌های مخلوط عدد صحیح \LTRfootnote{Mixed-Integer} خواهد بود. در مورد خطی بودن یا نبودن نیز می‌دانیم که کار کردن با مسئله بهینه‌سازی خطی به مراتب راحت تر از غیرخطی خواهد بود، لذا به نظر می‌رسد که لازم است مسئله به‌گونه‌ای مدل شود که خطی باشد و یا اینکه خطی‌سازی شود. 
 	
+	    \cref{tbl:system_model:notation} به صورت خلاصه پارامتر‌ها و متغیر‌های استفاده شده در این فصل را معرفی می‌کند.
+	\begin{table}[h]
+		\caption{نماد‌های استفاده شده در \cref{chap:system_model_centralized_decentralized}}
+		\begin{tabularx}{\textwidth}{|c|C|} \hline
+			نشانه                & توضیح                                                                                     \\ \hline
+			$C$                 & مجموعه‌ گره‌های پردازشی لایه ابر    \\ \hline                                                                   
+			$F$                 & مجموعه‌ گره‌های پردازشی لایه مه     \\ \hline                                                                  
+			$E$                 & مجموعه‌ گره‌های پردازشی لایه لبه    \\ \hline                                                                   
+			$S$                 & مجموعه‌ گره‌های لایه‌ی حسگر            \\ \hline                                                                                
+			$T$                 & مجموعه‌ وظیفه‌های موجود در شبکه      \\ \hline                                                            
+			$R$                 & مجموعه‌ منابع پردازشی موجود در شبکه      \\ \hline                                                            
+			$c$                 & نماد مربوط به گره‌های پردازشی لایه‌ی ابر   \\ \hline                                                                    
+			$f$                 & نماد مربوط به گره‌های پردازشی لایه‌ی مه    \\ \hline                                                                   
+			$e$                 & نمااد مربوط به گره‌های پردازشی لایه‌ی لبه   \\ \hline                                                                    
+			$s$                 & نماد مربوط به گره‌های پردازشی لایه‌ی حسگر   \\ \hline                                                                                         
+			$t$                 & نماد مربوط به وظیفه‌ها       \\ \hline                                                           
+			$r$                 & نماد مربوط به منابع پردازشی   \\ \hline                                                                                         
+			$\pi_c$        	 	& واحد قیمت پردازشی در گره پردازشی  \\ \hline                                                        
+			$\lambda_{t,s}$ 	& نرخ پوآسون تولید وظیفه در حسگر \\ \hline
+			$\lambda_{t,c}$ 	& نرخ پوآسون ورود وظیفه به گره پردازشی \\ \hline
+			$\sigma_c^r$ 		& ظرفیت منبع پردازشی در گره پردازشی \\ \hline
+			$\epsilon$ 			& یک عدد مثبت کوچک \\ \hline
+			$\tau_{t,s,c}^{tr}$ & تاخیر انتقال اطلاعات مربوط به یک وظیفه تا گره پردازشی \\ \hline
+			$f_t^r(\lambda_{t,e})$ 	& نرخ مصرف منبع در گره پردازشی جهت پردازشی وظیفه \\ \hline
+			$k_1^r, k_2^r$ 			& ضریب‌های استفاده شده در تابع $f_t^r$ \\ \hline
+			$w_t$ 				& حجم پردازنده مورد نیاز جهت پردازش وظیفه  \\ \hline
+			$\delta_t$ 			& حداقل زمان مورد نیاز جهت پردازش کامل وظیفه \\ \hline
+		\end{tabularx}
+		\label{tbl:system_model:notation}
+	\end{table}
+	
 	در ادامه قیدهای موجود در مدل‌سازی بررسی می‌شود. 
     \subsection{قیدها}
     اولین قید مورد بررسی به عنوان یک متغیر میانی معرفی می‌شود به این صورت که مجموع جریان‌های ورودی به یک گره پردازشی به عنوان یک متغیر میانی که در \cref{eqn:constraint_load_conservation_computing_nodes} نشان داده شده است نمایش داده می‌شود. باید توجه کرد که جنس متغیر تعریف شده در \cref{eqn:def_variable_lambda_t_s} و متغیر میانی تعریف شده در \cref{eqn:constraint_load_conservation_computing_nodes} یکسان است اما مفهوم آن‌ها اندکی با هم فرق دارد، اولی نرخ خروج وظیفه از گره‌های حسگری را نشان می‌دهد درصورتی‌که دومی نرخ ورود وظیفه به گره‌های پردازشی را بیان می‌کند. 
@@ -229,7 +260,7 @@
 		&\min \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e}\notag \\
 		&+\sum_{t \in T}\sum_{f \in F} K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f}\notag \\
 		&+\sum_{t \in T}\sum_{c \in C} K_1\pi_c\psi_{t,c}+K_2\pi_cx_{t,c} \label{eqn:objective_func_final} \notag \\
-		&\text{subj. to}  %todo edit subj to
+		&\text{\lr{subj. to}}  %todo edit subj to
 		\cref{eqn:constraint_load_conservation_computing_nodes}
 		\cref{eqn:constraint_request_flow_existence}\cref{eqn:constraint_psi}
 		\cref{eqn:constraint_load_managing_linear} \notag \\
@@ -299,15 +330,11 @@
 	\begin{subequations}
 		\begin{align}
 			&\lambda_{t,s} = \sum_{e \in E} \beta_{t,s,e} + \sum_{f \in F} \beta_{t,s,f}
-			+\sum_{c \in C}\beta_{t,s,c} \quad \forall{t \in T}, \forall{s \in S}
-		\end{align}
-		\begin{align}\label{eqn:constraint_load_conservation_sensor_nodes_coupling_new}
+			+\sum_{c \in C}\beta_{t,s,c} \quad \forall{t \in T}, \forall{s \in S} \\
 			&\lambda_{t,s} \le \sum_{e \in E} \beta_{t,s,e} + \sum_{f \in F} \beta_{t,s,f}
-			+\sum_{c \in C}\beta_{t,s,c} \le \lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S}
-		\end{align}
-		\begin{align}\label{eqn:constraint_load_conservation_sensor_nodes_coupling_new2}
+			+\sum_{c \in C}\beta_{t,s,c} \le \lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S} \label{eqn:constraint_load_conservation_sensor_nodes_coupling_new} \\
 			&\lambda_{t,s} - \epsilon \le \sum_{e \in E} \beta_{t,s,e} + \sum_{f \in F} \beta_{t,s,f}
-			+\sum_{c \in C}\beta_{t,s,c} \le \lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S}
+			+\sum_{c \in C}\beta_{t,s,c} \le \lambda_{t,s}+\epsilon \quad \forall{t \in T}, \forall{s \in S}\label{eqn:constraint_load_conservation_sensor_nodes_coupling_new2}
 		\end{align}
 	\end{subequations}
 	که در رابطه‌های فوق $\epsilon$ به عنوان یک عدد کوچک در نظر گرفته می‌شود. 
@@ -357,11 +384,9 @@
 		\end{align}
 	\end{subequations}
 حال می‌توانیم \cref{alg:decentralized_approach} را بر روی مسئله خودمان اعمال کنیم همچنین در الگوریتم پیشنهادی حاصل جهت بهینه کردن میزان محاسبات تغییراتی داده شده است بدین صورت که در \cref{alg:decentralized_approach} یک حلقه‌ وجود دارد که متغیرهای محلی را حساب می‌کند و در مرحله بعد سه حلقه‌ی دیگر به همان اندازه استفاده می‌شود که متغیر اضافه شده به قیدها حساب شوند اما در \cref{alg:my_decentralized_approach} که الگوریتم پیشنهادی است تمام این محاسبات در یک حلقه انجام می‌شود. در \cref{alg:my_decentralized_approach} بعضی متغیرها به صورت برداری هستند، اما جهت خوانایی بیشتر از گذاشتن علامت بردار و یا ماتریس بر روی متغیرها صرف‌نظر شده‌است. برخی قراردادهای جدید در \cref{eqn:def_globals} آورده شده‌است که از آن‌ها در \cref{alg:my_decentralized_approach} استفاده شده‌است.
-\begin{subequations}
-	\begin{align}
+	\begin{align}\label{eqn:def_globals}
 		l = |E| + |F| + |C|
 	\end{align}
-\end{subequations}
 	
 \begin{latin}
 	\begin{algorithm}
@@ -414,7 +439,14 @@
 					\State $\rho_{\nu_1,i}(k+1) = \bar{s}_{\nu_1,i}(k+1) - \underline{s}_{\nu_1,i}(k+1)$
 					\State $\rho_{\nu_2,i}(k+1) = \bar{s}_{\nu_2,i}(k+1) - \underline{s}_{\nu_2,i}(k+1)$
 				\EndFor
-				
+				\algstore{myalg1}
+			\end{algorithmic}
+		\end{algorithm}
+	\end{latin}
+	\begin{latin}
+		\begin{algorithm}                     
+			\begin{algorithmic} [1]              
+				\algrestore{myalg1}
 				\State $\rho_{\eta_1}(k+1) = |T| \max \{ \rho_{\eta_1,1}(k+1), ..., \rho_{\eta_1,l}(k+1)\}$
 				\State $\rho_{\eta_2}(k+1) = |T| \max \{ \rho_{\eta_2,1}(k+1), ..., \rho_{\eta_2,l}(k+1)\}$
 				\State $\rho_{\nu_1}(k+1) = |S||T| \max \{ \rho_{\nu_1,1}(k+1), ..., \rho_{\nu_1,l}(k+1)\}$
@@ -430,43 +462,19 @@
 	\end{algorithm}
 \end{latin}
 
-    
-    \cref{tbl:system_model:notation} به صورت خلاصه پارامتر‌ها و متغیر‌های استفاده شده در این فصل را معرفی می‌کند.
-    \begin{table}[h]
-      \caption{نماد‌های استفاده شده در \cref{chap:system_model}}
-      \begin{tabularx}{\textwidth}{|c|C|} \hline
-        نشانه                & توضیح                                                                                     \\ \hline
-        $C$                  & مجموعه‌ی گره‌های پردازشی لایه ابر                                                                       \\ \hline
-        $F$                  & مجموعه‌ی گره‌های پردازشی لایه مه                                                                       \\ \hline
-        $E$                  & مجموعه‌ی گره‌های پردازشی لایه لبه                                                                       \\ \hline
-        $S$                  & مجموعه‌ی گره‌های لایه‌ی حسگر                                                                     \\ \hline                        
-        $T$                  & مجموعه‌ی وظیفه‌های موجود در شبکه                                                                  \\ \hline
-		$c$                  & اندیس مربوط به گره‌های پردازشی لایه‌ی ابر                                                                       \\ \hline
-		$f$                  & اندیس مربوط به گره‌های پردازشی لایه‌ی مه                                                                       \\ \hline
-		$e$                  & اندیس مربوط به گره‌های پردازشی لایه‌ی لبه                                                                       \\ \hline
-		$s$                  & اندیس مربوط به گره‌های پردازشی لایه‌ی حسگر                                                                     \\ \hline                        
-		$t$                  & اندیس مربوط به وظیفه‌ها                                                                  \\ \hline
-        $\sigma$        	 & واحد قیمت پردازشی در گره‌ها                                                                \\ \hline
-        
-        $d_{i,s}^\text{CPU}$ & تاخیر پردازشی سرویس $s$ در صورتی که از منبع پردازشی $i$ استفاده کند                       \\ \hline
-        $d_{i,s}^\text{net}$ & تاخیر انتقال داده‌ها سرویس $s$  در صورتی که از منبع پردازشی $i$ استفاده کند                \\ \hline
-        $\mu_{i,s}$         & نرخ سرویس منبع پردازشی $i$ برای سرویس $s$                                                  \\ \hline
-        $r_s$               & نرخ انتخابی ارسال نمونه‌های سرویس $s$                                                       \\ \hline
-        $R_s$               & نرخ مطلوب ارسال نمونه‌ها برای سرویس $s$                                                     \\ \hline
-        $\omega_s$          & ضریب وزن دهی برای مشخص کردن نسبت اهمیت تاخیر نسبت به اختلاف نرخ انتخابی و نرخ مطلوب برای سرویس‌ها \\ \hline
-        $\delta_{i,s}$      & متغیر دودویی که مشخص می‌کند سرویس $s$ منبع پردازشی $i$ را استفاده می‌کند یا خیر              \\ \hline
-        $f_r$               & تابع مشخص کننده تاثیر اختلاف نرخ انتخابی با نرخ مطلوب در ارزش سرویس                         \\ \hline
-        $f_d$               & تابع مشخص کننده تاثیر تاخیر در ارزش سرویس                                                  \\ \hline
-        $U_{i,s}$           & ارزش سرویس $s$ در صورتی که از منبع پردازشی $i$ استفاده کند                                 \\ \hline
-        $U_s$               & ارزش سرویس $s$                                                                             \\ \hline
-        $U$                 & مجموع ارزش سرویس‌ها                                                                         \\ \hline
-        $\eta$              & پارامتر محدود کننده‌ی بهره برداری از منابع پردازشی                                          \\ \hline
-        $\epsilon$          & حداقل مقدار افزایش قیمت منابع پردازشی توسط سرویس‌ها در هر پیشنهاد                           \\ \hline
-        $p_i$               & قیمت استفاده از منبع پردازشی $i$                                                           \\ \hline
-        $\iota_s$           & منبع پردازشی با بیش‌ترین سود برای سرویس $s$                                                 \\ \hline
-        $v_s$               & سود بهترین منبع پردازشی برای سرویس $s$                                                     \\ \hline
-        $w_s$               & سود دومین بهترین منبع پردازشی برای سرویس $s$                                               \\ \hline
-        $\gamma_s$          & میزان افزایش قیمت برای بهترین منبع پردازشی سرویس $s$                                       \\ \hline
-      \end{tabularx}
-      \label{tbl:system_model:notation}
-    \end{table}
+
+\section{نتایج شبیه‌سازی}
+	در این قسمت نتایج شبیه‌سازی را بیان می‌کنیم. در همه موارد این فصل و فصل بعد نتایج برای 50 بار اجرا شده‌اند و نتایج به صورت میانگین بیان شده‌اند. همانند مدل سیستم یک شبکه چهار لایه در نظر می‌گیریم، تعداد گره‌های هر لایه هر بار به صورت تصادفی انتخاب می‌شوند، تعداد وظیفه‌ها و همچینین نرخ تولید وظیفه‌ها به صورت تصادفی در یک محدوده عددی خاص تولید می‌شوند. 
+    برای تاخیر مسیریاب‌ها فرض می‌کنیم که به صورت میانگین عبور بسته‌ها از مسیریاب‌های لایه 1، 2 میلی ثانیه، مسیریاب‌های لایه 2، 4 میلی ثانیه و مسیریاب‌های لایه 3، 10 میلی ثانیه طول می‌کشد.
+\cref{fig:network} توپولوژی شبکه را که در شبیه‌سازی استفاده شده‌است نشان می‌دهد.
+
+\begin{figure}[h]
+	\centerline{\includegraphics[width=15cm]{graphics/one_to_one/network}}
+	\caption{دید کلی از توپولوژی شبکه}
+	\label{fig:network}
+\end{figure}
+
+ظرفیت مربوط به هریک از گره‌ها به نجوی انتخاب شده است که بیشترین ظرفیت مربوط به گره‌های ابری و کمترین مربوط به گره‌های لبه باشد. که به ترتیب اعداد 100، 90 و 80 درنظر گرفته شده است. حجم پردازنده مورد نیاز برای وظیفه‌ها نیز به صورت تصادفی اعداد حدود 4 در نظر گرفته شده اند. حداقل زمان لازم جهت پردازش وظیفه‌ها به صورت تصادفی و حدود 30 میلی‌ثانیه فرض شده است. واحد قیمت پردازشی برای گره‌ها به صورتی در نظر گرفته شده است که ارزانترین هزینه مربوط به گره‌های لایه ابری و گرانترین مربوط به گره‌ لایه لبه باشد، این اعداد به صورت تصادفی و به ترتیب حدود اعداد 0.1، 0.4 و 0.9 واحد در نظر گرفته شده‌است. نرخ پوآسون تولید وظیفه در گره‌های حسگری به صورت تصادفی و در حدود 5 واحد درنظر گرفته شده‌است. 
+
+
+

@@ -92,7 +92,81 @@
 \begin{align}\label{eqn:heuristic:def_phi}
 	\phi_n^j = \Theta_{n-1,n}^{I_n^j,j}
 \end{align}
-در آخر لازم است که در هر مرحله بتوانیم مسیر ویتربی را بیابیم، فرض کنیم که در مرحله $\displaystyle H = \sum_{t \in T}N_t$ هستیم، در میان مسیرهای نجات یافته در این مرحله، مسیر ویتربی را می‌توان به کمک \cref{eqn:def_heuristic_viterbi_path} یافت.
+
+\begin{latin}
+	\begin{algorithm}
+		\caption{Heuristic}
+		\label{alg:heuristic}
+		\begin{algorithmic}[1]
+			\State $Z_0 = 0, \phi_0^0 = 0, ResourceIndicator = true, H = L_V, NodeResource_0^0 = \sigma.$ 
+			\For{$n=1:L_v$}\label{eqn:alg_steps:heuristic_main_loop}
+			\State{Determine the index of considered task, $t$, the index of considered part of task, $u$.}
+			\State{Determine the set of states $Z_n$ using \cref{eqn:heuristic:def_states}}
+			\State $RemovedStates=\{\}, RepeatIndicator = false$
+			\If{u = 1}
+			\State update backups
+			\EndIf	
+			\For{$j\in Z_n$}
+			\State $XP_n^j=Z_{n-1}, OD_n^j = \infty$
+			\If{$j\neq 0$}
+			\For{$i \in XP_n^j$}
+			\If{$NodeResource_{n-1}^i < f_t^r(\lambda_{t,u,j})$}
+			\State $XP_n^j = XP_n^j - \{i\}$
+			\EndIf
+			\EndFor
+			\State $OD_n^j = \delta_t$
+			\EndIf
+			\If{$XP_n^j \neq \emptyset$}
+			\For{$i \in XP_n^j$}
+			\State{Calculate $T_{n-1,n}^{i,j}$ using \cref{eqn:heuristic:def_delay_level}}
+			\State Calculate $\Theta_{n-1,n}^{i,j}$ using \cref{eqn:heuristic:def_tx_cost}
+			\EndFor
+			\State{Calculate $I_n^j$ using \cref{eqn:heuristic:def_survived_path}and $\Lambda_n^j$ using \cref{eqn:heuristic:def_Lambda}}
+			\State{Calculate $\phi_n^j$ using \cref{eqn:heuristic:def_phi}}
+			\If{$j\neq 0$}
+			\State $NodeResource_n^j = NodeResource_n^j - f_t^r(\lambda_{t,u,j})$
+			\EndIf
+			\Else
+			\State $RemovedStates = RemovedStates + \{j\}$
+			\EndIf
+			\EndFor
+			\If{$|RemovedStates| > 0.7 |Z_n|$}
+			\State $numOfIters[n] = numOfIters[n] + 1$
+			\If{$numOfIters[n] < 7$}
+			\State $RepeatIndicator = true$
+			\State divide $\lambda_{t,u,j}$ into smaller pieces.
+			\State update parameters with backup data.
+			\State \textbf{break}
+			\EndIf
+			\EndIf
+			\algstore{myalg}
+		\end{algorithmic}
+	\end{algorithm}
+\end{latin}
+\begin{latin}
+	\begin{algorithm}                     
+		\begin{algorithmic} [1]              
+			\algrestore{myalg}
+			\If{$RemovedStates = Z_n$}
+			\State{Set $H=\sum_{m=1}^{t}{N_m}$ and $ResourceIndicator=false$}
+			\State{Determine the Viterbi path $P$, using \cref{eqn:heuristic:def_viterbi_path} with $H$.}
+			\State\textbf{break}
+			\Else
+			\State{Remove all states in the $RemovedStates$ from the $Z_n$}
+			\EndIf
+			\EndFor
+			\If{$RepeatIndicator = true$}
+			\State go to \cref{eqn:alg_steps:heuristic_main_loop}, repeat the loop from first part of last task.
+			\EndIf
+			\If{$ResourceIndicator = true$}
+			\State{Determine the Viterbi path $P$, using \cref{eqn:heuristic:def_viterbi_path} with $H$.}
+			\EndIf
+			\State{Determine the task scheduling using Viterbi path $P$}
+		\end{algorithmic}
+	\end{algorithm}
+\end{latin}
+
+	در آخر لازم است که در هر مرحله بتوانیم مسیر ویتربی را بیابیم، فرض کنیم که در مرحله $\displaystyle H = \sum_{t \in T}N_t$ هستیم، در میان مسیرهای نجات یافته در این مرحله، مسیر ویتربی را می‌توان به کمک \cref{eqn:heuristic:def_viterbi_path} یافت.
 \begin{subequations}
 	\begin{align}\label{eqn:heuristic:def_viterbi_path}
 		&P = \Lambda_H^\zeta \\
@@ -103,90 +177,20 @@
 در حالتی‌که الگوریتم به خوبی تمام شود و تمام مراحل پیموده شوند می‌توان گفت که $H=L_V$.
 \begin{latin}
 	\begin{algorithm}
-		\caption{Heuristic}
-		\label{alg:heuristic}
+		\caption{Viterbi Path Scheduling}
+		\label{alg:viterbi_path_scheduling}
 		\begin{algorithmic}[1]
-			\State $Z_0 = 0, \phi_0^0 = 0, ResourceIndicator = true, H = L_V, NodeResource_0^0 = \sigma.$ 
-			\For{$n=1:L_v$}\label{eqn:alg_steps:heuristic_main_loop}
-				\State{Determine the index of considered task, $t$, the index of considered part of task, $u$.}
-				\State{Determine the set of states $Z_n$ using \cref{eqn:heuristic:def_states}}
-				\State $RemovedStates=\{\}$
-				\State $RepeatIndicator = false$
-				\If{u = 1}
-					\State update backups
-				\EndIf	
-				\For{$j\in Z_n$}
-					\State $XP_n^j=Z_{n-1}, OD_n^j = \infty$
-					\If{$j\neq 0$}
-						\For{$i \in XP_n^j$}
-							\If{$NodeResource_{n-1}^i < f_t^r(\lambda_{t,u,j})$}
-								\State $XP_n^j = XP_n^j - \{i\}$
-							\EndIf
-						\EndFor
-						\State $OD_n^j = \delta_t$
-					\EndIf
-					\If{$XP_n^j \neq \emptyset$}
-						\For{$i \in XP_n^j$}
-							\State{Calculate $T_{n-1,n}^{i,j}$ using \cref{eqn:heuristic:def_delay_level}}
-							\State Calculate $\Theta_{n-1,n}^{i,j}$ using \cref{eqn:heuristic:def_tx_cost}
-						\EndFor
-						\State{Calculate $I_n^j$ using \cref{eqn:heuristic:def_survived_path}and $\Lambda_n^j$ using \cref{eqn:heuristic:def_Lambda}}
-						\State{Calculate $\phi_n^j$ using \cref{eqn:heuristic:def_phi}}
-						\If{$j\neq 0$}
-							\State $NodeResource_n^j = NodeResource_n^j - f_t^r(\lambda_{t,u,j})$
-						\EndIf
-					\Else
-						\State $RemovedStates = RemovedStates + \{j\}$
-					\EndIf
-				\EndFor
-				\If{$|RemovedStates| > 0.7 |Z_n|$}
-					\State $numOfIters[n] = numOfIters[n] + 1$
-					\If{$numOfIters[n] < 7$}
-						\State $RepeatIndicator = true$
-						\State divide $\lambda_{t,u,j}$ into smaller pieces.
-						\State update parameters with backup data.
-						\State \textbf{break}
-					\EndIf
-				\EndIf
-				\If{$RemovedStates = Z_n$}
-					\State{Set $H=\sum_{m=1}^{t}{N_m}$ and $ResourceIndicator=false$}
-					\State{Determine the Viterbi path $P$, using \cref{eqn:heuristic:def_viterbi_path} with $H$.}
-					\State\textbf{break}
-				\Else
-					\State{Remove all states in the $RemovedStates$ from the $Z_n$}
-				\EndIf
+			\For{ i = 1 : H}
+			\State{Determine the index of considered task, $t$, the index of considered part of task, $u$.}
+			\State{Determine the index of considered computational node n}
+			\If{$\tau_{t,u,n} \le \delta_t$}
+			\State $x_{t,n} = 1$
+			\State $\lambda_{t,n} = \lambda_{t,u,n}$
+			\EndIf
 			\EndFor
-			\If{$RepeatIndicator = true$}
-				\State go to \cref{eqn:alg_steps:heuristic_main_loop}, repeat the loop from first part of last task.
-			\EndIf
-			\If{$ResourceIndicator = true$}
-				\State{Determine the Viterbi path $P$, using \cref{eqn:heuristic:def_viterbi_path} with $H$.}
-			\EndIf
-			\State{Determine the task scheduling using Viterbi path $P$}
 		\end{algorithmic}
 	\end{algorithm}
 \end{latin}
-
-
-%\begin{latin}
-%	\begin{algorithm}
-%		\caption{Viterbi Path Scheduling}
-%		\label{alg:viterbi_path_scheduling}
-%		\begin{algorithmic}[1]
-%			\For{ i = 1 : H}
-%				\State{Determine the index of considered task, $t$, the index of considered part of task, $u$.} 
-%				\State{Determine the index of considered computational node n}
-%				\If{$\tau_{t,u,n} \le \delta_t$}}
-%					\State $x_{t,n} = 1$
-%					\State $\lambda_{t,n} = \lambda_{t,u,n}$
-%				\EndIf
-%			\EndFor
-%		\end{algorithmic}
-%	\end{algorithm}
-%\end{latin}
-
-
-
 
 \section{راه‌حل توزیع‌شده}
 
@@ -243,6 +247,8 @@
 		\end{algorithmic}
 	\end{algorithm}
 \end{latin}
+
+
 	در \cref{alg:distributed:centralized} از مفهوم $CUTORACLE$ استفاده شده‌است که نشان‌دهنده یک تابع است که باتوجه به نقطه بهینه فعلی و آخرین چندوجهی مربوط به قیدها، یک قید جدید تولید می‌کند به‌طوریکه اشتراک چندوجهی قبلی و این قید جدید شامل پوش محدب مجموعه گسسته \lr{conv$(P_I)$} باشد اما شامل اخرین نقطه بهینه $z^{LP} = (x^{LP},y^{LP}$ نباشد.
 	
 	در ادامه لازم است که چند مفهوم دیگر تعریف شود. یک جعبه مجدود به صورت \cref{eqn:distributed:bounding_box} تعریف می‌شود که در ادامه از آن استفاده خواهد شد. فرض می‌شود که $P \subset H_M$.
@@ -269,12 +275,11 @@ H_M := \bigcap_{l=1}^d (\{ z_l \le M \} \cap \{ z_l \ge -M \})
 	\end{algorithm}
 \end{latin}
 %todo h_mig H_M
-در \cref{alg:distributed:int_distributed} خروجی تابع CUTORACLE به‌صورت دو قسمتی است. که لازم است در مورد آن صحبت شود. در \cite{gomory1960algorithm} یک روش برش به نام MIG\LTRfootnote{Mixed-Integer Gomory} ارائه شده است و اثبات شده است که در صورتی‌که تابع هدف مسئله بهینه‌سازی به صورت گسسته باشد، این روش صفحه برش می‌تواند مسئله را حل کند. خروجی تابع که به صورت $h_MIG$ نشان داده شده‌است، مربوط به این نحوه‌ی برش می‌باشد. خروجی دیگر که با نماد $h_c$ نشان داده شده‌است در \cref{eqn:distributed:cost_baced_cut} آورده شده‌است. 
-\begin{align}
+در \cref{alg:distributed:int_distributed} خروجی تابع CUTORACLE به‌صورت دو قسمتی است. که لازم است در مورد آن صحبت شود. در \cite{gomory1960algorithm} یک روش برش به نام MIG\LTRfootnote{Mixed-Integer Gomory} ارائه شده است و اثبات شده است که در صورتی‌که تابع هدف مسئله بهینه‌سازی به صورت گسسته باشد، این روش صفحه برش می‌تواند مسئله را حل کند. خروجی تابع که به صورت $h_MIG$ نشان داده شده‌است، مربوط به این نحوه‌ی برش می‌باشد. خروجی دیگر که با نماد $h_c$ نشان داده شده‌است در \cref{eqn:distributed:cost_based_cut} آورده شده‌است. 
+\begin{align}\label{eqn:distributed:cost_based_cut}
 	h_c = \{ c^Tz > \lceil c^Tz^{LP}\rceil \}	
 \end{align}
 	بنابراین از \cref{alg:distributed:int_distributed} برای حل کردن مسئله خطی ترکیب عددصحیح به‌صورت کاملا توزیع‌شده استفاده می‌شود، اما این شرط اساسی وجود دارد که تابع هدف مسئله بهینه‌سازی به صورت گسسته(عددصحیح) باشد. 
-	
 	برای حل مشکل شرط گسسته بودن تابع هدف یک الگوریتم دیگر ارائه می‌شود که در \cref{alg:distributed:epsilon_distributed} آورده شده‌است. ابتدا مسئله اصلی نوشته شده در \cref{eqn:distributed:objective_func} به صورت \cref{eqn:distributed:objective_func_epigraph} بازنویسی می‌شود، که مدل epigraph نامیده می‌شود. 
 	\begin{subequations}\label{eqn:distributed:objective_func_epigraph}
 		\begin{align}
@@ -312,77 +317,24 @@ H_M := \bigcap_{l=1}^d (\{ z_l \le M \} \cap \{ z_l \ge -M \})
 	\end{algorithm}
 \end{latin}
 
-در هر دو الگوریتم ارائه شده، هر گره متغیر اصلی مسئله را به صورت محلی ذخیره می‌کند و در هر مرحله بعد از تبادل اطلاعات با همسایه‌های خود و دریافت قید(برش)های جدید، متغیر اصلی مسئله را بروز رسانی می‌کند. سوالی که پیش می‌آید، این است که هر گره از کجا بداند فرآیند حل مسئله تمام شده است یا نه، در \cite{testa2019distributed} گفته شده‌است که هروفت یک گره از تمام همسایه‌های خود هیچ قید جدیدی دریافت نکرد، این بدین معنی است که فرآیند حل مسئله به پایان رسیده است. 
+در هر دو الگوریتم ارائه شده، هر گره متغیر اصلی مسئله را به صورت محلی ذخیره می‌کند و در هر مرحله بعد از تبادل اطلاعات با همسایه‌های خود و دریافت قید(برش)های جدید، متغیر اصلی مسئله را بروز رسانی می‌کند. سوالی که پیش می‌آید، این است که هر گره از کجا بداند فرآیند حل مسئله تمام شده است یا نه، در \cite{testa2019distributed} گفته شده‌است که هروقت یک گره از تمام همسایه‌های خود هیچ قید جدیدی دریافت نکرد، این بدین معنی است که فرآیند حل مسئله به پایان رسیده است. 
 
-\begin{algorithm}
-	\caption{Calculating Score}\label{euclid}
-	\begin{algorithmic}[1]
-%		\Procedure{CheckBetaamplitude}{}
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(1) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(2) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(3) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(4) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(5) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(6) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(7) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(8) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(9) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(10) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(11) \gets n/length()$
-%		\EndProcedure
-		\algstore{myalg}
-	\end{algorithmic}
-\end{algorithm}
-gsl;kfjg;lskj
-\begin{algorithm}                     
-	\begin{algorithmic} [1]              
-		\algrestore{myalg}
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(12) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(13) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(14) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(15) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(16) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(17) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(18) \gets n/length()$
-		\State $i \gets find(absolute()<maxamp)$
-		\State $n \gets length(i)$
-		\State $s(19) \gets n/length()$
-		\State $score4 \gets Average(s)$
-	\end{algorithmic}
-\end{algorithm}
+	در این قسمت لازم است که مسئله این پایان‌نامه را به فرم \cref{eqn:distributed:objective_func} و سپس \cref{eqn:distributed:objective_func_epigraph} بنویسم. ابتدا لازم است که متغیر اصلی یعنی $z$ را تعریف کنیم، که در \cref{eqn:distributed:def_z} انجام شده‌است. 
+\begin{subequations}\label{eqn:distributed:def_z}
+	\begin{align}
+		&z = (\underline{x_e}^T, \underline{x_f}^T, \underline{x_c}^T, \underline{\underline{\beta_{e}}}(:)^T, \underline{\underline{\beta_{f}}}(:)^T, \underline{\underline{\beta_{c}}}(:)^T)^T \\
+		&\underline{x_e} = (x_{e,1}, \dots, x_{e,|T|})^T \\
+		&[\underline{\underline{\beta_{e}}}]^i_j = \beta_{i,j,e}
+	\end{align}
+\end{subequations}
+%todo matrix elements syntax and all elements of a matrix in a row syntax
+در قدم بعدی لازم است که قیدها را بین گره‌ها تقسیم کنیم، در مورد قیدهای مسئله اصلی که تفکیک‌پذیر هستند، یعنی قیدهای \cref{eqn:constraint_load_conservation_computing_nodes}، \cref{eqn:constraint_request_flow_existence}،\cref{eqn:constraint_psi} ، \cref{eqn:constraint_load_managing_linear}، \cref{eqn:constraint_delay_linear} و \cref{eqn:constraint_queue_stability_linear} وضعیت مشخص است، اما در مورد دو قید \cref{eqn:constraint_scalability_coupling} و \cref{eqn:constraint_load_conservation_sensor_nodes_coupling_new2} که به صورت مشترک هستند لازم است تصمیم گرفته‌شود. تعداد قیدهای دسته اول $|T|$ تاست و تعداد قیدهای دسته دوم $|T| \times |S|$ تاست، در حالی‌که تعداد گره‌های پردازشی از \cref{eqn:def_globals} مشخص می‌شود. حال لازم است که این دودسته قید بین گره‌ها توزیع شوند، برای توزیع بهتر می‌توان از این ایده کمک گرفت که توزیع قیدها را از گره‌هایی که توانایی پردازش بیشتری دارند شروع کرد. به‌صورت میانگین به هر گره $\frac{|T|\times(|S|+1)}{l}$ قید می‌رسد. در نهایت $\rho$ به راحتی با مقایسه با تابع هدف در \cref{eqn:objective_func}
+
+
+
+
+
+
+
+
+
