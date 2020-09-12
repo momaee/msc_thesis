@@ -1,4 +1,4 @@
-\chapter{اختصاص منابع پردازشی در شبکه اینترنت اشیاء}\label{chap:system_model_centralized_decentralized}
+\chapter{تخصیص منابع پردازشی در شبکه اینترنت اشیاء به صورت متمرکز و غیرمتمرکز}\label{chap:system_model_centralized_decentralized}
   \thispagestyle{empty}
   \section{مقدمه}
     در این فصل ابتدا مدل ریاضی مربوط به تخصیص منابع پردازشی در شبکه‌ی اینترنت اشیاء را شرح می‌دهیم. 
@@ -39,6 +39,39 @@
 	همانطور که در قسمت مقدمه گفته شد در مورد تاخیرها، تاخیر انتقال را صرفا در نظر می‌گیریم که بدین صورت که مثلا $\tau_{t,s,c}^{tr}$ برابر است با میزان تاخیر انتقال از گره حسگری $s \in S$ تا گره پردازشی $c \in C$ برای وظیفه $t \in T$.
 	
 	نماد دیگری که در ادامه از آن استفاده می‌شود نماد $\pi$ است که به میزان هزینه‌های مربوط به پردازش را در گره‌های پردازشی نشان می‌دهد. برای جلوگیری از پیچیدگی بیشتر صورت مسئله برای هر گره پردازشی یک هزینه برای تمامی منابع آن گره در نظر گرفته می‌شود که به عنوان یک ضریب در رابطه‌های بعدی از آن استفاده خواهد شد. به عنوان مثال تمامی هزینه‌های پردازشی در گره $c \in C$ با نماد $\pi_c$ نمایش داده می‌شود و مفهوم آن بدین صورت است که مثلا برای استفاده از پردازنده در این گره به ازای هر واحد پردازشی در ثانیه لازم است که مقدار $\pi_c$ واحد پول پرداخته شود. 
+	
+	\cref{tbl:system_model:notation} به صورت خلاصه پارامتر‌ها و متغیر‌های استفاده شده در این فصل را معرفی می‌کند.
+
+	\begin{table}[h]
+		\caption{نماد‌های استفاده شده در \cref{chap:system_model_centralized_decentralized}}
+		\begin{tabularx}{\textwidth}{|c|C|} \hline
+			نشانه                & توضیح                                                                                     \\ \hline
+			$C$                 & مجموعه‌ گره‌های پردازشی لایه ابر    \\ \hline                                                                   
+			$F$                 & مجموعه‌ گره‌های پردازشی لایه مه     \\ \hline                                                                  
+			$E$                 & مجموعه‌ گره‌های پردازشی لایه لبه    \\ \hline                                                                   
+			$S$                 & مجموعه‌ گره‌های لایه‌ی حسگر            \\ \hline                                                                                
+			$T$                 & مجموعه‌ وظیفه‌های موجود در شبکه      \\ \hline                                                            
+			$R$                 & مجموعه‌ منابع پردازشی موجود در شبکه      \\ \hline                                                            
+			$c$                 & نماد مربوط به گره‌های پردازشی لایه‌ی ابر   \\ \hline                                                                    
+			$f$                 & نماد مربوط به گره‌های پردازشی لایه‌ی مه    \\ \hline                                                                   
+			$e$                 & نمااد مربوط به گره‌های پردازشی لایه‌ی لبه   \\ \hline                                                                    
+			$s$                 & نماد مربوط به گره‌های پردازشی لایه‌ی حسگر   \\ \hline                                                                                         
+			$t$                 & نماد مربوط به وظیفه‌ها       \\ \hline                                                           
+			$r$                 & نماد مربوط به منابع پردازشی   \\ \hline                                                                                         
+			$\pi_c$        	 	& واحد قیمت پردازشی در گره پردازشی  \\ \hline                                                        
+			$\lambda_{t,s}$ 	& نرخ پوآسون تولید وظیفه در حسگر \\ \hline
+			$\lambda_{t,c}$ 	& نرخ پوآسون ورود وظیفه به گره پردازشی \\ \hline
+			$\sigma_c^r$ 		& ظرفیت منبع پردازشی در گره پردازشی \\ \hline
+			$\epsilon$ 			& یک عدد مثبت کوچک \\ \hline
+			$\tau_{t,s,c}^{tr}$ & تاخیر انتقال اطلاعات مربوط به یک وظیفه تا گره پردازشی \\ \hline
+			$f_t^r(\lambda_{t,e})$ 	& نرخ مصرف منبع در گره پردازشی جهت پردازشی وظیفه \\ \hline
+			$k_1^r, k_2^r$ 			& ضریب‌های استفاده شده در تابع $f_t^r$ \\ \hline
+			$w_t$ 				& حجم پردازنده مورد نیاز جهت پردازش وظیفه  \\ \hline
+			$\delta_t$ 			& حداقل زمان مورد نیاز جهت پردازش کامل وظیفه \\ \hline
+		\end{tabularx}
+		\label{tbl:system_model:notation}
+	\end{table}
+
 	\subsection{متغیرها}
 	در این بخش قرار است در مورد متغیرهای استفاده شده در مسئله به تفصیل صحبت شود. 
 	در مورد محل پردازش وظیفه ها، سه متغیر دودویی به صورت زیر تعریف می‌شود:
@@ -79,37 +112,6 @@
 	\lambda_{t,s} = \text{ نرخ پوآسون تولید وظیفه $t \in T$ در گره $s \in S$}
 	\end{equation}
 	درواقع متغیر \cref{eqn:def_variable_lambda_t_s} به عنوان ورودی مسئله تعریف می‌شود و در جریان حل مسئله مقدارش تعیین نمی‌شود و عملا متغیرهای اصلی در مسئله دو دسته هستند که دسته اول از جنس متغیر گسسته دودویی هستند و دسته دوم متغیرهای پیوسته. تا اینجای کار احتمالا خواننده می‌تواند حدس بزند که مسئله بهینه‌سازی که در ادامه شکل می‌گیرد از نوع مسئله‌های مخلوط عدد صحیح \LTRfootnote{Mixed-Integer} خواهد بود. در مورد خطی بودن یا نبودن نیز می‌دانیم که کار کردن با مسئله بهینه‌سازی خطی به مراتب راحت تر از غیرخطی خواهد بود، لذا به نظر می‌رسد که لازم است مسئله به‌گونه‌ای مدل شود که خطی باشد و یا اینکه خطی‌سازی شود. 
-	
-	    \cref{tbl:system_model:notation} به صورت خلاصه پارامتر‌ها و متغیر‌های استفاده شده در این فصل را معرفی می‌کند.
-	\begin{table}[h]
-		\caption{نماد‌های استفاده شده در \cref{chap:system_model_centralized_decentralized}}
-		\begin{tabularx}{\textwidth}{|c|C|} \hline
-			نشانه                & توضیح                                                                                     \\ \hline
-			$C$                 & مجموعه‌ گره‌های پردازشی لایه ابر    \\ \hline                                                                   
-			$F$                 & مجموعه‌ گره‌های پردازشی لایه مه     \\ \hline                                                                  
-			$E$                 & مجموعه‌ گره‌های پردازشی لایه لبه    \\ \hline                                                                   
-			$S$                 & مجموعه‌ گره‌های لایه‌ی حسگر            \\ \hline                                                                                
-			$T$                 & مجموعه‌ وظیفه‌های موجود در شبکه      \\ \hline                                                            
-			$R$                 & مجموعه‌ منابع پردازشی موجود در شبکه      \\ \hline                                                            
-			$c$                 & نماد مربوط به گره‌های پردازشی لایه‌ی ابر   \\ \hline                                                                    
-			$f$                 & نماد مربوط به گره‌های پردازشی لایه‌ی مه    \\ \hline                                                                   
-			$e$                 & نمااد مربوط به گره‌های پردازشی لایه‌ی لبه   \\ \hline                                                                    
-			$s$                 & نماد مربوط به گره‌های پردازشی لایه‌ی حسگر   \\ \hline                                                                                         
-			$t$                 & نماد مربوط به وظیفه‌ها       \\ \hline                                                           
-			$r$                 & نماد مربوط به منابع پردازشی   \\ \hline                                                                                         
-			$\pi_c$        	 	& واحد قیمت پردازشی در گره پردازشی  \\ \hline                                                        
-			$\lambda_{t,s}$ 	& نرخ پوآسون تولید وظیفه در حسگر \\ \hline
-			$\lambda_{t,c}$ 	& نرخ پوآسون ورود وظیفه به گره پردازشی \\ \hline
-			$\sigma_c^r$ 		& ظرفیت منبع پردازشی در گره پردازشی \\ \hline
-			$\epsilon$ 			& یک عدد مثبت کوچک \\ \hline
-			$\tau_{t,s,c}^{tr}$ & تاخیر انتقال اطلاعات مربوط به یک وظیفه تا گره پردازشی \\ \hline
-			$f_t^r(\lambda_{t,e})$ 	& نرخ مصرف منبع در گره پردازشی جهت پردازشی وظیفه \\ \hline
-			$k_1^r, k_2^r$ 			& ضریب‌های استفاده شده در تابع $f_t^r$ \\ \hline
-			$w_t$ 				& حجم پردازنده مورد نیاز جهت پردازش وظیفه  \\ \hline
-			$\delta_t$ 			& حداقل زمان مورد نیاز جهت پردازش کامل وظیفه \\ \hline
-		\end{tabularx}
-		\label{tbl:system_model:notation}
-	\end{table}
 	
 	در ادامه قیدهای موجود در مدل‌سازی بررسی می‌شود. 
     \subsection{قیدها}
@@ -361,7 +363,7 @@
 	\end{align}
 	
 	%todo lagrangian in persian
-		لاگرانژین صورت مسئله‌ی فوق به صورت زیر نوشته خواهد شد.
+		لاگرانژین صورت مسئله‌ی فوق به صورت \cref{eqn:lagrangian_1} نوشته خواهد شد.
 		\begin{align}\label{eqn:lagrangian_1}
 			&L(\underline{\underline x}, \underline{\underline \beta}, \underline {\eta_1}, \underline {\eta_2}, \underline{\underline \nu_1}, \underline{\underline \nu_2}) = \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e} \notag \\
 			&+ \sum_{t \in T}\sum_{f \in F} K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f} \notag \\
@@ -383,11 +385,7 @@
 			&L = L_0 + \sum_{e \in E}L_e + \sum_{f \in F}L_f + \sum_{c \in C}L_c
 		\end{align}
 	\end{subequations}
-حال می‌توانیم \cref{alg:decentralized_approach} را بر روی مسئله خودمان اعمال کنیم همچنین در الگوریتم پیشنهادی حاصل جهت بهینه کردن میزان محاسبات تغییراتی داده شده است بدین صورت که در \cref{alg:decentralized_approach} یک حلقه‌ وجود دارد که متغیرهای محلی را حساب می‌کند و در مرحله بعد سه حلقه‌ی دیگر به همان اندازه استفاده می‌شود که متغیر اضافه شده به قیدها حساب شوند اما در \cref{alg:my_decentralized_approach} که الگوریتم پیشنهادی است تمام این محاسبات در یک حلقه انجام می‌شود. در \cref{alg:my_decentralized_approach} بعضی متغیرها به صورت برداری هستند، اما جهت خوانایی بیشتر از گذاشتن علامت بردار و یا ماتریس بر روی متغیرها صرف‌نظر شده‌است. برخی قراردادهای جدید در \cref{eqn:def_globals} آورده شده‌است که از آن‌ها در \cref{alg:my_decentralized_approach} استفاده شده‌است.
-	\begin{align}\label{eqn:def_globals}
-		l = |E| + |F| + |C|
-	\end{align}
-	
+
 \begin{latin}
 	\begin{algorithm}
 		\caption{Decentralized milp from \cite{decentralized_approach}}
@@ -413,60 +411,61 @@
 			
 			\State k = 0
 			\Repeat
-				\For{$i = 1$ to $l$}
-					\State $x_i(k+1), \beta_i(k+1), \psi_i(k+1) \gets \arg \displaystyle \min_{x_i,\beta_i,\psi_i \in vert(X_i)} \sum_{t \in T}(x_i(K_2\pi_i-\eta_{1,t}+\eta_{2,t}) + K_1\pi_i\psi_{t,i} + \sum_{s \in S}\beta_{t,s,i}(\nu_{2,t,s} - \nu_{1,t,s}))\newline
-					\text{subj. to} \newline
-					\cref{eqn:constraint_load_conservation_computing_nodes}
-					\cref{eqn:constraint_request_flow_existence}				
-					\cref{eqn:constraint_psi}
-					\cref{eqn:constraint_load_managing_linear} 
-					\cref{eqn:constraint_delay_linear}
-					\cref{eqn:constraint_queue_stability_linear}
-					$
-					%todo constraints and new line
-					\State $\bar{s}_{\eta_1,i}(k+1) = \max\{\bar{s}_{\eta_1,i}(k), -x_{t,i}(k+1) \}$
-					\State $\bar{s}_{\eta_2,i}(k+1) = \max\{\bar{s}_{\eta_2,i}(k), +x_{t,i}(k+1) \}$
-					\State $\bar{s}_{\nu_1,i}(k+1) = \max\{\bar{s}_{\nu_1,i}(k), -\beta_{t,s,i}(k+1) \}$
-					\State $\bar{s}_{\nu_2,i}(k+1) = \max\{\bar{s}_{\nu_2,i}(k), +\beta_{t,s,i}(k+1) \}$
-					
-					\State $\underline{s}_{\eta_1,i}(k+1) = \min\{\underline{s}_{\eta_1,i}(k), -x_{t,i}(k+1) \}$
-					\State $\underline{s}_{\eta_2,i}(k+1) = \min\{\underline{s}_{\eta_2,i}(k), +x_{t,i}(k+1) \}$
-					\State $\underline{s}_{\nu_1,i}(k+1) = \min\{\underline{s}_{\nu_1,i}(k), -\beta_{t,s,i}(k+1) \}$
-					\State $\underline{s}_{\nu_2,i}(k+1) = \min\{\underline{s}_{\nu_2,i}(k), +\beta_{t,s,i}(k+1) \}$
-					
-					\State $\rho_{\eta_1,i}(k+1) = \bar{s}_{\eta_1,i}(k+1) - \underline{s}_{\eta_1,i}(k+1)$
-					\State $\rho_{\eta_2,i}(k+1) = \bar{s}_{\eta_2,i}(k+1) - \underline{s}_{\eta_2,i}(k+1)$
-					\State $\rho_{\nu_1,i}(k+1) = \bar{s}_{\nu_1,i}(k+1) - \underline{s}_{\nu_1,i}(k+1)$
-					\State $\rho_{\nu_2,i}(k+1) = \bar{s}_{\nu_2,i}(k+1) - \underline{s}_{\nu_2,i}(k+1)$
-				\EndFor
-				\algstore{myalg1}
-			\end{algorithmic}
-		\end{algorithm}
-	\end{latin}
-	\begin{latin}
-		\begin{algorithm}                     
-			\begin{algorithmic} [1]              
-				\algrestore{myalg1}
-				\State $\rho_{\eta_1}(k+1) = |T| \max \{ \rho_{\eta_1,1}(k+1), ..., \rho_{\eta_1,l}(k+1)\}$
-				\State $\rho_{\eta_2}(k+1) = |T| \max \{ \rho_{\eta_2,1}(k+1), ..., \rho_{\eta_2,l}(k+1)\}$
-				\State $\rho_{\nu_1}(k+1) = |S||T| \max \{ \rho_{\nu_1,1}(k+1), ..., \rho_{\nu_1,l}(k+1)\}$
-				\State $\rho_{\nu_2}(k+1) = |S||T| \max \{ \rho_{\nu_2,1}(k+1), ..., \rho_{\nu_2,l}(k+1)\}$
-				\State $\eta_1(k+1) = [\eta_1(k) + \alpha(k)(1-\sum_{e \in E}x_{t,e}(k+1) - \sum_{f \in F}x_{t,f}(k+1) - \sum_{c \in C}x_{t,c}(k+1)+\rho_{\eta_1}(k+1))]_+$
-				\State $\eta_2(k+1) = [\eta_2(k) + \alpha(k)(\sum_{e \in E}x_{t,e}(k+1) + \sum_{f \in F}x_{t,f}(k+1) + \sum_{c \in C}x_{t,c}(k+1) - N_t +\rho_{\eta_2}(k+1))]_+$
-				\State $\nu_1(k+1) = [\nu_1(k) + \alpha(k)( \lambda_{t,s} - \epsilon - \sum_{e \in E}\beta_{t,s,e}(k+1) - \sum_{f \in F}\beta_{t,s,f}(k+1) - \sum_{c \in C}\beta_{t,s,c}(k+1) +\rho_{\nu_1}(k+1))]_+$
-				\State $\nu_2(k+1) = [\nu_2(k) + \alpha(k)( \sum_{e \in E}\beta_{t,s,e}(k+1) + \sum_{f \in F}\beta_{t,s,f}(k+1) + \sum_{c \in C}\beta_{t,s,c}(k+1) -\lambda_{t,s} - \epsilon + \rho_{\nu_2}(k+1))]_+$
-				\State $k \gets k+1$ 
+			\For{$i = 1$ to $l$}
+			\State $x_i(k+1), \beta_i(k+1), \psi_i(k+1) \gets \arg \displaystyle \min_{x_i,\beta_i,\psi_i \in vert(X_i)} \sum_{t \in T}(x_i(K_2\pi_i-\eta_{1,t}+\eta_{2,t}) + K_1\pi_i\psi_{t,i} + \sum_{s \in S}\beta_{t,s,i}(\nu_{2,t,s} - \nu_{1,t,s}))\newline
+			\text{subj. to} \newline
+			\cref{eqn:constraint_load_conservation_computing_nodes}
+			\cref{eqn:constraint_request_flow_existence}				
+			\cref{eqn:constraint_psi}
+			\cref{eqn:constraint_load_managing_linear} 
+			\cref{eqn:constraint_delay_linear}
+			\cref{eqn:constraint_queue_stability_linear}
+			$
+			%todo constraints and new line
+			\State $\bar{s}_{\eta_1,i}(k+1) = \max\{\bar{s}_{\eta_1,i}(k), -x_{t,i}(k+1) \}$
+			\State $\bar{s}_{\eta_2,i}(k+1) = \max\{\bar{s}_{\eta_2,i}(k), +x_{t,i}(k+1) \}$
+			\State $\bar{s}_{\nu_1,i}(k+1) = \max\{\bar{s}_{\nu_1,i}(k), -\beta_{t,s,i}(k+1) \}$
+			\State $\bar{s}_{\nu_2,i}(k+1) = \max\{\bar{s}_{\nu_2,i}(k), +\beta_{t,s,i}(k+1) \}$
+			
+			\State $\underline{s}_{\eta_1,i}(k+1) = \min\{\underline{s}_{\eta_1,i}(k), -x_{t,i}(k+1) \}$
+			\State $\underline{s}_{\eta_2,i}(k+1) = \min\{\underline{s}_{\eta_2,i}(k), +x_{t,i}(k+1) \}$
+			\State $\underline{s}_{\nu_1,i}(k+1) = \min\{\underline{s}_{\nu_1,i}(k), -\beta_{t,s,i}(k+1) \}$
+			\State $\underline{s}_{\nu_2,i}(k+1) = \min\{\underline{s}_{\nu_2,i}(k), +\beta_{t,s,i}(k+1) \}$
+			
+			\State $\rho_{\eta_1,i}(k+1) = \bar{s}_{\eta_1,i}(k+1) - \underline{s}_{\eta_1,i}(k+1)$
+			\State $\rho_{\eta_2,i}(k+1) = \bar{s}_{\eta_2,i}(k+1) - \underline{s}_{\eta_2,i}(k+1)$
+			\State $\rho_{\nu_1,i}(k+1) = \bar{s}_{\nu_1,i}(k+1) - \underline{s}_{\nu_1,i}(k+1)$
+			\State $\rho_{\nu_2,i}(k+1) = \bar{s}_{\nu_2,i}(k+1) - \underline{s}_{\nu_2,i}(k+1)$
+			\EndFor
+			\algstore{myalg1}
+		\end{algorithmic}
+	\end{algorithm}
+\end{latin}
+\begin{latin}
+	\begin{algorithm}                     
+		\begin{algorithmic} [1]              
+			\algrestore{myalg1}
+			\State $\rho_{\eta_1}(k+1) = |T| \max \{ \rho_{\eta_1,1}(k+1), ..., \rho_{\eta_1,l}(k+1)\}$
+			\State $\rho_{\eta_2}(k+1) = |T| \max \{ \rho_{\eta_2,1}(k+1), ..., \rho_{\eta_2,l}(k+1)\}$
+			\State $\rho_{\nu_1}(k+1) = |S||T| \max \{ \rho_{\nu_1,1}(k+1), ..., \rho_{\nu_1,l}(k+1)\}$
+			\State $\rho_{\nu_2}(k+1) = |S||T| \max \{ \rho_{\nu_2,1}(k+1), ..., \rho_{\nu_2,l}(k+1)\}$
+			\State $\eta_1(k+1) = [\eta_1(k) + \alpha(k)(1-\sum_{e \in E}x_{t,e}(k+1) - \sum_{f \in F}x_{t,f}(k+1) - \sum_{c \in C}x_{t,c}(k+1)+\rho_{\eta_1}(k+1))]_+$
+			\State $\eta_2(k+1) = [\eta_2(k) + \alpha(k)(\sum_{e \in E}x_{t,e}(k+1) + \sum_{f \in F}x_{t,f}(k+1) + \sum_{c \in C}x_{t,c}(k+1) - N_t +\rho_{\eta_2}(k+1))]_+$
+			\State $\nu_1(k+1) = [\nu_1(k) + \alpha(k)( \lambda_{t,s} - \epsilon - \sum_{e \in E}\beta_{t,s,e}(k+1) - \sum_{f \in F}\beta_{t,s,f}(k+1) - \sum_{c \in C}\beta_{t,s,c}(k+1) +\rho_{\nu_1}(k+1))]_+$
+			\State $\nu_2(k+1) = [\nu_2(k) + \alpha(k)( \sum_{e \in E}\beta_{t,s,e}(k+1) + \sum_{f \in F}\beta_{t,s,f}(k+1) + \sum_{c \in C}\beta_{t,s,c}(k+1) -\lambda_{t,s} - \epsilon + \rho_{\nu_2}(k+1))]_+$
+			\State $k \gets k+1$ 
 			\Until{some stopping criterion is met.}
 			\EndProcedure
 		\end{algorithmic}
 	\end{algorithm}
 \end{latin}
 
+حال می‌توانیم \cref{alg:decentralized_approach} را بر روی مسئله خودمان اعمال کنیم همچنین در الگوریتم پیشنهادی حاصل جهت بهینه کردن میزان محاسبات تغییراتی داده شده است بدین صورت که در \cref{alg:decentralized_approach} یک حلقه‌ وجود دارد که متغیرهای محلی را حساب می‌کند و در مرحله بعد سه حلقه‌ی دیگر به همان اندازه استفاده می‌شود که متغیر اضافه شده به قیدها حساب شوند اما در \cref{alg:my_decentralized_approach} که الگوریتم پیشنهادی است تمام این محاسبات در یک حلقه انجام می‌شود. در \cref{alg:my_decentralized_approach} بعضی متغیرها به صورت برداری هستند، اما جهت خوانایی بیشتر از گذاشتن علامت بردار و یا ماتریس بر روی متغیرها صرف‌نظر شده‌است. برخی قراردادهای جدید در \cref{eqn:def_globals} آورده شده‌است که از آن‌ها در \cref{alg:my_decentralized_approach} استفاده شده‌است.
+	\begin{align}\label{eqn:def_globals}
+		l = |E| + |F| + |C|
+	\end{align}
 
 \section{نتایج شبیه‌سازی}
-	در این قسمت نتایج شبیه‌سازی را بیان می‌کنیم. در همه موارد این فصل و فصل بعد نتایج برای 50 بار اجرا شده‌اند و نتایج به صورت میانگین بیان شده‌اند. همانند مدل سیستم یک شبکه چهار لایه در نظر می‌گیریم، تعداد گره‌های هر لایه هر بار به صورت تصادفی انتخاب می‌شوند، تعداد وظیفه‌ها و همچینین نرخ تولید وظیفه‌ها به صورت تصادفی در یک محدوده عددی خاص تولید می‌شوند. 
-    برای تاخیر مسیریاب‌ها فرض می‌کنیم که به صورت میانگین عبور بسته‌ها از مسیریاب‌های لایه 1، 2 میلی ثانیه، مسیریاب‌های لایه 2، 4 میلی ثانیه و مسیریاب‌های لایه 3، 10 میلی ثانیه طول می‌کشد.
-\cref{fig:network} توپولوژی شبکه را که در شبیه‌سازی استفاده شده‌است نشان می‌دهد.
 
 \begin{figure}[h]
 	\centerline{\includegraphics[width=15cm]{graphics/one_to_one/network}}
@@ -474,40 +473,56 @@
 	\label{fig:network}
 \end{figure}
 
-ظرفیت مربوط به هریک از گره‌ها به نجوی انتخاب شده است که بیشترین ظرفیت مربوط به گره‌های ابری و کمترین مربوط به گره‌های لبه باشد. که به ترتیب اعداد 100، 90 و 80 درنظر گرفته شده است. حجم پردازنده مورد نیاز برای وظیفه‌ها نیز به صورت تصادفی اعداد حدود 4 در نظر گرفته شده اند. حداقل زمان لازم جهت پردازش وظیفه‌ها به صورت تصادفی و حدود 30 میلی‌ثانیه فرض شده است. واحد قیمت پردازشی برای گره‌ها به صورتی در نظر گرفته شده است که ارزانترین هزینه مربوط به گره‌های لایه ابری و گرانترین مربوط به گره‌ لایه لبه باشد، این اعداد به صورت تصادفی و به ترتیب حدود اعداد 0.1، 0.4 و 0.9 واحد در نظر گرفته شده‌است. نرخ پوآسون تولید وظیفه در گره‌های حسگری به صورت تصادفی و در حدود 5 واحد درنظر گرفته شده‌است. 
+	در این قسمت نتایج شبیه‌سازی را بیان می‌کنیم. در همه موارد این فصل و فصل بعد نتایج برای 200 بار اجرا شده‌اند و نتایج به صورت میانگین بیان شده‌اند. همانند مدل سیستم یک شبکه چهار لایه در نظر می‌گیریم، تعداد گره‌های هر لایه هر بار به صورت تصادفی انتخاب می‌شوند، تعداد وظیفه‌ها و همچینین نرخ تولید وظیفه‌ها به صورت تصادفی در یک محدوده عددی خاص تولید می‌شوند. 
 \begin{figure}[h]
-	\centerline{\includegraphics[width=12cm]{graphics/distributed/optimization_value}}
-	\caption{مقدار بهینه برای چهار روش مختلف با ثابت بودن تعداد وظیفه‌هه دربرابر تعداد کل گره‌های شبکه}
-	\label{fig:optimization_value}
+	\centerline{\includegraphics[width=12cm]{graphics/3-cent-decent/optimization_value_per_number_of_nodes}}
+	\caption{مقدار تابع هدف(هزینه) دربرابر تعداد کل گره‌های موجود در شبکه برای دو روش متمرکز و غیرمتمرکز}
+	\label{fig:optimization_value_per_number_of_nodes}
 \end{figure}
 
-\begin{figure}[h]
-	\centerline{\includegraphics[width=12cm]{graphics/distributed/time_of_convergence}}
-	\caption{مدت زمان آماده شدن جواب نهایی در چهار روش مختلف با فرض ثابت بودن وظیفه‌ها دربرابر تعداد کل گره‌های شبکه}
-	\label{fig:time_of_convergence}
-\end{figure}
+    برای تاخیر مسیریاب‌ها فرض می‌کنیم که به صورت میانگین عبور بسته‌ها از مسیریاب‌های لایه 1، 2 میلی ثانیه، مسیریاب‌های لایه 2، 4 میلی ثانیه و مسیریاب‌های لایه 3، 10 میلی ثانیه طول می‌کشد.
+\cref{fig:network} توپولوژی شبکه را که در شبیه‌سازی استفاده شده‌است نشان می‌دهد.
 
 \begin{figure}[h]
-	\centerline{\includegraphics[width=12cm]{graphics/distributed/error_convergence_dist_decent}}
-	\caption{نحوه‌ی همگرا شدن مقدار خطا در دو روش توزیع‌شده و غیرمتمرکز}
-	\label{fig:error_convergence_dist_decent}
+	\centerline{\includegraphics[width=12cm]{graphics/3-cent-decent/decentralized_lagrangian_coeffs_convergence}}
+	\caption{نحوه‌ همگرا شدن اندازه ضرایب لاگرانژین در دو گره تصادفی در روش غیرمتمرکز}
+	\label{fig:decentralized_lagrangian_coeffs_convergence}
 \end{figure}
 
-
-\begin{figure}[h]
-	\centerline{\includegraphics[width=12cm]{graphics/distributed/distributed_decent_converge_local_vars}}
-	\caption{نحوه‌ی همگرا شدن اندازه‌ی متغیر اصلی مسئله در دو روش توزیع‌شده و غیرمتمرکز}
-	\label{fig:distributed_decent_converge_local_vars}
-\end{figure}
+ظرفیت مربوط به هریک از گره‌ها به نجوی انتخاب شده است که بیشترین ظرفیت مربوط به گره‌های ابری و کمترین مربوط به گره‌های لبه باشد. که به ترتیب به نسبت اعداد 10، 9 و 8 درنظر گرفته شده است. حجم پردازنده مورد نیاز برای وظیفه‌ها نیز به صورت تصادفی اعداد حدود 40 واحد در نظر گرفته شده‌اند. حداقل زمان لازم جهت پردازش وظیفه‌ها به صورت تصادفی و حدود 15 میلی‌ثانیه فرض شده‌است. واحد قیمت پردازشی برای گره‌ها به صورتی در نظر گرفته شده است که ارزان‌ترین هزینه مربوط به گره‌های لایه ابری و گرانترین مربوط به گره‌‌های لایه لبه باشد، این اعداد به صورت تصادفی و به ترتیب به نسبت اعداد 1، 4 و 9 واحد در نظر گرفته شده‌است. نرخ پوآسون تولید وظیفه در گره‌های حسگری به صورت تصادفی و در حدود 50 واحد بر ثانیه برای هر وظیفه در هر گره حسگری درنظر گرفته شده‌است. 
 
 \begin{figure}[h]
-	\centerline{\includegraphics[width=12cm]{graphics/distributed/decentralized_lagrangian_coeffs}}
-	\caption{نحوه‌ی همگرا شدن ضرایب لاگرانژین در دو گره در روش غیرمتمرکز}
-	\label{fig:decentralized_lagrangian_coeffs}
+	\centerline{\includegraphics[width=12cm]{graphics/3-cent-decent/optimization_value_per_delay_for_dif_Nt}}
+	\caption{مقدار تابع هدف(هزینه) دربرابر میانگین حداکثر تاخیر قابل قبول برای وظیفه‌ها $\delta_t$}
+	\label{fig:optimization_value_per_delay_for_dif_Nt}
 \end{figure}
+	
+	ابتدا لازم است که دقت دو روش متمرکز و غیرمتمرکز مقایسه شود. در \cref{fig:optimization_value_per_number_of_nodes} مقدار تابع هدف در این دو روش در برابر تعداد کل گره‌های موجود در شبکه از جمله گره‌های حسگری و گره‌های پردازشی دیده می‌شود. همانطور که دیده می‌شود این نمودار برای سه حالت مختلف از تعداد وظیفه‌ها رسم شده است و در هر سه حالت مقدار بهینه در روش متمرکز و غیرمتمرکز یکسان شده‌است. با افزایش تعداد کل وظیفه‌ها مقدار تابع هدف افزایش می‌یابد، همچنین با زیاد شدن کل گره‌های موجود در شبکه با فرض ثابت بودن تعداد وظیفه‌ها انتظار می‌رود که میزان تابع هدف تقریبا ثابت باشد، اما به دلیل اینکه با افزایش تعداد گره‌ها، تعداد گره‌های حسگری نیز افزایش می‌یابد، مقدار بهینه نیز اندکی افزایش می‌یابد. 
 
 \begin{figure}[h]
-	\centerline{\includegraphics[width=12cm]{graphics/distributed/distributed_local_vars}}
-	\caption{نحوه‌ی همگرا شدن متغیر محلی در دو گره در روش توزیع‌شده}
-	\label{fig:distributed_local_vars}
+	\centerline{\includegraphics[width=12cm]{graphics/3-cent-decent/busynodes_per_delay}}
+	\caption{درصد استفاده از گره‌های لایه‌های مختلف دربرابر میانگین حداکثر تاخیر قابل قبول برای وظیفه‌ها $\delta_t$}
+	\label{fig:busynodes_per_delay}
 \end{figure}
+
+	درمورد روش غیرمتمرکز و نحوه‌ی همگرا شدن آن، دو گره به صورت تصادفی انتخاب شده‌است و در این دو گره مجموع اندازه‌ ضرایب لاگرانژ یعنی $\sqrt{|\eta_1|^2+|\eta_2|^2+|\nu_1|^2+|\nu_2|^2}$ به صورت یکه شده در طول زمان رسم شده است. در \cref{fig:decentralized_lagrangian_coeffs_convergence} می‌توانید این نتایج را ببینید.
+	
+\begin{figure}[h]
+	\centerline{\includegraphics[width=12cm]{graphics/3-cent-decent/number_of_parts_per_task_generating_rate}}
+	\caption{میانگین تعداد شکسته شدن وظیفه‌ها بین گره‌های مختلف دربرابر میانگین نرخ تولیدی وظیفه‌ها در گره‌های حسگری $\lambda_{t,s}$}
+	\label{fig:number_of_parts_per_task_generating_rate}
+\end{figure}		
+	
+
+	در شبیه‌سازی بعدی تابع هدف براساس حداکثر تاخیرهای قابل قبول متفاوت برای وظیفه‌ها رسم شده است. با توجه به \cref{fig:optimization_value_per_delay_for_dif_Nt} می‌توان گفت که با افزایش میانگین حداکثر تاخیر قابل قبول برای وظیفه‌ها($\delta_t$) هزینه کل شبکه کاهش می‌یابد که دلیل این موضوع این است که استفاده از گره‌های ابری نسبت به گره‌های مه و لبه بیشتر می‌شود و از آنجایی که هزینه استفاده از گره‌های ابری کم‌تر است، هزینه کل شبکه کاهش می‌یابد. این نمودار برای چهار حالت مختلف از حداکثر تعداد قابل قبول برای تقسیم شدن وظیفه‌ها ($N_t$) رسم شده‌است. با توجه به \cref{fig:optimization_value_per_number_of_nodes} با کاهش $N_t$ این امکان کمتر می‌شود که وظیفه‌ها بین گره‌های مختلف شکسته شوند و هر وظیفه باید به صورت بخش‌های بزرگتری پردازش شود، درنتیجه استفاده از گره‌های مه و لبه بیشتر می‌شود و همین باعث می‌شود که هزینه کل شبکه بیشتر شود. 
+	
+
+
+	در شبیه سازی بعدی میزان استفاده از گره‌های لایه‌های مختلف مورد تحلیل و بررسی قرار می‌گیرد. در \cref{fig:busynodes_per_delay} میانگین حداکثر تاخیر قابل قبول برای وظیفه‌ها در محور افقی قرار گرفته است و برای هر تاخیر، درصد استفاده از گره‌های هر لایه در محور عمودی نشان داده شده‌است. همانطور که دیده می‌شود با کاهش حداکثر میزان تاخیر قابل قبول لازم است که وظیفه‌ها بیشتر در سمت لبه پردازش شوند و این درصد استفاده از گره‌های این لایه را بیشتر می‌کند و بالعکس. 
+
+	در آخرین شبیه‌سازی در این فصل قرار است که میزان شکسته‌شدن وظیفه‌ها بین گره‌های مختلف مورد بررسی قرار گیرد. برای این‌کار میزان نرخ تولید وظیفه‌ها در گره‌های حسگری تغییر کرده است و در هر مرحله میانگین تعداد شکسته شدن گره‌ها مورد بررسی قرار گرفته‌است. با توجه به \cref{fig:number_of_parts_per_task_generating_rate} می‌توان گفت که با افزایش میزان نرخ تولید وظیفه‌ها احتمال شکسته شدن وظیفه‌ها بین گره‌ها بیشتر می‌شود و میانگین تعداد تقسیم وظیفه‌ها افزایش می‌یابد. این نمودار برای میانگین حجم پردازشی وظیفه‌ها رسم شده‌است، که می‌توان گفت با افزایش میانگین حجم پردازشی، پردازش وظیفه‌ها سخت‌تر و درنتیجه میانگین تعداد تقسیم‌ها بیشتر می‌شود. 
+
+
+
+
+

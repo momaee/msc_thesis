@@ -1,4 +1,4 @@
-\chapter{راه‌حل اکتشافی}\label{chap:heuristic_distributed}
+\chapter{راه‌حل اکتشافی و توزیع‌شده}\label{chap:heuristic_distributed}
 \thispagestyle{empty}
 \section{مقدمه}
 %todo suboptimal persian queuing stability constraint
@@ -13,7 +13,7 @@
 	 
 	 نحوه‌ی عملکرد این الگوریتم بدین صورت است که مسئله را به صورت یک گراف چندمرحله‌ای\LTRfootnote{Multistage} در نظر می‌گیرد. تعداد مرحله‌\LTRfootnote{Stage}ها برابر است با تعداد مشاهدات و در هر مرحله یکی از مشاهدات مورد بررسی قرار می‌گیرد. در هر مرحله تعدادی حالت\LTRfootnote{State} درنظر گرفته‌می‌شود که هر حالت یک پیشامد ممکن در آن مرحله را بیان می‌کند. حال لازم است که دو مدل تابع هزینه\LTRfootnote{Cost function} تعریف شود یک تابع به عنوان هزینه‌ی بودن در هر حالت در هر مرحله و یک تابع به عنوان هزینه انتقال از یک حالت در یک مرحله به یک حالت دیگر در مرحله بعد است، در واقع این دوتابع به نحوی با یکدیگر ارتباط دارند. در هر مرحله، برای هریک از حالت‌های آن مرحله یک مسیر به عنوان مسیر نجات‌یافته\LTRfootnote{Survived path} تعریف می‌شود که برابر است با مسیری از اولین مرحله تا مرحله فعلی که کمترین هزینه ممکن را دارد. در آخرین مرحله نیز هریک از حالت‌ها یک مسیر نجات‌یافته دارد، در این مرحله حالتی که کمترین هزینه ممکن را دارد، مسیر نجات‌یافته‌اش به عنوان مسیر ویتربی\LTRfootnote{Viterbi path} مشخص می‌شود که این مسیر درواقع پاسخ مسئله است. 
 	 %todo a picture about viterbi
-\section{مدل سیستم}	 
+\section{راه‌حل اکتشافی}	 
 	در این بخش قرار است که باتوجه به مقدمه‌ی گفته شده متغیرهای مربوط به الگوریتم ویتربی را برای مسئله اصلی تعریف کنیم. 
 	
 	ابتدا صورت مسئله اصلی که به صورت غیرخطی است در \cref{eqn:heuristic:def_optimization_problem} آورده می‌شود. 
@@ -217,7 +217,7 @@
 \end{align}	
 
 \begin{figure}[h]
-	\centerline{\includegraphics[width=15cm]{graphics/distributed/polyhedron}}
+	\centerline{\includegraphics[width=15cm]{graphics/4-heuristic-dist/polyhedron}}
 	\caption{مثالی از چند وجهی $P$ که قسمت خاکستری رنگ است و همچنین مجموعه قابل قبول جواب مسئله یعنی $P_I$ که با خطوط پررنگ قرمز مشخص شده است و مجموعه پوش محدب از جواب قابل قبول یعنی \lr{conv$(P_I)$} که ناحیه هاشور خورده آبی رنگ است. فضای استفاده شده به صورت دو بعدی است.}
 	\label{fig:distributed:polyhedron}
 \end{figure}
@@ -331,7 +331,47 @@ H_M := \bigcap_{l=1}^d (\{ z_l \le M \} \cap \{ z_l \ge -M \})
 در قدم بعدی لازم است که قیدها را بین گره‌ها تقسیم کنیم، در مورد قیدهای مسئله اصلی که تفکیک‌پذیر هستند، یعنی قیدهای \cref{eqn:constraint_load_conservation_computing_nodes}، \cref{eqn:constraint_request_flow_existence}،\cref{eqn:constraint_psi} ، \cref{eqn:constraint_load_managing_linear}، \cref{eqn:constraint_delay_linear} و \cref{eqn:constraint_queue_stability_linear} وضعیت مشخص است، اما در مورد دو قید \cref{eqn:constraint_scalability_coupling} و \cref{eqn:constraint_load_conservation_sensor_nodes_coupling_new2} که به صورت مشترک هستند لازم است تصمیم گرفته‌شود. تعداد قیدهای دسته اول $|T|$ تاست و تعداد قیدهای دسته دوم $|T| \times |S|$ تاست، در حالی‌که تعداد گره‌های پردازشی از \cref{eqn:def_globals} مشخص می‌شود. حال لازم است که این دودسته قید بین گره‌ها توزیع شوند، برای توزیع بهتر می‌توان از این ایده کمک گرفت که توزیع قیدها را از گره‌هایی که توانایی پردازش بیشتری دارند شروع کرد. به‌صورت میانگین به هر گره $\frac{|T|\times(|S|+1)}{l}$ قید می‌رسد. در نهایت $\rho$ به راحتی با مقایسه با تابع هدف در \cref{eqn:objective_func}
 
 
+\section{نتایج شبیه‌سازی}
 
+\begin{figure}[h]
+	\centerline{\includegraphics[width=12cm]{graphics/4-heuristic-dist/distributed_local_vars_convergence}}
+	\caption{نحوه‌ همگرا شدن متغیر محلی در دو گره تصادفی در روش توزیع‌شده}
+	\label{fig:distributed_local_vars_convergence}
+\end{figure}
+
+\begin{figure}[h]
+	\centerline{\includegraphics[width=12cm]{graphics/4-heuristic-dist/distributed_decent_local_vars_convergence}}
+	\caption{نحوه‌ همگرا شدن اندازه‌ی متغیر  محلی مسئله در دو روش توزیع‌شده و غیرمتمرکز برای دوگره تصادفی}
+	\label{fig:distributed_decent_local_vars_convergence}
+\end{figure}
+
+\begin{figure}[h]
+	\centerline{\includegraphics[width=12cm]{graphics/4-heuristic-dist/error_convergence_dist_decent}}
+	\caption{نحوه همگرا شدن مقدار خطا در دو روش توزیع‌شده و غیرمتمرکز}
+	\label{fig:error_convergence_dist_decent}
+\end{figure}
+
+\begin{figure}[h]
+	\centerline{\includegraphics[width=12cm]{graphics/4-heuristic-dist/optimization_value_per_number_of_nodes_all_solutions}}
+	\caption{مقدار تابع هدف (هزینه) برای چهار روش مختلف دربرابر تعداد کل گره‌های شبکه}
+	\label{fig:optimization_value_per_number_of_nodes_all_solutions}
+\end{figure}
+
+\begin{figure}[h]
+	\centerline{\includegraphics[width=12cm]{graphics/4-heuristic-dist/time_of_convergence}}
+	\caption{مدت زمان آماده شدن جواب نهایی در چهار روش مختلف دربرابر تعداد کل گره‌های شبکه با فرض ثابت بودن وظیفه‌ها}
+	\label{fig:time_of_convergence}
+\end{figure}
+
+	دراین بخش نتایج شبیه‌سازی‌های مربوط به این فصل آورده شده‌است. ابتدا نحوه‌ی همگرایی در روش توزیع شده را بررسی می‌کنیم. در \cref{fig:distributed_local_vars_convergence} نحوه همگرایی برای دو گره تصادفی از شبکه در روش توزیع شده به نمایش گذاشته شده‌است. در این نمودار اندازه متغیر محلی برای این دوگره در طول زمان نشان داده شده‌است. 
+
+	در \cref{fig:distributed_decent_local_vars_convergence}	نحوه‌ همگرایی متغیر محلی در دو روش غیرمتمرکز و توزیع‌شده مقایسه شده‌است. همانطور که دیده می‌شود در روش غیرمتمرکز سرعت همگرایی اندکی بیشتر است، که دلیل آن وجود واحد هدایت‌گر\LTRfootnote{Coordinator} در روش غیرمتمرکز است که باعث می‌شود سرعت همگرایی بیشتر شود و همچنین نحوه همگرایی صاف‌تر باشد. 
+	
+	در \cref{fig:error_convergence_dist_decent} نیز نحوه همگرایی میزان خطا در دو روش غیرمتمرکز و توزیع‌شده به نمایش گذاشته شده‌است. در این نمودار در هر مرحله اختلاف مقدار تابع هدف با مرحله قبل به صورت خطا در نظر گرفته شده‌است که این خطا به صورت یکه شده نمایش داده شده‌است. 
+
+	در شبیه‌سازی بعدی هر چهار روش موجود بر روی شبکه اجرا شده‌است، در این شبیه‌سازی سعی شده است که در هر مرحله تمام پارامترهای موجود در شبکه به صورت تصادفی انتخاب شود که این تصادفی بود در \cref{fig:optimization_value_per_number_of_nodes_all_solutions} به‌خوبی دیده  می‌شود. همانطور که از این نمودار دیده می‌شود مقدار تابع هدف در دو راه‌جل متمرکز و غیرمتمرکز بهینه است و در راه حل توزیع‌شده نیز با فاکتور دلخواه $\epsilon$ قابل کنترل است، اما در مورد راه‌حل اکتشافی می‌بینیم که این راه‌حل جواب شبه بهینه را می‌دهد. 
+
+	آخرین تحلیل مربوط به زمان آماده شدن جواب در چهار راه‌حل ارائه‌شده در این پایان‌نامه است. سعی شده است که شبیه‌سازی‌ها در شرایط کاملا یکسان انجام شود، ازجمله میزان حافظه موجود بر روی دستگاه کامپیوتری که تست ها برروی انجام شده‌است و یا دمای پردازنده در هنگام تست و ... . همانطور که دیده می‌شود به وضوح زمان انجام محاسبات در راه‌حل اکتشافی کم است. در مورد دو راه حل غیرمتمرکز و توزیع‌شده نیز ذکر این نکته لازم است که شرایط واقعی شبیه‌سازی زمانی‌است که محاسبات در گره‌های مختلف و بهٍٍ‌صورت همزمان انجام شود در حالیکه در تست‌های انجام شده به دلیل محدودیت منابع کلیه شبیه‌سازی‌ها بر روی یک دستگاه انجام شده‌است که این خود باعث می‌شود خاصیت اصلی این دو روش به خوبی دیده نشود، که با این وجود هم زمان آماده شدن جواب در این دو روش از روش متمرکز هم کمتر است. 
 
 
 
