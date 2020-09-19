@@ -282,7 +282,7 @@
 	\begin{subequations}
 		\begin{align}\label{eqn:cite_def_milp}
 			&\min_{x_1,..,x_m} \sum_{i=1}^m c_i^Tx_i \notag \\
-			&\lr{\text{subj. to}} \sum_{i=1}^m A_ix_i \le b \notag \\
+			&\text{\lr{subj. to}} \sum_{i=1}^m A_ix_i \le b \notag \\
 			&\quad\quad x_i \in X_i, i = 1,..,m
 		\end{align}
 		\begin{align}
@@ -345,7 +345,7 @@
 		&\min \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e} \notag \\
 		&+\sum_{t \in T}\sum_{f \in F} 	K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f}\notag \\
 		&+\sum_{t \in T}\sum_{c \in C} K_1\pi_c\psi_{t,c}+K_2\pi_cx_{t,c} \label{eqn:objective_func_dec_form} \notag \\
-		&\text{subj. to} \notag \\
+		&\text{\lr{subj. to}} \notag \\
 		&-\sum_{e \in E}x_{t,e} - \sum_{f \in F}x_{t,f} - \sum_{c \in C}x_{t,c} \le -1 \quad \forall{t \in T} \notag \\
 		&\sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c} \le N_t \quad \forall{t \in T} \notag \\
 		&-\sum_{e \in E} \beta_{t,s,e} - \sum_{f \in F} \beta_{t,s,f}

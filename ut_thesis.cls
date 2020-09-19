@@ -299,16 +299,19 @@ $\Box$ بهره‌برداری از این پایان‌نامه تا تاریخ
 \newcommand\abstractPage{\newpage
 \thispagestyle{empty}
 \vskip 15mm
-{\noindent\bfseries چکیده}
+%{\noindent\bfseries چکیده}
+\centerline{\Large \bfseries چکیده}
 \vspace{5mm}
 \par
 \noindent
+\onehalfspacing
 \@fa-abstract
 \vspace{8mm}
 \par
 \noindent
 \textbf{واژگان کلیدی:}
 \@keywords
+\doublespacing
 \newpage
 }
 
