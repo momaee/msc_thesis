@@ -370,12 +370,14 @@ $\Box$ بهره‌برداری از این پایان‌نامه تا تاریخ
 \vspace{5mm}
 \par
 \noindent
+\onehalfspacing
 \@en-abstract
 \vspace{8mm}
 \par
 \noindent
 \textbf{Keywords:}
 \@latinkeywords
+\doublespacing
 }
 \newcommand{\latinfirstPage}{%
 \newpage
