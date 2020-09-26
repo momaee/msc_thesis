@@ -106,7 +106,7 @@
 			\end{cases}
 		\end{align}
 	\end{subequations}
-	دسته دوم متغیر که با $\beta$ نشان داده می‌شود متغیر پیوسته مسئله است که در \cref{eqn:def_variable_beta} معرفی می‌شود و مربوط است به حجم ارسالی لحظه‌ای جریان وظیفه‌ها بین گره ها، به عنوان مثال $\beta_{t,s,c}$ برابر است با میزان جریان ارسالی از نوع وظیفه‌ی $t \in T$، از گره حسگری $s \in S$ به گره پردازشی $c \in C$.
+	دسته دوم متغیر که با $\beta$ نشان داده می‌شود متغیر پیوسته مسئله است که در \cref{eqn:def_variable_beta} معرفی می‌شود و مربوط است به نرخ لحظه‌ای جریان ارسالی وظیفه‌ها بین گره های حسگری و پردازشی، به عنوان مثال $\beta_{t,s,c}$ برابر است با نرخ جریان ارسالی از نوع وظیفه‌ی $t \in T$، از گره حسگری $s \in S$ به گره پردازشی $c \in C$.
 	\begin{subequations}\label{eqn:def_variable_beta}
 		\begin{align}
 		0 \le \beta_{t,s,c} \le \lambda_{t,s}  \quad \forall{t \in T}, \forall{s \in S}, \forall{c \in C} \\
@@ -224,13 +224,12 @@
 		\end{align}
 	\end{subequations}
 %todo here
-	دیگر قیدی که مورد بررسی قرار می‌گیرد قید مربوط به پایداری صف در گره‌هاست، همانطور که می‌دانیم شرط کافی برای پایداری بودن یک سیستم $M/M/1$ این است که نرخ ورود اطلاعات از نرخ سرویس دادن کمتر باشد. در مدل ما این قید به صورت $\lambda_{t,c} < \mu_{t,c}$ برای وظیفه $t \in T$ و گره $c \in C$ نوشته می‌شود. نکته مدنظر این است که این شرط در صورتی برای این وظیفه و این گره نوشته می‌شود که وظیفه مورد نظر در گره مورد نظر پردازش شود، درواقع یعنی $x_{t,c} = 1$ لذا طرفین نامساوی گفته شده را در $x_{t,c}$ ضرب می‌کنیم. نکته مدنظر بعدی اینکه معمولا نامساوی را به صورت نامساوی محض درنظر نمی‌گیرند، بلکه به صورت کوچکتر-مساوی نوشته می‌شود. برای انجام این تبدیل می‌توانیم به سمت چپ نامساوی یک عدد مثبت خیلی کوچک اضافه کنیم.
-	به صورت \cref{eqn:constraint_queue_stability} آورده شده‌است.
+	قید بعدی که مورد بررسی قرار می‌گیرد قید مربوط به پایداری صف در گره‌هاست، همانطور که می‌دانیم شرط کافی برای پایداری بودن یک سیستم $M/M/1$ این است که نرخ ورود اطلاعات از نرخ سرویس دادن کمتر باشد. در مدل ما این قید به صورت $\lambda_{t,c} < \mu_{t,c}$ برای وظیفه $t \in T$ و گره $c \in C$ نوشته می‌شود. نکته مدنظر این است که این شرط در صورتی برای این وظیفه و این گره نوشته می‌شود که وظیفه مورد نظر در گره مورد نظر پردازش شود، درواقع یعنی $x_{t,c} = 1$ لذا طرفین نامساوی گفته شده را در $x_{t,c}$ ضرب می‌کنیم. نکته مدنظر بعدی اینکه معمولا نامساوی را به صورت نامساوی محض درنظر نمی‌گیرند، بلکه به صورت کوچکتریامساوی نوشته می‌شود. برای انجام این تبدیل می‌توانیم به سمت چپ نامساوی یک عدد مثبت خیلی کوچک اضافه کنیم. باتوجه به نکات گفته شده قید نهایی به صورت \cref{eqn:constraint_queue_stability} آورده شده‌است.
 	\begin{subequations}\label{eqn:constraint_queue_stability}
 		\begin{align}
-		&x_{t,c}(\lambda_{t,c} < \mu_{t,c}) => x_{t,c}(\lambda_{t,c} + \epsilon \le \mu_{t,c}) \quad \forall{t \in T}, \forall{c \in C}\\
-		&x_{t,f}(\lambda_{t,f} < \mu_{t,f}) => x_{t,f}(\lambda_{t,f} + \epsilon \le \mu_{t,f}) \quad \forall{t \in T}, \forall{f \in F} \\
-		&x_{t,e}(\lambda_{t,e} < \mu_{t,e}) => x_{t,e}(\lambda_{t,e} + \epsilon \le \mu_{t,e}) \quad \forall{t \in T}, \forall{e \in E}
+		&x_{t,c}\times(\lambda_{t,c} + \epsilon) \le x_{t,c}\times(\mu_{t,c}) \quad \forall{t \in T}, \forall{c \in C}\\
+		&x_{t,f}\times(\lambda_{t,f} + \epsilon) \le x_{t,f}\times(\mu_{t,f}) \quad \forall{t \in T}, \forall{f \in F} \\
+		&x_{t,e}\times(\lambda_{t,e} + \epsilon) \le x_{t,e}\times(\mu_{t,e}) \quad \forall{t \in T}, \forall{e \in E}
 		\end{align}
 	\end{subequations}
 	با اعمال متغیر میانی تعریف شده در \cref{eqn:def_psi} بر روی قید \cref{eqn:constraint_queue_stability}، این قید به صورت \cref{eqn:constraint_queue_stability_linear} نوشته می‌شود. 
@@ -242,7 +241,7 @@
 		\end{align}
 	\end{subequations}
 	تا اینجای کار بین تمام قیدهای گفته شده یک ویژگی مشترک وجود داشت و این بود که در تمامی قیدهای گفته شده قابلیت قید هر گره محاسباتی از سایر گره‌ها جدا بود و نمی‌توان قیدها را به گونه‌ای تجزیه کرد که هر گره محاسباتی صرفا قید مربوط به خودش را ببیند که این اتفاق یک اتفاق خوشایند است که در ادامه علت خوشایند بودن آن مشخص خواهد شد. اما در دوقید بعد خواهیم دید که بین گره‌های محاسباتی به نوعی اتصال ایجاد خواهد شد. 
-	اولین قید اتصالی که مورد بررسی قرار می‌گیرد مربوط به وجود تعادل بین جریان ورودی وظیفه‌ها و جریان خروجی وظیفه‌هاست. این قید در \cref{eqn:constraint_load_conservation_sensor_nodes_coupling} آورده شده‌است. و همانطور که می‌بینید در این قید نمی‌توانیم برای هرگره پردازشی یک رابطه جدا مشخص کنیم. 
+	اولین قید اتصالی که مورد بررسی قرار می‌گیرد مربوط به وجود تعادل بین جریان ورودی وظیفه‌ها و جریان خروجی وظیفه‌هاست، بدین صورت که نرخ تولید یک وظیفه خاص در یک گره‌ حسگری برابر است با مجموع نرخ ارسالی بین آن گره حسگری و تمام گره‌های پردازشی برای آن وظیفه خاص. این قید در \cref{eqn:constraint_load_conservation_sensor_nodes_coupling} آورده شده‌است. همانطور که می‌بینید در این قید نمی‌توانیم برای هرگره پردازشی یک رابطه جدا مشخص کنیم. 
 	\begin{equation}\label{eqn:constraint_load_conservation_sensor_nodes_coupling}
 	\lambda_{t,s} = \sum_{e \in E} \beta_{t,s,e} + \sum_{f 	\in F} \beta_{t,s,f}
 	+\sum_{c \in C}\beta_{t,s,c} \quad \forall{t \in T}, \forall{s \in S}
@@ -252,30 +251,32 @@
 		1 \le \sum_{e \in E}x_{t,e} + \sum_{f \in F}x_{t,f} + \sum_{c \in C}x_{t,c} \le N_t \quad \forall{t \in T}
 	\end{equation}
 	\subsection{تابع هدف}
-	در گام بعدی لازم است که تابع هدف\LTRfootnote{Objective function} تعریف شود، برای این کار لازم که ابتدا هدف از صورت مسئله مشخص شود. اولین هدف در این مقاله کم کردن هزینه‌های مربوط به کل شبکه است. می‌دانیم که پردازش وظیفه‌ها در گره‌های پردازشی یک فرآیند هزینه‌بر است، حال صورت مسئله بهینه‌سازی با این هدف تعریف می‌شود که مجموع کل هزینه‌های موچود در شبکه کمترین مقدار ممکن باشد. برای این‌کار لازم است از متغیرهای دودویی مسئله$x$، تابع مشخص کننده نرخ مصرف منبع پردازشی$f$ و همچنین واحد هزینه‌های پردازشی $\pi$ استفاده شود. درنهایت تابع هدف به صورت \cref{eqn:objective_func} تعریف می‌شود. 
-	\begin{subequations}\label{eqn:objective_func}
-		\begin{align}
+	همانطور که در ابتدای \cref{chap:3-system_model_centralized_decentralized} توضیح داده شد، قرار است که مدل‌سازی ریاضی به صورت یک مسئله بهینه‌سازی انجام شود. تا ایجا متغیرهای مربوط به این مسئله، همچنین قیدهای مربوطه مشخص شد. در گام بعدی لازم است که برای این مسئله بهینه سازی یک تابع هدف\LTRfootnote{Objective function} مشخص شود. 
+	برای این کار لازم که ابتدا هدف از صورت مسئله مشخص شود. اولین هدف در این مقاله کم کردن هزینه‌های مربوط به کل شبکه است. می‌دانیم که پردازش وظیفه‌ها در گره‌های پردازشی یک فرآیند هزینه‌بر است، حال صورت مسئله بهینه‌سازی با این هدف تعریف می‌شود که مجموع کل هزینه‌های موچود در شبکه کمترین مقدار ممکن باشد. برای این‌کار لازم است از متغیرهای دودویی مسئله$x$، تابع مشخص کننده نرخ مصرف منبع پردازشی$f$ و همچنین واحد هزینه‌های پردازشی $\pi$ استفاده شود. درنهایت تابع هدف به صورت \cref{eqn:objective_func} تعریف می‌شود. 
+	\begin{align}\label{eqn:objective_func}
 		& \notag \min \sum_{t \in T}\sum_{e \in E} (x_{t,e}\pi_e\sum_{r \in R}f_t^r(\lambda_{t,e})) \\
 		&\notag + \sum_{t \in T}\sum_{f \in F} (x_{t,f}\pi_f\sum_{r \in R}f_t^r(\lambda_{t,f})) \\
 		& + \sum_{t \in T}\sum_{c \in C} (x_{t,c}\pi_c\sum_{r \in R}f_t^r(\lambda_{t,c}))
-		\end{align}
-		\begin{align}
+	\end{align}
+	برای ساده‌سازی در نوشتار یک متغیر میانی به نام $\Gamma$ به صورت \cref{eqn:def_Gamma} تعریف می‌شود.
+	\begin{align}\label{eqn:def_Gamma}
+		&\notag \Gamma_{t,e} \triangleq \pi_e\sum_{r \in R}f_t^r(\lambda_{t,e}) \\
+		& = \pi_e((k_1^{cpu}+k_1^{ram}+k_1^{storage})\lambda_{t,e} \notag \\
+		&\notag +k_2^{cpu}+k_2^{ram}+k_2^{storage}) \\
+		& = \pi_e(K_1\lambda_{t,e}+K_2)
+	\end{align}
+	با جایگذاری متغیر تعریف شده در \cref{eqn:def_Gamma} در \cref{eqn:objective_func} تابع هدف به صورت  \cref{eqn:objective_func_simple} بازنویسی می‌شود. 
+	\begin{align}\label{eqn:objective_func_simple}
 		& \notag \min \sum_{t \in T}\sum_{e \in E} x_{t,e}\Gamma_{t,e} \\
 		& \notag + \sum_{t \in T}\sum_{f \in F} x_{t,f}\Gamma_{t,f} \\
 		& + \sum_{t \in T}\sum_{c \in C} x_{t,c}\Gamma_{t,c}
-		\end{align}
-		\begin{align}\label{eqn:def_Gamma}
-		&\notag \Gamma_{t,e} = \pi_e((k_1^{cpu}+k_1^{ram}+k_1^{storage})\lambda_{t,e} \\
-		&\notag +k_2^{cpu}+k_2^{ram}+k_2^{storage}) \\
-		& = \pi_e(K_1\lambda_{t,e}+K_2)
-		\end{align}
-		\begin{align}
+	\end{align}
+	همچنین به کمک متغیر تعریف شده در \cref{eqn:def_psi}	می‌توان رابطه زیر را نوشت.
+	\begin{align}
 		&\notag x_{t,e}\Gamma_{t,e} = K_1\pi_ex_{t,e}\lambda_{t,e} + K_2\pi_ex_{t,e} \\
 		&= K_1\pi_e\psi_{t,e} + K_2\pi_ex_{t,e}
-		\end{align}
-	\end{subequations}
-	در \cref{eqn:def_Gamma} یک متغیر میانی تعریف شده است، که به ساده نویسی مسئله کمک شایانی می‌کند. 
-	درنهایت با ساده‌سازی‌های انجام شده و همچنین استفاده از متغیرهای کمکی می‌توان گفت که تابع هدف نهایی به صورت \cref{eqn:objective_func_final} نوشته می‌شود. 
+	\end{align}
+	درنهایت با ساده‌سازی‌های انجام شده و همچنین استفاده از متغیرهای کمکی می‌توان گفت که مسئله بهینه‌سازی نهایی به صورت \cref{eqn:objective_func_final} نوشته می‌شود. 
 	\begin{align}
 		&\min \sum_{t \in T}\sum_{e \in E} K_1\pi_e\psi_{t,e}+K_2\pi_ex_{t,e}\notag \\
 		&+\sum_{t \in T}\sum_{f \in F} K_1\pi_f\psi_{t,f}+K_2\pi_fx_{t,f}\notag \\
@@ -293,10 +294,10 @@
 	در این بخش قرار است که مسئله بهینه‌سازی نهایی که در \cref{eqn:objective_func_final} نوشته شد به صورت غیرمتمرکز حل شود. 
 	همانطور که در قسمت بررسی قیدهای مربوط به مسئله اصلی گفته شد، بجز دو قید از قیدهای مسئله که به صورت متصل بودند بقیه قیدها این قابلیت را داشتند که بین گره‌ها تجزیه شوند. 
 	
-	در این بخش ابتدا با ارجاع به یکی از مقاله‌های موجود در این زمینه در مورد نجوه‌ی حل مسائل milp به صورت غیرمتمرکز صحبت می‌شود و در ادامه این راه حل ارائه شده بر روی مسئله اصلی اجرا می‌شود. 
+	در این بخش ابتدا با ارجاع به یکی از مقاله‌های موجود در این زمینه در مورد نجوه‌ی حل مسائل MILP به صورت غیرمتمرکز صحبت می‌شود و در ادامه این راه حل ارائه شده بر روی مسئله اصلی اجرا می‌شود. 
 	در مقاله \cite{decentralized_approach} به صورت کامل در مورد روش غیرمتمرکز صحبت شده است با ارجاع به این مقاله در ادامه این روش را مورد بررسی قرار می‌دهیم. 
 	
-	فرض کنید که مسئله milp به صورت \cref{eqn:cite_def_milp} نوشته شده باشد. 
+	فرض کنید که مسئله MILP به صورت \cref{eqn:cite_def_milp} نوشته شده باشد. 
 	\begin{subequations}
 		\begin{align}\label{eqn:cite_def_milp}
 			&\min_{x_1,..,x_m} \sum_{i=1}^m c_i^Tx_i \notag \\
@@ -323,6 +324,7 @@
 	\begin{algorithm}
 		\caption{Decentralized milp from \cite{decentralized_approach}} \label{alg:decentralized_approach}
 		\begin{algorithmic}[1]
+			\State \textbf{Input:}  fx
 			\Procedure{}{}       %\Comment{This is a test}
 				\State $\lambda(0) = 0$
 				\State $\bar{s}_i(0) = -\infty , i = 1,...,m$ 
